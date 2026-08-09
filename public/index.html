@@ -663,7 +663,7 @@
         }
 
         @media (max-width: 600px) {
-            #xyro-mascot {
+            #xyro-canvas {
                 width: 110px;
                 right: 4px;
             }
@@ -930,9 +930,9 @@
         </div>
     </div>
 
-    <!-- MASCOTTE XYRO (image animée transparente, boucle infinie native) -->
-    <img id="xyro-mascot" src="xyro.webp" alt="" aria-hidden="true"
-         style="position:fixed; bottom:0; right:8px; width:190px; height:auto; pointer-events:none; z-index:60;">
+    <!-- MASCOTTE XYRO (fond retiré en direct, en boucle infinie) -->
+    <video id="xyro-source" src="xyro.mp4" muted loop autoplay playsinline style="display:none;"></video>
+    <canvas id="xyro-canvas" aria-hidden="true" style="position:fixed; bottom:0; right:8px; width:190px; height:auto; pointer-events:none; z-index:60;"></canvas>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
@@ -1570,6 +1570,54 @@
         }
 
         initUpdateOverlay();
+        // ---------- MASCOTTE XYRO : détourage du fond en direct ----------
+        // Le fond de la vidéo est gris clair (dégradé), pas une couleur unie,
+        // donc on retire pixel par pixel tout ce qui est "gris neutre et clair"
+        // (peu saturé + lumineux), en gardant le renard (couleurs vives) et
+        // ses contours noirs (sombres) intacts.
+        (function initXyroMascot() {
+            const video = document.getElementById('xyro-source');
+            const canvas = document.getElementById('xyro-canvas');
+            if (!video || !canvas) return;
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+            const RENDER_W = 320, RENDER_H = 180;
+            canvas.width = RENDER_W;
+            canvas.height = RENDER_H;
+
+            function renderFrame() {
+                if (!video.paused && !video.ended) {
+                    try {
+                        ctx.drawImage(video, 0, 0, RENDER_W, RENDER_H);
+                        const frame = ctx.getImageData(0, 0, RENDER_W, RENDER_H);
+                        const data = frame.data;
+                        for (let i = 0; i < data.length; i += 4) {
+                            const r = data[i], g = data[i + 1], b = data[i + 2];
+                            const maxc = Math.max(r, g, b), minc = Math.min(r, g, b);
+                            const sat = maxc - minc;
+                            const lightness = (r + g + b) / 3;
+                            if (lightness > 140) {
+                                if (sat < 15) {
+                                    data[i + 3] = 0;
+                                } else if (sat < 40) {
+                                    data[i + 3] = Math.round(255 * (sat - 15) / 25);
+                                }
+                            }
+                        }
+                        ctx.putImageData(frame, 0, 0);
+                    } catch (err) {
+                        // Si jamais la vidéo n'est pas sur le même domaine que le site,
+                        // le détourage est bloqué par le navigateur : on continue quand
+                        // même à faire jouer l'animation (sans transparence) plutôt que
+                        // de rester figé.
+                    }
+                }
+                requestAnimationFrame(renderFrame);
+            }
+
+            video.play().catch(() => {});
+            requestAnimationFrame(renderFrame);
+        })();
     </script>
 </body>
 </html>
