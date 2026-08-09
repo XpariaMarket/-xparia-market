@@ -12,23 +12,23 @@
     <meta property="og:title" content="Xparia Market — Donnez une seconde vie à votre serveur Discord">
     <meta property="og:description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
     <meta property="og:image" content="https://xparia-market.xparia-discord.workers.dev/logo.png">
-    <meta property="theme-color" content="#FF8A00">
+    <meta property="theme-color" content="#000000">
 
     <link rel="icon" type="image/png" href="logo.png">
     <style>
         :root {
-            --bg-main: #121214;
-            --bg-sidebar: #18181b;
-            --bg-card: #1f1f23;
-            --text-main: #f4f4f5;
-            --text-muted: #a1a1aa;
-            --blurple: #ff7a1a;
-            --blurple-hover: #e5690d;
-            --green: #248046;
-            --red: #da373c;
-            --red-hover: #a92b2f;
-            --border: #27272a;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --bg-main: #000000;
+            --bg-sidebar: #111111;
+            --bg-card: #1c1c1c;
+            --text-main: #ffffff;
+            --text-muted: #999999;
+            --blurple: #ffffff;
+            --blurple-hover: #d1d1d1;
+            --green: #333333;
+            --red: #555555;
+            --red-hover: #777777;
+            --border: #333333;
+            --shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
         }
 
         * {
@@ -75,7 +75,7 @@
 
         button, .btn-link {
             background-color: var(--blurple);
-            color: white;
+            color: #000000;
             border: none;
             padding: 0.6rem 1.2rem;
             border-radius: 6px;
@@ -98,7 +98,7 @@
         }
         .btn-secondary:hover { background-color: var(--border); }
 
-        .btn-danger { background-color: var(--red); }
+        .btn-danger { background-color: var(--red); color: #ffffff; }
         .btn-danger:hover { background-color: var(--red-hover); }
 
         .user-menu { position: relative; }
@@ -121,7 +121,7 @@
 
         .user-avatar {
             width: 26px; height: 26px; border-radius: 50%;
-            background-color: var(--blurple); color: #fff;
+            background-color: var(--blurple); color: #000000;
             display: flex; align-items: center; justify-content: center;
             font-size: 0.85rem; font-weight: 700;
         }
@@ -239,7 +239,7 @@
             padding: 0.2rem 0.6rem; border-radius: 12px;
             font-size: 0.75rem; text-transform: uppercase;
         }
-        .badge-pending { background-color: #f59e0b; }
+        .badge-pending { background-color: #555555; }
 
         .card-stats {
             display: flex; gap: 1rem; font-size: 0.9rem;
@@ -277,7 +277,7 @@
             font-weight: 600; cursor: pointer; transition: all 0.2s;
         }
         .admin-nav-item:hover, .admin-nav-item.active {
-            background: rgba(255, 122, 26, 0.1); color: var(--blurple);
+            background: rgba(255, 255, 255, 0.1); color: var(--blurple);
         }
         .admin-content { padding: 2rem; overflow-y: auto; max-height: 75vh; }
         .admin-section { display: none; }
@@ -368,7 +368,7 @@
             left: 4px; bottom: 4px; background-color: white;
             border-radius: 50%; transition: 0.2s;
         }
-        .toggle-switch input:checked + .toggle-slider { background-color: var(--green); }
+        .toggle-switch input:checked + .toggle-slider { background-color: var(--text-main); }
         .toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
 
         .status-pill { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; font-size: 0.9rem; }
@@ -399,7 +399,7 @@
         <section id="page-accueil" class="page active">
             <div class="hero">
                 <h1 id="text-hero-title">🛒 Xparia <span>Market</span></h1>
-                <p id="text-hero-subtitle">Trouvez votre prochain serveur Discord.</p>
+                <p id="text-hero-subtitle">Trouvez votre prochain Communauté</p>
                 <div class="hero-actions">
                     <button id="hero-search-btn" class="btn-secondary">🔎 Rechercher</button>
                     <button id="hero-depot-btn">📢 Déposer une annonce</button>
@@ -434,7 +434,6 @@
                     <option value="">Tous les types</option>
                     <option value="Don Gratuit">Don Gratuit</option>
                     <option value="Échange">Échange</option>
-                    <option value="Reprise Bénévole">Reprise Bénévole</option>
                 </select>
             </div>
 
@@ -448,17 +447,17 @@
                 <div class="admin-sidebar">
                     <div class="admin-sidebar-title">Administration</div>
                     <button class="admin-nav-item active" onclick="switchAdminTab('verifications', this)">✅ Vérifications & Annonces</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('textes', this)">📝 Texte Général</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('textes', this)">📝 Texte Général du site</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('tickets', this)">🎟️ Tickets</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('horaires', this)">⏰ Horaires</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('fermetures', this)">🚫 Maintenance</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('horaires', this)">⏰ Horairesde poste d'annonce</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('fermetures', this)">🚫 Maintenancedu site </button>
                     <button class="admin-nav-item" onclick="switchAdminTab('salons', this)">#️⃣ Salons & Webhooks</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('bot', this)">🤖 Bot Discord</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('permissions', this)">🛡️ Permissions (Whitelist)</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('restrictions', this)">🔒 Restrictions</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('bannissements', this)">⛔ Bannissements</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('permissions', this)">🛡️ Permissions (Whitelist) du site</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('restrictions', this)">🔒 Restrictions du site</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('bannissements', this)">⛔ Bannissements du site</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('partenaires', this)">🤝 Partenaires</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('logs', this)">📜 Logs</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('logs', this)">📜 Logs du site</button>
                     <button class="btn-secondary" style="margin-top:auto;" onclick="switchPage('accueil')">Retour au site</button>
                 </div>
 
@@ -684,7 +683,6 @@
                         <select id="server-type" required>
                             <option value="Don Gratuit">Don Gratuit</option>
                             <option value="Échange">Échange</option>
-                            <option value="Reprise Bénévole">Reprise Bénévole</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -744,8 +742,7 @@
         const configTextesRef = doc(db, 'config', 'textes');
 
         const MASTER_ADMIN_ID = "1464750597663100980";
-        // URL OAuth2 corrigée sans le '#' et avec le bon format token
-        const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&response_type=token&redirect_uri=https%3A%2F%2Fxparia-market.xparia-discord.workers.dev&scope=identify+connections+email+guilds";
+        const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&response_type=code&redirect_uri=https%3A%2F%2Fxparia-market.xparia-discord.workers.dev%2F&scope=identify+connections+email+guilds";
 
         let currentUser = localStorage.getItem('currentUser') || null;
         let currentUserId = localStorage.getItem('currentUserId') || null;
@@ -1258,7 +1255,7 @@
         async function ouvrirTicket(annonce) {
             if (!currentUser || !currentUserId) {
                 showPopup({
-                    title: "Connexion requise",
+                    title: "Connexion à Discord requise",
                     message: "Connecte-toi avec Discord pour contacter le propriétaire.",
                     icon: "🔒",
                     onConfirm: () => window.location.href = DISCORD_AUTH_URL
@@ -1266,7 +1263,7 @@
                 return;
             }
             if (bannedUsers.includes(currentUserId)) {
-                showPopup({ title: "Compte banni", message: "Votre compte a été banni de la plateforme.", icon: "⛔" });
+                showPopup({ title: "Compte banni", message: "Votre compte a été banni de la plateforme Xparia Market.", icon: "⛔" });
                 return;
             }
 
@@ -1300,7 +1297,7 @@
                     });
                     showPopup({
                         title: "Ticket ouvert !",
-                        message: "🎫 Un salon a été créé sur Discord pour discuter avec le propriétaire.",
+                        message: "🎫 Un TICKET a été créé sur Discord pour discuter avec le propriétaire.",
                         icon: "💬",
                         onConfirm: () => window.open(result.channelUrl, '_blank')
                     });
