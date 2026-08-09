@@ -4,7 +4,7 @@
 // Le token du bot reste ici, côté serveur (variable d'environnement Cloudflare)
 // — jamais envoyé au navigateur.
 
-const CATEGORY_NAME = "ticket site";
+// (le nom de la catégorie vient maintenant de la variable d'environnement TICKET_CATEGORY_NAME)
 
 export default {
     async fetch(request, env, ctx) {
@@ -14,10 +14,47 @@ export default {
             return handleCreateTicket(request, env);
         }
 
+        if (url.pathname === '/api/close-ticket' && request.method === 'POST') {
+            return handleCloseTicket(request, env);
+        }
+
         // Tout le reste (index.html, logo.jpg, etc.) est servi depuis /public
         return env.ASSETS.fetch(request);
     }
 };
+
+async function handleCloseTicket(request, env) {
+    const BOT_TOKEN = env.DISCORD_BOT_TOKEN;
+    if (!BOT_TOKEN) {
+        return jsonResponse(500, { error: "Configuration manquante côté serveur (DISCORD_BOT_TOKEN)." });
+    }
+
+    let data;
+    try {
+        data = await request.json();
+    } catch (e) {
+        return jsonResponse(400, { error: "Requête invalide." });
+    }
+
+    const { channelId } = data;
+    if (!channelId) {
+        return jsonResponse(400, { error: "Identifiant de salon manquant." });
+    }
+
+    try {
+        const res = await fetch(`https://discord.com/api/v10/channels/${channelId}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bot ${BOT_TOKEN}` }
+        });
+        if (!res.ok && res.status !== 404) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.message || "Erreur lors de la suppression du salon.");
+        }
+        return jsonResponse(200, { success: true });
+    } catch (err) {
+        return jsonResponse(500, { error: err.message });
+    }
+}
 
 async function handleCreateTicket(request, env) {
     const BOT_TOKEN = env.DISCORD_BOT_TOKEN;
@@ -34,7 +71,8 @@ async function handleCreateTicket(request, env) {
         return jsonResponse(400, { error: "Requête invalide." });
     }
 
-    const { annonceNom, proprietaireUsername, proprietaireId, demandeurUsername, demandeurId } = data;
+    const { annonceNom, proprietaireUsername, proprietaireId, demandeurUsername, demandeurId, categoryName, welcomeMessage } = data;
+    const CATEGORY_NAME = (categoryName || env.TICKET_CATEGORY_NAME || "ticket site").toLowerCase();
 
     if (!demandeurId || !demandeurUsername) {
         return jsonResponse(400, { error: "Connexion Discord requise pour ouvrir un ticket." });
@@ -83,16 +121,23 @@ async function handleCreateTicket(request, env) {
         const channel = await createRes.json();
         if (!createRes.ok) throw new Error(channel.message || "Erreur lors de la création du salon.");
 
+        const defaultMessage =
+            `👋 Bonjour <@${demandeurId}> !\n` +
+            `Ceci est votre ticket de discussion pour l'annonce **${annonceNom}** de ` +
+            `${proprietaireId ? `<@${proprietaireId}>` : `**${proprietaireUsername}**`}.\n\n` +
+            `Merci de patienter le temps que la discussion s'engage !`;
+
+        const finalMessage = welcomeMessage
+            ? welcomeMessage
+                .replaceAll('{demandeur}', `<@${demandeurId}>`)
+                .replaceAll('{proprietaire}', proprietaireId ? `<@${proprietaireId}>` : proprietaireUsername)
+                .replaceAll('{annonce}', annonceNom)
+            : defaultMessage;
+
         await fetch(`https://discord.com/api/v10/channels/${channel.id}/messages`, {
             method: 'POST',
             headers,
-            body: JSON.stringify({
-                content:
-                    `👋 Bonjour <@${demandeurId}> !\n` +
-                    `Ceci est votre ticket de discussion pour l'annonce **${annonceNom}** de ` +
-                    `${proprietaireId ? `<@${proprietaireId}>` : `**${proprietaireUsername}**`}.\n\n` +
-                    `Merci de patienter le temps que la discussion s'engage !`
-            })
+            body: JSON.stringify({ content: finalMessage })
         });
 
         return jsonResponse(200, {
