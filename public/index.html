@@ -450,7 +450,6 @@
                     <button class="admin-nav-item active" onclick="switchAdminTab('verifications', this)">✅ Vérifications & Annonces</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('textes', this)">📝 Texte Général</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('tickets', this)">🎟️ Tickets</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('horaires', this)">⏰ Horaires</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('fermetures', this)">🚫 Maintenance</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('salons', this)">#️⃣ Salons & Webhooks</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('bot', this)">🤖 Bot Discord</button>
@@ -521,18 +520,16 @@
                         </div>
                         <button onclick="sauvegarderTicketConfig()">💾 Sauvegarder</button>
 
+                        <h3 style="font-size:1.1rem; color:var(--blurple); margin: 2rem 0 0.5rem;">⏰ Horaires d'ouverture des tickets</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem; font-size:0.9rem;">En dehors de ces plages, le bouton "Contacter" est bloqué pour les visiteurs (les admins ne sont jamais bloqués).</p>
+                        <div id="schedule-config-container"></div>
+                        <button style="margin-top: 1rem;" onclick="sauvegarderHoraires()">💾 Sauvegarder les horaires</button>
+
                         <h3 style="font-size:1.1rem; color:var(--blurple); margin: 2rem 0 0.5rem;">📜 Historique</h3>
                         <table class="admin-table">
                             <thead><tr><th>Annonce</th><th>Demandeur</th><th>Propriétaire</th><th>Date</th><th>Salon</th><th>Action</th></tr></thead>
                             <tbody id="admin-tickets-list"><tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Aucun ticket pour le moment.</td></tr></tbody>
                         </table>
-                    </div>
-
-                    <div id="admin-tab-horaires" class="admin-section">
-                        <h2 class="section-heading">Horaires d'ouverture de la plateforme</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">En dehors de ces plages, le dépôt de nouvelles annonces est automatiquement bloqué pour les visiteurs (les admins ne sont jamais bloqués).</p>
-                        <div id="schedule-config-container"></div>
-                        <button style="margin-top: 1rem;" onclick="sauvegarderHoraires()">💾 Sauvegarder les horaires</button>
                     </div>
 
                     <div id="admin-tab-fermetures" class="admin-section">
