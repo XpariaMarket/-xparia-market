@@ -673,6 +673,11 @@
         <section id="page-depot" class="page">
             <div class="form-box">
                 <h2>Publier une annonce de cession</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5;">
+                    ⚠️ Pour mettre une annonce, il est obligatoire d'inviter le bot sur votre serveur afin qu'il puisse vérifier que la personne qui met l'annonce en est bien le propriétaire.
+                    <br><br>
+                    <a href="https://discord.com/oauth2/authorize?client_id=1535232825656082503" target="_blank" class="btn-link" style="margin-top: 0.3rem;">🤖 Inviter le bot sur votre serveur</a>
+                </p>
                 <form id="annonce-form">
                     <div class="form-group">
                         <label for="server-id">ID de votre serveur Discord *</label>
@@ -707,6 +712,14 @@
                         <label for="server-reason">Description</label>
                         <textarea id="server-reason" required placeholder="Expliquez votre projet..."></textarea>
                     </div>
+                    
+                    <div class="form-group" style="display: flex; align-items: center; gap: 0.8rem; background: var(--bg-sidebar); padding: 1rem; border-radius: 6px; border: 1px solid var(--border);">
+                        <input type="checkbox" id="bot-invited-check" required style="width: 20px; height: 20px; accent-color: var(--blurple); cursor: pointer;">
+                        <label for="bot-invited-check" style="margin-bottom: 0; font-weight: normal; cursor: pointer; font-size: 0.9rem;">
+                            J'ai bien invité le bot sur mon serveur pour valider que j'en suis le propriétaire[cite: 1].
+                        </label>
+                    </div>
+
                     <div class="form-actions">
                         <button type="button" class="btn-secondary" onclick="switchPage('accueil')">Annuler</button>
                         <button type="submit">Publier</button>
@@ -870,6 +883,51 @@
             updateNavbar();
             switchPage('accueil');
         };
+
+        function estDansLesHorairesTickets() {
+            // Configuration spécifique des horaires d'ouverture des tickets (Heure de France 🇫🇷)
+            // Lundi : 09h00 → 22h00
+            // Mardi : 12h00 → 16h00
+            // Mercredi : 08h00 → 18h00
+            // Jeudi : 10h30 → 17h30
+            // Vendredi : 9h00 → 18h00
+            // Samedi : Fermé
+            // Dimanche : 09h00 → 12h00
+            
+            const planning = {
+                1: { start: [9, 0], end: [22, 0], open: true },   // Lundi
+                2: { start: [12, 0], end: [16, 0], open: true },  // Mardi
+                3: { start: [8, 0], end: [18, 0], open: true },   // Mercredi
+                4: { start: [10, 30], end: [17, 30], open: true },// Jeudi
+                5: { start: [9, 0], end: [18, 0], open: true },   // Vendredi
+                6: { open: false },                               // Samedi
+                0: { start: [9, 0], end: [12, 0], open: true }    // Dimanche
+            };
+
+            const now = new Date();
+            // Utilisation du fuseau horaire français
+            const options = { timeZone: 'Europe/Paris', hour: 'numeric', minute: 'numeric', weekday: 'numeric', hour12: false };
+            const formatter = new Intl.DateTimeFormat('fr-FR', options);
+            const parts = formatter.formatToParts(now);
+            
+            let currentDay = now.getDay(); // 0 = Dimanche, 1 = Lundi, etc.
+            let currentHour = 0;
+            let currentMinute = 0;
+
+            for (let p of parts) {
+                if (p.type === 'hour') currentHour = parseInt(p.value, 10);
+                if (p.type === 'minute') currentMinute = parseInt(p.value, 10);
+            }
+
+            const regleJour = planning[currentDay];
+            if (!regleJour || !regleJour.open) return false;
+
+            const nowMinutes = currentHour * 60 + currentMinute;
+            const startMinutes = regleJour.start[0] * 60 + regleJour.start[1];
+            const endMinutes = regleJour.end[0] * 60 + regleJour.end[1];
+
+            return nowMinutes >= startMinutes && nowMinutes <= endMinutes;
+        }
 
         function estDansLesHoraires() {
             const now = new Date();
@@ -1310,6 +1368,25 @@
             }
             if (bannedUsers.includes(currentUserId)) {
                 showPopup({ title: "Compte banni", message: "Votre compte a été banni de la plateforme.", icon: "⛔" });
+                return;
+            }
+
+            // Vérification des horaires d'ouverture des tickets (sauf pour les administrateurs)
+            if (!isAdmin(currentUserId) && !estDansLesHorairesTickets()) {
+                showPopup({
+                    title: "Tickets fermés",
+                    message: "Les Ticket son actuelement fermé !<br><br>" +
+                             "<strong>(heure de France 🇫🇷) :</strong><br>" +
+                             "• Lundi : 09h00 → 22h00<br>" +
+                             "• Mardi : 12h00 → 16h00<br>" +
+                             "• Mercredi : 08h00 → 18h00<br>" +
+                             "• Jeudi : 10h30 → 17h30<br>" +
+                             "• Vendredi : 9h00 → 18h00<br>" +
+                             "• Samedi : Fermé<br>" +
+                             "• Dimanche : 09h00 → 12h00<br><br>" +
+                             "⚠️ En dehors de ces horaires, l'ouverture de nouveaux tickets est désactivée[cite: 1].",
+                    icon: "🔒"
+                });
                 return;
             }
 
