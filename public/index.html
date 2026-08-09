@@ -571,6 +571,25 @@
                             <input type="text" id="bot-invite-link" placeholder="https://discord.com/oauth2/authorize?client_id=...&permissions=8&scope=bot">
                         </div>
                         <button onclick="sauvegarderBotConfig()">💾 Sauvegarder</button>
+
+                        <h3 style="font-size:1.1rem; color:var(--blurple); margin: 2.5rem 0 0.5rem;">🎫 Panneau de tickets Discord</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem; font-size:0.9rem;">
+                            Publie un message avec un bouton "Ouvrir un ticket" dans un salon Discord — cliquer dessus crée directement un salon de support, sans passer par le site.
+                            <br>⚠️ Nécessite d'avoir configuré la <code>Interactions Endpoint URL</code> sur le portail développeur Discord (voir les instructions données par Claude). Seuls les admins de l'onglet "🛡️ Permissions" peuvent publier un panneau — rien à configurer ailleurs.
+                        </p>
+                        <div class="form-group">
+                            <label>ID du salon où publier le panneau</label>
+                            <input type="text" id="panel-channel-id" placeholder="ID du salon Discord">
+                        </div>
+                        <div class="form-group">
+                            <label>Titre du panneau</label>
+                            <input type="text" id="panel-title" placeholder="🎫 Centre d'assistance">
+                        </div>
+                        <div class="form-group">
+                            <label>Description du panneau</label>
+                            <textarea id="panel-description" rows="3" placeholder="Besoin d'aide ? Cliquez sur le bouton ci-dessous..."></textarea>
+                        </div>
+                        <button onclick="publierPanneauTicket()">📩 Publier le panneau</button>
                     </div>
 
                     <div id="admin-tab-permissions" class="admin-section">
@@ -1000,6 +1019,34 @@
             await setDoc(configTextesRef, textes, { merge: true });
             showPopup({ title: "Enregistré", message: "Les textes du site ont été mis à jour.", icon: "📝" });
             ajouterLog("📝 Textes du site modifiés", '');
+        };
+
+        window.publierPanneauTicket = async function() {
+            const channelId = document.getElementById('panel-channel-id').value.trim();
+            const title = document.getElementById('panel-title').value.trim();
+            const description = document.getElementById('panel-description').value.trim();
+
+            if (!channelId) {
+                showPopup({ title: "Champ manquant", message: "L'ID du salon est obligatoire.", icon: "⚠️" });
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/post-ticket-panel', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ channelId, title, description, adminId: currentUserId })
+                });
+                const result = await res.json();
+                if (res.ok && result.success) {
+                    showPopup({ title: "Panneau publié !", message: "Le message avec le bouton a été envoyé sur Discord.", icon: "✅" });
+                    ajouterLog("🎫 Panneau de tickets publié", `Salon : ${channelId}`);
+                } else {
+                    showPopup({ title: "Erreur", message: result.error || "Erreur inconnue.", icon: "❌" });
+                }
+            } catch (err) {
+                showPopup({ title: "Erreur réseau", message: "Impossible de contacter le serveur.", icon: "🌐" });
+            }
         };
 
         window.ajouterWhitelist = async function() {
