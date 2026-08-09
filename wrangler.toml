@@ -2,6 +2,10 @@ name = "xparia-market"
 main = "worker.js"
 compatibility_date = "2024-09-23"
 
+[vars]
+DISCORD_GUILD_ID = "1535280502045417493"
+TICKET_CATEGORY_ID = "1535337895269769226"
+
 [assets]
 directory = "./public"
 binding = "ASSETS"
