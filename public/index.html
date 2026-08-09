@@ -5,28 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xparia Market — Donnez une seconde vie à votre serveur Discord.</title>
 
-    <meta name="description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord.">
+    <!-- Méta-balises SEO & Open Graph (Aperçu Discord / Réseaux) -->
+    <meta name="description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://xparia-market.xparia-discord.workers.dev/">
     <meta property="og:title" content="Xparia Market — Donnez une seconde vie à votre serveur Discord">
-    <meta property="og:description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord.">
+    <meta property="og:description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
+    <meta property="og:image" content="https://xparia-market.xparia-discord.workers.dev/logo.png">
     <meta property="theme-color" content="#FF8A00">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://xparia-market.xparia-discord.workers.dev/">
+    <meta property="twitter:title" content="Xparia Market — Donnez une seconde vie à votre serveur Discord">
+    <meta property="twitter:description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
+    <meta property="twitter:image" content="https://xparia-market.xparia-discord.workers.dev/logo.png">
 
     <link rel="icon" type="image/png" href="logo.png">
     <style>
         :root {
-            --bg-main: #121214;
-            --bg-sidebar: #18181b;
-            --bg-card: #1f1f23;
-            --text-main: #f4f4f5;
-            --text-muted: #a1a1aa;
+            --bg-main: #ffffff;
+            --bg-sidebar: #f7f7f8;
+            --bg-card: #ffffff;
+            --text-main: #2b2b2b;
+            --text-muted: #767676;
             --blurple: #ff7a1a;
             --blurple-hover: #e5690d;
             --green: #248046;
             --red: #da373c;
             --red-hover: #a92b2f;
-            --border: #27272a;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --border: #ececec;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
         }
 
         * {
@@ -82,7 +91,7 @@
             color: white;
             border: none;
             padding: 0.6rem 1.2rem;
-            border-radius: 6px;
+            border-radius: 4px;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
@@ -114,6 +123,7 @@
             background-color: var(--red-hover);
         }
 
+        /* --- BARRE UTILISATEUR & MENU DÉROULANT --- */
         .user-menu {
             position: relative;
         }
@@ -135,6 +145,7 @@
 
         .user-trigger:hover {
             border-color: var(--blurple);
+            background-color: var(--bg-sidebar);
         }
 
         .user-avatar {
@@ -200,8 +211,15 @@
             background-color: var(--bg-sidebar);
         }
 
+        .user-dropdown .dropdown-item.danger {
+            color: var(--red);
+        }
+        .user-dropdown .dropdown-item.danger:hover {
+            background-color: rgba(218, 55, 60, 0.08);
+        }
+
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             width: 100%;
             margin: 2rem auto;
             padding: 0 1rem;
@@ -224,6 +242,7 @@
         .hero h1 {
             font-size: 2.8rem;
             margin-bottom: 0.5rem;
+            color: var(--text-main);
             font-weight: 800;
         }
 
@@ -233,7 +252,8 @@
 
         .hero p {
             color: var(--text-muted);
-            font-size: 1.15rem;
+            font-size: 1.2rem;
+            font-style: italic;
         }
 
         .hero-actions {
@@ -241,19 +261,19 @@
             justify-content: center;
             gap: 1rem;
             margin-top: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .stats-bar {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1rem;
-            background-color: var(--bg-card);
+            background-color: var(--bg-sidebar);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 1.5rem;
+            padding: 1.5rem 1rem;
             margin-bottom: 2.5rem;
             text-align: center;
-            box-shadow: var(--shadow);
         }
 
         .stats-bar .stat-value {
@@ -270,7 +290,82 @@
         .section-heading {
             font-size: 1.3rem;
             font-weight: 700;
+            margin: 0 0 1.25rem;
+            color: var(--text-main);
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+
+        .card-body {
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+            color: var(--text-main);
+            word-break: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-thumb {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            background-color: var(--bg-sidebar);
+        }
+
+        .detail-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+        }
+
+        .detail-back {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            padding: 0;
             margin-bottom: 1.25rem;
+            cursor: pointer;
+        }
+        .detail-back:hover {
+            color: var(--blurple);
+            background: none;
+        }
+
+        .detail-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .detail-gallery img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            cursor: pointer;
         }
 
         .search-container {
@@ -289,33 +384,19 @@
             border: 1px solid var(--border);
             color: var(--text-main);
             padding: 0.8rem;
-            border-radius: 6px;
+            border-radius: 4px;
             flex: 1;
             font-size: 1rem;
+        }
+
+        .search-container select {
+            flex: 0.5;
         }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1.5rem;
-        }
-
-        .card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            border-color: var(--blurple);
         }
 
         .card-header {
@@ -327,6 +408,7 @@
 
         .card-title {
             font-size: 1.25rem;
+            color: var(--text-main);
             font-weight: bold;
         }
 
@@ -339,10 +421,6 @@
             text-transform: uppercase;
         }
 
-        .badge-pending {
-            background-color: #f59e0b;
-        }
-
         .card-stats {
             display: flex;
             gap: 1rem;
@@ -351,135 +429,10 @@
             margin-bottom: 1rem;
         }
 
-        .card-body {
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.4;
-            color: var(--text-muted);
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* --- PANEL ADMIN EXCLUSIF & WHITELIST --- */
-        .admin-layout {
-            display: grid;
-            grid-template-columns: 260px 1fr;
-            gap: 2rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            min-height: 600px;
-        }
-
-        .admin-sidebar {
-            background: var(--bg-sidebar);
-            border-right: 1px solid var(--border);
-            padding: 1.5rem 1rem;
+        .card-actions {
             display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-        }
-
-        .admin-sidebar-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-bottom: 0.8rem;
-            padding-left: 0.6rem;
-            font-weight: 700;
-        }
-
-        .admin-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
-            color: var(--text-muted);
-            background: none;
-            border: none;
-            width: 100%;
-            text-align: left;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .admin-nav-item:hover, .admin-nav-item.active {
-            background: rgba(255, 122, 26, 0.1);
-            color: var(--blurple);
-        }
-
-        .admin-content {
-            padding: 2rem;
-            overflow-y: auto;
-            max-height: 75vh;
-        }
-
-        .admin-section {
-            display: none;
-        }
-
-        .admin-section.active {
-            display: block;
-        }
-
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
+            gap: 0.5rem;
             margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .admin-table th, .admin-table td {
-            padding: 0.9rem 1rem;
-            border-bottom: 1px solid var(--border);
-            text-align: left;
-        }
-
-        .admin-table th {
-            background-color: var(--bg-sidebar);
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        .schedule-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--bg-sidebar);
-            border: 1px solid var(--border);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 0.8rem;
-        }
-
-        .schedule-row label {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .schedule-times {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .schedule-times select {
-            background: var(--bg-main);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 0.5rem;
-            border-radius: 4px;
         }
 
         .form-box {
@@ -490,6 +443,49 @@
             max-width: 600px;
             margin: 0 auto;
             box-shadow: var(--shadow);
+        }
+
+        .form-box h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .bot-verification-box {
+            background-color: #1e1e24;
+            border: 1px solid var(--blurple);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .bot-verification-box h3 {
+            margin-top: 0;
+            color: var(--blurple);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .bot-verification-box p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #d1d1d6;
+            margin-bottom: 1rem;
+        }
+
+        .btn-invite-bot {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--blurple), var(--blurple-hover));
+            color: #ffffff;
+            padding: 0.7rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-invite-bot:hover {
+            opacity: 0.9;
         }
 
         .form-group {
@@ -509,8 +505,20 @@
             border: 1px solid var(--border);
             color: var(--text-main);
             padding: 0.8rem;
-            border-radius: 6px;
+            border-radius: 4px;
             font-size: 1rem;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 0.3rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
         }
 
         .form-actions {
@@ -520,24 +528,58 @@
             margin-top: 2rem;
         }
 
-        .detail-box {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: var(--shadow);
-        }
-
         footer {
             background-color: var(--bg-sidebar);
             border-top: 1px solid var(--border);
             margin-top: auto;
             padding: 3rem 1.5rem 1.5rem 1.5rem;
-            text-align: center;
+        }
+
+        .footer-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.6rem;
+        }
+
+        .footer-column ul li a {
             color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--blurple);
+        }
+
+        .footer-bottom {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
             font-size: 0.85rem;
+            color: var(--text-muted);
         }
 
         .modal {
@@ -547,11 +589,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(4px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            animation: fadeIn 0.2s ease-out;
         }
 
         .modal.open {
@@ -564,9 +607,11 @@
             padding: 2rem;
             max-width: 500px;
             width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             border: 1px solid var(--border);
             text-align: center;
-            box-shadow: var(--shadow);
         }
 
         .modal-icon {
@@ -577,12 +622,15 @@
         .modal-content h3 {
             font-size: 1.4rem;
             margin-bottom: 0.8rem;
+            color: var(--text-main);
         }
 
         .modal-content p {
+            font-size: 1rem;
+            line-height: 1.5;
             color: var(--text-muted);
             margin-bottom: 1.5rem;
-            line-height: 1.5;
+            text-align: center;
         }
 
         .modal-actions {
@@ -591,17 +639,69 @@
             gap: 1rem;
         }
 
-        @media (max-width: 800px) {
-            .admin-layout { grid-template-columns: 1fr; }
-            .admin-sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (hover: hover) {
+            .card:hover {
+                transform: translateY(-2px);
+                border-color: var(--blurple);
+                box-shadow: 0 6px 18px rgba(255, 122, 26, 0.15);
+            }
+        }
+
+        html, body {
+            overflow-x: hidden;
+        }
+
+        @media (max-width: 900px) {
+            .container { padding: 0 1rem; }
+            .hero h1 { font-size: 2.2rem; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+        }
+
+        @media (max-width: 600px) {
+            #xyro-mascot {
+                width: 110px;
+                right: 4px;
+            }
+            header { flex-wrap: wrap; gap: 0.75rem; padding: 0.85rem 1rem; }
+            .logo { font-size: 1.15rem; }
+            nav#nav-actions { width: 100%; flex-wrap: wrap; justify-content: flex-start; gap: 0.5rem; }
+            nav#nav-actions .btn-link, nav#nav-actions button, .user-trigger { font-size: 0.82rem; padding: 0.5rem 0.8rem; }
+            .user-trigger span:not(.user-avatar) { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .user-dropdown { right: auto; left: 0; min-width: 200px; }
+            .hero { margin-bottom: 2rem; }
+            .hero h1 { font-size: 1.7rem; }
+            .hero p { font-size: 1rem; }
+            .search-container { flex-direction: column; gap: 0.75rem; padding: 1rem; }
+            .search-container select { flex: 1; }
+            .grid { grid-template-columns: 1fr; }
+            .card { padding: 1.2rem; }
+            .card-header { flex-wrap: wrap; gap: 0.5rem; }
+            .card-actions { flex-direction: column; }
+            .card-actions button, .card-actions .btn-link { width: 100%; }
+            .form-box { padding: 1.25rem; max-width: 100%; }
+            .form-actions { flex-direction: column-reverse; gap: 0.75rem; }
+            .form-actions button { width: 100%; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 1.5rem; }
+            .stats-bar { grid-template-columns: 1fr; gap: 1.25rem; }
+            .hero-actions { flex-direction: column; }
+            .hero-actions button { width: 100%; }
+            .detail-box { padding: 1.25rem; }
+            .modal-content { padding: 1.5rem; width: 92%; }
+            .modal-actions { flex-direction: column-reverse; gap: 0.6rem; }
+            .modal-actions button { width: 100%; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo" id="logo-btn" onclick="switchPage('accueil')">
-            <img src="logo.png" alt="" style="height:32px;width:32px;border-radius:8px;">
+        <div class="logo" id="logo-btn">
+            <img src="logo.png" alt="Xparia Market" style="height:32px;width:32px;border-radius:8px;">
             Xparia<span> Market</span>
         </div>
         <nav id="nav-actions"></nav>
@@ -612,14 +712,15 @@
         <section id="page-accueil" class="page active">
             <div class="hero">
                 <h1>🛒 Xparia <span>Market</span></h1>
-                <p>Trouvez votre prochain serveur Discord.</p>
+                <p style="font-style: normal; font-size: 1.15rem;">Trouvez votre prochain serveur Discord.</p>
+                <p>Découvrez des serveurs disponibles à la reprise, à l'échange ou au don.</p>
                 <div class="hero-actions">
-                    <button id="hero-search-btn" class="btn-secondary" onclick="document.getElementById('search-container').scrollIntoView({behavior: 'smooth'})">🔎 Rechercher</button>
-                    <button id="hero-depot-btn" onclick="allerAuDepot()">📢 Déposer une annonce</button>
+                    <button id="hero-search-btn" class="btn-secondary">🔎 Rechercher un serveur</button>
+                    <button id="hero-depot-btn">📢 Déposer une annonce</button>
                 </div>
             </div>
 
-            <div class="stats-bar">
+            <div class="stats-bar" id="stats-bar">
                 <div>
                     <div class="stat-value" id="stat-annonces">0</div>
                     <div class="stat-label">serveurs publiés</div>
@@ -635,12 +736,19 @@
             </div>
 
             <div class="search-container" id="search-container">
-                <input type="text" id="search-bar" placeholder="Rechercher par mot-clé...">
+                <input type="text" id="search-bar" placeholder="Rechercher par mot-clé (ex: Gaming, Dev...)">
                 <select id="filter-category">
                     <option value="">Toutes les catégories</option>
+                    <option value="gaming">Gaming</option>
+                    <option value="communauté">Communauté</option>
+                    <option value="rp">Roleplay (RP)</option>
+                    <option value="dev">Dév & Technologie</option>
                 </select>
                 <select id="filter-type">
-                    <option value="">Tous les types</option>
+                    <option value="">Tous les types de cession</option>
+                    <option value="Don Gratuit">Don Gratuit</option>
+                    <option value="Échange">Échange</option>
+                    <option value="Reprise Bénévole">Reprise Bénévole</option>
                 </select>
             </div>
 
@@ -648,140 +756,20 @@
             <div class="grid" id="annonces-grid"></div>
         </section>
 
-        <!-- PANEL ADMIN EXCLUSIF & WHITELIST -->
-        <section id="page-admin" class="page">
-            <div class="admin-layout">
-                <div class="admin-sidebar">
-                    <div class="admin-sidebar-title">Administration</div>
-                    <button class="admin-nav-item active" onclick="switchAdminTab('tickets', this)">🎟️ Tickets</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('horaires', this)">⏰ Horaires</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('fermetures', this)">🚫 Fermetures</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('bot', this)">🤖 Bot Discord</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('salons', this)">#️⃣ Salons</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('options', this)">⚙️ Options</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('permissions', this)">🛡️ Permissions (Whitelist)</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('partenaires', this)">🤝 Partenaires</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('bannissements', this)">⛔ Bannissements</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('restrictions', this)">🔒 Restrictions</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('verifications', this)">✅ Vérifications & Annonces</button>
-                    <button class="btn-secondary" style="margin-top:auto;" onclick="switchPage('accueil')">Retour au site</button>
-                </div>
-
-                <div class="admin-content">
-                    <div id="admin-tab-tickets" class="admin-section active">
-                        <h2 class="section-heading">Gestion des Tickets</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1rem;">Suivi des ouvertures de tickets et mises en relation de la communauté.</p>
-                        <div id="admin-tickets-info" style="background:var(--bg-sidebar); padding:1rem; border-radius:8px; border:1px solid var(--border);">
-                            <p>Aucun ticket actif pour le moment.</p>
-                        </div>
-                    </div>
-
-                    <div id="admin-tab-horaires" class="admin-section">
-                        <h2 class="section-heading">Horaires d'ouverture de la plateforme</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Définissez les plages horaires où la soumission de nouvelles annonces est autorisée.</p>
-                        <div id="schedule-config-container"></div>
-                        <button class="btn" style="margin-top: 1rem;" onclick="sauvegarderHoraires()">💾 Sauvegarder les horaires</button>
-                    </div>
-
-                    <div id="admin-tab-fermetures" class="admin-section">
-                        <h2 class="section-heading">Fermeture Exceptionnelle</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1rem;">Bloquer temporairement les dépôts de pubs en cas de maintenance.</p>
-                        <button class="btn-danger" onclick="toggleMaintenance()">Activer/Désactiver la maintenance globale</button>
-                    </div>
-
-                    <div id="admin-tab-bot" class="admin-section">
-                        <h2 class="section-heading">Configuration du Bot Discord</h2>
-                        <p style="color: var(--text-muted);">Paramétrez l'intégration du Bot OAuth2 pour les vérifications automatiques.</p>
-                    </div>
-
-                    <div id="admin-tab-salons" class="admin-section">
-                        <h2 class="section-heading">Salons de notification</h2>
-                        <p style="color: var(--text-muted);">Gestion des salons de logs et de publication.</p>
-                    </div>
-
-                    <div id="admin-tab-options" class="admin-section">
-                        <h2 class="section-heading">Options Générales</h2>
-                        <p style="color: var(--text-muted);">Paramètres généraux de l'application Cloudflare Workers.</p>
-                    </div>
-
-                    <div id="admin-tab-permissions" class="admin-section">
-                        <h2 class="section-heading">Permissions & Whitelist des Admins</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Ajoutez un ID Discord pour lui donner accès au panel et aux commandes de modération.</p>
-                        <div class="form-group" style="display:flex; gap:1rem;">
-                            <input type="text" id="new-whitelist-id" placeholder="Ex: 1464750597663100980" style="flex:1;">
-                            <button onclick="ajouterWhitelist()">Ajouter à la Whitelist</button>
-                        </div>
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>ID Discord Whitelisté</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="whitelist-table-body"></tbody>
-                        </table>
-                    </div>
-
-                    <div id="admin-tab-partenaires" class="admin-section">
-                        <h2 class="section-heading">Partenaires</h2>
-                        <p style="color: var(--text-muted);">Gestion des serveurs partenaires mis en avant.</p>
-                    </div>
-
-                    <div id="admin-tab-bannissements" class="admin-section">
-                        <h2 class="section-heading">Bannissements</h2>
-                        <p style="color: var(--text-muted);">Utilisateurs bannis définitivement de la plateforme.</p>
-                    </div>
-
-                    <div id="admin-tab-restrictions" class="admin-section">
-                        <h2 class="section-heading">Restrictions des comptes</h2>
-                        <p style="color: var(--text-muted);">Comptes dont la publication de pubs est bloquée.</p>
-                        <div id="admin-restrictions-list"></div>
-                    </div>
-
-                    <div id="admin-tab-verifications" class="admin-section">
-                        <h2 class="section-heading">Vérifications & Modération des Annonces</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Validez les annonces en attente ou supprimez n'importe quelle annonce du site instantanément.</p>
-                        
-                        <h3 style="font-size:1.1rem; color:var(--blurple); margin-bottom:0.5rem;">📢 En attente de validation</h3>
-                        <table class="admin-table" style="margin-bottom:2rem;">
-                            <thead>
-                                <tr>
-                                    <th>Serveur</th>
-                                    <th>Propriétaire</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-pending-annonces"></tbody>
-                        </table>
-
-                        <h3 style="font-size:1.1rem; color:var(--blurple); margin-bottom:0.5rem;">🗑️ Toutes les annonces publiées (Suppression libre admin)</h3>
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Serveur</th>
-                                    <th>ID Serveur</th>
-                                    <th>Propriétaire</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-all-annonces"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- DETAIL -->
+        <!-- DETAIL D'UNE ANNONCE -->
         <section id="page-detail" class="page">
             <div class="detail-box">
-                <button class="btn-secondary" id="detail-back-btn" style="margin-bottom:1.5rem;" onclick="switchPage('accueil')">← Retour</button>
+                <button class="detail-back" id="detail-back-btn">← Retour aux annonces</button>
                 <div class="card-header">
                     <div class="card-title" id="detail-nom" style="font-size: 1.6rem;"></div>
                     <span class="badge" id="detail-badge"></span>
                 </div>
                 <div class="card-stats" id="detail-stats" style="margin-bottom: 1.5rem;"></div>
-                <p id="detail-description" style="line-height: 1.6; margin-bottom: 1.5rem; white-space: pre-wrap; color:var(--text-muted);"></p>
-                <button id="detail-contact-btn">💬 Contacter le propriétaire</button>
+                <div id="detail-gallery" class="detail-gallery"></div>
+                <p id="detail-description" style="line-height: 1.6; margin-bottom: 1.5rem; white-space: pre-wrap;"></p>
+                <div class="form-actions" style="justify-content: flex-start;">
+                    <button id="detail-contact-btn">💬 Contacter le propriétaire</button>
+                </div>
             </div>
         </section>
 
@@ -790,62 +778,179 @@
             <div class="form-box">
                 <h2>Publier une annonce de cession</h2>
                 <form id="annonce-form">
-                    <div class="form-group">
-                        <label for="server-id">ID de votre serveur Discord *</label>
-                        <input type="text" id="server-id" required placeholder="Ex: 1234567890123456789">
+                    <div class="bot-verification-box">
+                        <h3>1. Inviter le Bot sur votre serveur</h3>
+                        <p>Pour vérifier que le serveur vous appartient bien et permettre la création des tickets de négociation, vous devez obligatoirement y ajouter le Bot Xparia.</p>
+                        <a href="https://discord.com/oauth2/authorize?client_id=1535232825656082503&permissions=8&integration_type=0&scope=bot+applications.commands" target="_blank" class="btn-invite-bot">
+                            🤖 Inviter le bot Xparia
+                        </a>
                     </div>
+
                     <div class="form-group">
-                        <label for="server-name">Nom du serveur</label>
-                        <input type="text" id="server-name" required placeholder="Ex: Ma Communauté">
+                        <label for="server-id">2. ID de votre serveur Discord *</label>
+                        <input type="text" id="server-id" required placeholder="Ex: 1234567890123456789" pattern="[0-9]{17,20}">
+                        <small>💡 Activer le Mode Développeur sur Discord > Clic droit sur votre serveur > Copier l'ID du serveur.</small>
                     </div>
+
+                    <div class="form-group">
+                        <label for="server-name">Nom du serveur Discord</label>
+                        <input type="text" id="server-name" required placeholder="Ex: La Taverne des Aventuriers">
+                    </div>
+
                     <div class="form-group">
                         <label for="server-members">Nombre de membres</label>
-                        <input type="number" id="server-members" required min="1" placeholder="Ex: 250">
+                        <input type="number" id="server-members" required min="1" placeholder="Ex: 450">
                     </div>
+
                     <div class="form-group">
-                        <label for="server-category">Catégorie</label>
+                        <label for="server-category">Catégorie principale</label>
                         <select id="server-category" required>
-                            <!-- Vide -->
+                            <option value="gaming">Gaming</option>
+                            <option value="communauté">Communauté</option>
+                            <option value="rp">Roleplay (RP)</option>
+                            <option value="dev">Dév & Technologie</option>
                         </select>
                     </div>
+
                     <div class="form-group">
-                        <label for="server-type">Type de cession</label>
+                        <label for="server-activity">Niveau d'activité global</label>
+                        <select id="server-activity" required>
+                            <option value="Très Actif">Très Actif (Messages H24)</option>
+                            <option value="Modéré">Modéré (Actif en soirée)</option>
+                            <option value="Calme / À relancer">Calme / À relancer</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="server-type">Ce que vous recherchez</label>
                         <select id="server-type" required>
-                            <!-- Vide -->
+                            <option value="Don Gratuit">Don Gratuit (Cession simple)</option>
+                            <option value="Échange">Échange contre un autre serveur</option>
+                            <option value="Reprise Bénévole">Reprise Bénévole (Reste au staff)</option>
                         </select>
                     </div>
+
                     <div class="form-group">
-                        <label for="server-reason">Description</label>
-                        <textarea id="server-reason" required placeholder="Expliquez votre projet..."></textarea>
+                        <label for="server-reason">Raison du transfert & Description</label>
+                        <textarea id="server-reason" required placeholder="Expliquez pourquoi vous cédez le serveur..."></textarea>
                     </div>
+
+                    <div class="form-group">
+                        <label for="server-screenshot-1">Captures d'écran (optionnel)</label>
+                        <small style="margin-top:0; margin-bottom: 0.5rem;">Colle des liens d'images (depuis Discord, Imgur...). Jusqu'à 3, un lien par champ.</small>
+                        <input type="url" id="server-screenshot-1" placeholder="https://... (lien image 1)" style="margin-bottom: 0.6rem;">
+                        <input type="url" id="server-screenshot-2" placeholder="https://... (lien image 2)" style="margin-bottom: 0.6rem;">
+                        <input type="url" id="server-screenshot-3" placeholder="https://... (lien image 3)">
+                    </div>
+
                     <div class="form-actions">
-                        <button type="button" class="btn-secondary" onclick="switchPage('accueil')">Annuler</button>
-                        <button type="submit">Publier</button>
+                        <button type="button" class="btn-secondary" id="cancel-form-btn">Annuler</button>
+                        <button type="submit" id="submit-btn">Vérifier & Publier</button>
                     </div>
                 </form>
             </div>
         </section>
+
+        <!-- A PROPOS -->
+        <section id="page-apropos" class="page">
+            <div class="form-box" style="max-width: 700px;">
+                <h2>ℹ️ À propos de Xparia Market</h2>
+                <p style="margin-bottom: 1rem;">
+                    Xparia Market est une plateforme communautaire de cession de serveurs Discord sous forme de dons, d'échanges ou de reprises bénévoles.
+                </p>
+                <div class="form-actions">
+                    <button class="btn-secondary" id="back-home-btn">Retour à l'accueil</button>
+                </div>
+            </div>
+        </section>
     </div>
 
+    <!-- FOOTER -->
     <footer>
-        <p>&copy; 2026 Xparia Market. Non affilié à Discord Inc.</p>
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h4>Plateforme</h4>
+                <ul>
+                    <li><a id="link-features">Fonctionnalités</a></li>
+                    <li><a id="link-how">Comment ça marche</a></li>
+                    <li><a id="link-faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Communauté</h4>
+                <ul>
+                    <li><a href="https://discord.gg/bfXMVMatNf" target="_blank">Serveur Support</a></li>
+                    <li><a id="link-register">Créer un compte</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Légal</h4>
+                <ul>
+                    <li><a id="link-mentions">Mentions légales</a></li>
+                    <li><a id="link-privacy">Politique de confidentialité</a></li>
+                    <li><a id="link-cgu">CGU</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Xparia Market. Plateforme de mise en relation bénévole. Non affiliée à Discord Inc.</p>
+        </div>
     </footer>
 
-    <!-- POPUP MODALE -->
+    <!-- POP-UP MODALE PERSONNALISÉE DU SITE -->
     <div class="modal" id="custom-popup">
         <div class="modal-content">
             <div class="modal-icon" id="popup-icon">✨</div>
             <h3 id="popup-title">Notification</h3>
-            <p id="popup-message">Message...</p>
-            <div class="modal-actions">
+            <div id="popup-body"><p id="popup-message">Message...</p></div>
+            <div class="modal-actions" id="popup-actions">
+                <button type="button" class="btn-secondary" id="popup-cancel-btn" style="display: none;">Annuler</button>
                 <button type="button" id="popup-confirm-btn">OK</button>
             </div>
         </div>
     </div>
 
+    <!-- ÉCRAN DE MISE À JOUR (une seule fois par visiteur) -->
+    <div class="modal" id="update-overlay">
+        <div class="modal-content">
+            <div class="modal-icon">🎉</div>
+            <h3>Xparia Market fait peau neuve !</h3>
+            <div>
+                <p style="color: var(--text-muted); margin-bottom: 1.25rem;">
+                    Nouvelle interface, annonces mises en avant, pages détaillées avec captures d'écran...
+                    Cliquez pour découvrir la nouvelle version.
+                </p>
+                <div id="update-progress-track" style="display:none; background: var(--bg-sidebar); border-radius: 6px; height: 10px; overflow: hidden; margin-bottom: 1.25rem;">
+                    <div id="update-progress-bar" style="background: var(--blurple); height: 100%; width: 0%; transition: width 0.4s ease;"></div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="update-start-btn">Mettre à jour</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MASCOTTE XYRO (image animée transparente, boucle infinie native) -->
+    <img id="xyro-mascot" src="xyro.webp" alt="" aria-hidden="true"
+         style="position:fixed; bottom:0; right:8px; width:190px; height:auto; pointer-events:none; z-index:60;">
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            deleteDoc, 
+            doc, 
+            onSnapshot, 
+            query, 
+            orderBy, 
+            serverTimestamp,
+            setDoc,
+            getDoc,
+            increment
+        } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCzBJv367JwnK8Jr0-tw9hkNo86kQY20Ow",
@@ -858,328 +963,613 @@
         };
 
         const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
         const db = getFirestore(app);
         const annoncesRef = collection(db, 'annonces');
 
-        const MASTER_ADMIN_ID = "1464750597663100980";
-        let whitelistAdmins = JSON.parse(localStorage.getItem('whitelistAdmins') || JSON.stringify([MASTER_ADMIN_ID]));
-        let restrictedUsers = JSON.parse(localStorage.getItem('restrictedUsers') || "[]");
-
-        const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fxparia-market.xparia-discord.workers.dev%2F%23&integration_type=0&scope=identify+connections+guilds+bot";
+        const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&response_type=token&redirect_uri=https%3A%2F%2Fxparia-market.xparia-discord.workers.dev%2F&scope=identify+connections+guilds";
 
         let currentUser = localStorage.getItem('currentUser') || null;
         let currentUserId = localStorage.getItem('currentUserId') || null;
+        let accessToken = localStorage.getItem('discordToken') || null;
+        let userGuilds = [];
         let annonces = [];
 
-        function showPopup({ title = "Information", message = "", icon = "ℹ️", onConfirm = null }) {
+        function showPopup({ title = "Information", message = "", icon = "ℹ️", confirmText = "OK", cancelText = null, onConfirm = null }) {
             const modal = document.getElementById('custom-popup');
             document.getElementById('popup-title').innerText = title;
             document.getElementById('popup-message').innerHTML = message;
             document.getElementById('popup-icon').innerText = icon;
+            
+            const confirmBtn = document.getElementById('popup-confirm-btn');
+            const cancelBtn = document.getElementById('popup-cancel-btn');
+
+            confirmBtn.innerText = confirmText;
+
+            if (cancelText) {
+                cancelBtn.innerText = cancelText;
+                cancelBtn.style.display = 'inline-block';
+            } else {
+                cancelBtn.style.display = 'none';
+            }
+
             modal.classList.add('open');
 
-            const confirmBtn = document.getElementById('popup-confirm-btn');
-            const newBtn = confirmBtn.cloneNode(true);
-            confirmBtn.parentNode.replaceChild(newBtn, confirmBtn);
+            const newConfirmBtn = confirmBtn.cloneNode(true);
+            const newCancelBtn = cancelBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+            cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
 
-            newBtn.addEventListener('click', () => {
+            newConfirmBtn.addEventListener('click', () => {
                 modal.classList.remove('open');
                 if (onConfirm) onConfirm();
+            });
+
+            newCancelBtn.addEventListener('click', () => {
+                modal.classList.remove('open');
             });
         }
 
         window.switchPage = function(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(`page-${pageId}`).classList.add('active');
             window.scrollTo(0, 0);
-        };
-
-        window.switchAdminTab = function(tabId, btnElement) {
-            document.querySelectorAll('.admin-section').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.admin-nav-item').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`admin-tab-${tabId}`).classList.add('active');
-            if(btnElement) btnElement.classList.add('active');
-            if(tabId === 'verifications') chargerPanelAdmin();
-            if(tabId === 'permissions') chargerWhitelistTable();
         };
 
         window.allerAuDepot = function() {
             if (!currentUser || !currentUserId) {
                 showPopup({
                     title: "Connexion requise",
-                    message: "Vous devez être connecté avec Discord pour poster une pub.",
+                    message: "Vous devez impérativement être connecté avec un compte Discord pour pouvoir déposer une annonce.",
                     icon: "🔒",
-                    onConfirm: () => window.location.href = DISCORD_AUTH_URL
+                    confirmText: "Se connecter avec Discord",
+                    cancelText: "Annuler",
+                    onConfirm: window.loginDiscord
                 });
                 return;
             }
-
-            if (restrictedUsers.includes(currentUserId)) {
-                showPopup({ title: "Profil non vérifié / Restreint", message: "Votre profil n'est pas vérifié ou a été restreint par l'administration. Impossible de poster une pub.", icon: "⛔" });
-                return;
-            }
-
             switchPage('depot');
         };
 
-        window.logoutDiscord = function() {
-            localStorage.clear();
-            currentUser = null;
-            currentUserId = null;
-            updateNavbar();
-            switchPage('accueil');
-            showPopup({ title: "Déconnexion", message: "Déconnecté avec succès.", icon: "🚪" });
+        window.loginDiscord = function() {
+            window.location.href = DISCORD_AUTH_URL;
         };
 
-        function isAdmin(userId) {
-            return userId && whitelistAdmins.includes(userId);
+        window.logoutDiscord = function() {
+            currentUser = null;
+            currentUserId = null;
+            accessToken = null;
+            userGuilds = [];
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('currentUserId');
+            localStorage.removeItem('discordToken');
+            updateNavbar();
+            filtrerAnnonces();
+            switchPage('accueil');
+            showPopup({ title: "Déconnexion", message: "Vous avez été déconnecté avec succès.", icon: "🚪" });
+        };
+
+        document.getElementById('link-mentions').addEventListener('click', () => {
+            showPopup({ title: "Mentions légales", message: "Xparia Market est un service bénévole indépendant hébergé sur Cloudflare Workers. Plateforme non affiliée à Discord Inc.", icon: "⚖️" });
+        });
+        document.getElementById('link-privacy').addEventListener('click', () => {
+            showPopup({ title: "Politique de confidentialité", message: "Nous stockons uniquement vos identifiants Discord publics nécessaires pour la vérification de propriété et la création de tickets.", icon: "🔒" });
+        });
+        document.getElementById('link-cgu').addEventListener('click', () => {
+            showPopup({ title: "CGU", message: "Toute transaction financière est strictly interdite. La plateforme est dédiée aux dons, échanges et reprises bénévoles.", icon: "📜" });
+        });
+        document.getElementById('link-features').addEventListener('click', () => {
+            showPopup({ title: "Fonctionnalités", message: "• Vérification de la propriété du serveur via le bot<br>• Publication d'annonces<br>• Tickets automatiques sur Discord", icon: "🚀" });
+        });
+        document.getElementById('link-how').addEventListener('click', () => {
+            showPopup({ title: "Comment ça marche", message: "1. Connectez-vous avec Discord.<br>2. Ajoutez le Bot sur votre serveur.<br>3. Renseignez l'ID du serveur.<br>4. Le site vérifie votre propriété et valide la publication !", icon: "❓" });
+        });
+        document.getElementById('link-faq').addEventListener('click', () => {
+            showPopup({ title: "FAQ", message: "<strong>Comment trouver l'ID d'un serveur ?</strong><br>Activer le Mode Développeur sur Discord > Clic droit sur le serveur > Copier l'ID.", icon: "💡" });
+        });
+        document.getElementById('link-register').addEventListener('click', window.loginDiscord);
+
+        async function checkDiscordCallback() {
+            const searchParams = new URLSearchParams(window.location.search);
+            const hashParams = new URLSearchParams(window.location.hash.substring(1));
+            
+            const code = searchParams.get('code');
+            const token = hashParams.get('access_token') || searchParams.get('access_token');
+
+            if (code) {
+                try {
+                    const res = await fetch(`https://xparia-market.xparia-discord.workers.dev/?code=${code}`);
+                    const data = await res.json();
+                    if (data.access_token) {
+                        accessToken = data.access_token;
+                        localStorage.setItem('discordToken', accessToken);
+                        await verifierTokenDiscord();
+                    }
+                } catch (error) {
+                    console.error("Erreur d'échange du code Discord:", error);
+                }
+                window.history.replaceState({}, document.title, window.location.origin + window.location.pathname);
+            } else if (token) {
+                accessToken = token;
+                localStorage.setItem('discordToken', token);
+                await verifierTokenDiscord();
+                window.history.replaceState({}, document.title, window.location.origin + window.location.pathname);
+            } else if (accessToken) {
+                chargerServeursUtilisateur();
+            }
+        }
+
+        async function verifierTokenDiscord() {
+            try {
+                const response = await fetch('https://discord.com/api/users/@me', {
+                    headers: { Authorization: `Bearer ${accessToken}` }
+                });
+                const data = await response.json();
+                if (response.ok && data.username) {
+                    currentUser = data.username;
+                    currentUserId = data.id;
+                    localStorage.setItem('currentUser', currentUser);
+                    localStorage.setItem('currentUserId', currentUserId);
+                    
+                    await chargerServeursUtilisateur();
+
+                    updateNavbar();
+                    showPopup({
+                        title: "Connexion réussie !",
+                        message: `Bienvenue sur Xparia Market, <strong>${escapeHTML(currentUser)}</strong> !`,
+                        icon: "🎉"
+                    });
+                }
+            } catch (error) {
+                console.error("Erreur vérification utilisateur Discord:", error);
+            }
+        }
+
+        async function chargerServeursUtilisateur() {
+            if (!accessToken) return;
+            try {
+                const res = await fetch('https://discord.com/api/users/@me/guilds', {
+                    headers: { Authorization: `Bearer ${accessToken}` }
+                });
+                if (res.ok) {
+                    userGuilds = await res.json();
+                } else {
+                    console.warn("Échec de la récupération des serveurs (Token expiré ou invalide).");
+                    userGuilds = [];
+                }
+            } catch (e) {
+                console.error("Impossible de récupérer la liste des serveurs:", e);
+                userGuilds = [];
+            }
         }
 
         function updateNavbar() {
             const nav = document.getElementById('nav-actions');
-            const userIsAdmin = isAdmin(currentUserId);
 
-            if (currentUser) {
+            if(currentUser) {
+                const initiale = escapeHTML(currentUser).charAt(0).toUpperCase();
                 nav.innerHTML = `
                     <div class="user-menu" id="user-menu">
                         <button class="user-trigger" id="user-trigger-btn">
-                            <span class="user-avatar">${currentUser.charAt(0).toUpperCase()}</span>
-                            <span>${currentUser}</span>
+                            <span class="user-avatar">${initiale}</span>
+                            <span>${escapeHTML(currentUser)}</span>
                         </button>
                         <div class="user-dropdown" id="user-dropdown">
-                            <div class="user-dropdown-header">Connecté en tant qu'<strong>${currentUser}</strong></div>
-                            ${userIsAdmin ? `<a href="#" onclick="switchPage('admin'); document.getElementById('user-menu').classList.remove('open');" style="color:var(--blurple); font-weight:bold;">⚙️ Panel Admin</a>` : ''}
-                            <button type="button" class="dropdown-item danger" onclick="logoutDiscord()">🚪 Déconnexion</button>
+                            <div class="user-dropdown-header">
+                                Connecté avec Discord
+                                <strong>${escapeHTML(currentUser)}</strong>
+                            </div>
+                            <a href="#" id="info-dropdown-btn">ℹ️ À propos</a>
+                            <a href="https://discord.gg/bfXMVMatNf" target="_blank">💬 Support</a>
+                            <button type="button" class="dropdown-item danger" id="logout-btn">🚪 Déconnexion</button>
                         </div>
                     </div>
-                    <button onclick="allerAuDepot()">Déposer une annonce</button>
+                    <button id="depot-nav-btn">Déposer une annonce</button>
                 `;
+
                 document.getElementById('user-trigger-btn').addEventListener('click', (e) => {
                     e.stopPropagation();
                     document.getElementById('user-menu').classList.toggle('open');
                 });
+                document.getElementById('logout-btn').addEventListener('click', window.logoutDiscord);
+                document.getElementById('depot-nav-btn').addEventListener('click', window.allerAuDepot);
+                document.getElementById('info-dropdown-btn').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('user-menu').classList.remove('open');
+                    switchPage('apropos');
+                });
             } else {
                 nav.innerHTML = `
-                    <button class="btn-secondary" onclick="window.location.href='${DISCORD_AUTH_URL}'">Se connecter</button>
-                    <button onclick="allerAuDepot()">Déposer une annonce</button>
+                    <button class="btn-secondary" id="login-nav-btn">Se connecter à Discord</button>
+                    <button id="depot-nav-btn">Déposer une annonce</button>
                 `;
+                document.getElementById('login-nav-btn').addEventListener('click', window.loginDiscord);
+                document.getElementById('depot-nav-btn').addEventListener('click', window.allerAuDepot);
             }
-        }
-
-        function initScheduleUI() {
-            const container = document.getElementById('schedule-config-container');
-            const jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
-            let html = '';
-            jours.forEach((jour, index) => {
-                html += `
-                    <div class="schedule-row">
-                        <label>
-                            <input type="checkbox" id="sch-active-${index}" checked> ${jour}
-                        </label>
-                        <div class="schedule-times">
-                            <select id="sch-start-${index}">${generateTimeOptions("09:00")}</select>
-                            <span>à</span>
-                            <select id="sch-end-${index}">${generateTimeOptions("18:00")}</select>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        function generateTimeOptions(selectedTime) {
-            let options = '';
-            for(let h=0; h<24; h++) {
-                let hourStr = h < 10 ? '0' + h : h;
-                ['00', '30'].forEach(m => {
-                    let time = `${hourStr}:${m}`;
-                    options += `<option value="${time}" ${time === selectedTime ? 'selected' : ''}>${time}</option>`;
-                });
-            }
-            return options;
-        }
-
-        window.sauvegarderHoraires = function() {
-            showPopup({ title: "Horaires enregistrés", message: "Les plages horaires d'ouverture ont été mises à jour avec succès !", icon: "⏰" });
-        };
-
-        window.ajouterWhitelist = function() {
-            const inputId = document.getElementById('new-whitelist-id').value.trim();
-            if(inputId && !whitelistAdmins.includes(inputId)) {
-                whitelistAdmins.push(inputId);
-                localStorage.setItem('whitelistAdmins', JSON.stringify(whitelistAdmins));
-                document.getElementById('new-whitelist-id').value = '';
-                chargerWhitelistTable();
-                showPopup({ title: "Ajouté", message: `L'ID ${inputId} a été ajouté à la Whitelist avec succès.`, icon: "✅" });
-            }
-        };
-
-        window.retirerWhitelist = function(id) {
-            if(id === MASTER_ADMIN_ID) {
-                showPopup({ title: "Action interdite", message: "Impossible de retirer le maître administrateur principal.", icon: "🚫" });
-                return;
-            }
-            whitelistAdmins = whitelistAdmins.filter(item => item !== id);
-            localStorage.setItem('whitelistAdmins', JSON.stringify(whitelistAdmins));
-            chargerWhitelistTable();
-        };
-
-        function chargerWhitelistTable() {
-            const tbody = document.getElementById('whitelist-table-body');
-            tbody.innerHTML = whitelistAdmins.map(id => `
-                <tr>
-                    <td><code>${id}</code> ${id === MASTER_ADMIN_ID ? '(Maître Admin)' : ''}</td>
-                    <td>${id !== MASTER_ADMIN_ID ? `<button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="retirerWhitelist('${id}')">Retirer</button>` : ''}</td>
-                </tr>
-            `).join('');
-        }
-
-        function chargerPanelAdmin() {
-            if (!isAdmin(currentUserId)) return;
-
-            const pendingTbody = document.getElementById('admin-pending-annonces');
-            const pendingList = annonces.filter(a => a.statut === 'en_attente');
-            pendingTbody.innerHTML = pendingList.length === 0 ? `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Aucune annonce en attente.</td></tr>` :
-                pendingList.map(a => `
-                    <tr>
-                        <td><strong>${a.nom}</strong></td>
-                        <td>${a.proprietaire}</td>
-                        <td>
-                            <button class="btn-link" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="validerAnnonce('${a.id}')">Valider</button>
-                            <button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="supprimerAnnonceAdmin('${a.id}')">Refuser</button>
-                        </td>
-                    </tr>
-                `).join('');
-
-            const allTbody = document.getElementById('admin-all-annonces');
-            allTbody.innerHTML = annonces.length === 0 ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune annonce sur le site.</td></tr>` :
-                annonces.map(a => `
-                    <tr>
-                        <td><strong>${a.nom}</strong></td>
-                        <td><code>${a.serverId || 'N/A'}</code></td>
-                        <td>${a.proprietaire}</td>
-                        <td>
-                            <button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="supprimerAnnonceAdmin('${a.id}')">🗑️ Supprimer</button>
-                        </td>
-                    </tr>
-                `).join('');
-        }
-
-        window.validerAnnonce = async function(id) {
-            await updateDoc(doc(db, 'annonces', id), { statut: 'valide' });
-            chargerPanelAdmin();
-        };
-
-        window.supprimerAnnonceAdmin = async function(id) {
-            await deleteDoc(doc(db, 'annonces', id));
-            chargerPanelAdmin();
-        };
-
-        function ecouterAnnonces() {
-            const q = query(annoncesRef, orderBy('dateCreation', 'desc'));
-            onSnapshot(q, (snapshot) => {
-                annonces = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                filtrerEtAfficherAnnonces();
-                mettreAJourStats();
-            });
-        }
-
-        function filtrerEtAfficherAnnonces() {
-            const keyword = document.getElementById('search-bar').value.toLowerCase();
-            const cat = document.getElementById('filter-category').value;
-            const type = document.getElementById('filter-type').value;
-
-            const filtered = annonces.filter(a => {
-                const matchKeyword = !keyword || a.nom.toLowerCase().includes(keyword) || a.description.toLowerCase().includes(keyword);
-                const matchCat = !cat || a.categorie === cat;
-                const matchType = !type || a.type === type;
-                return matchKeyword && matchCat && matchType;
-            });
-
-            afficherAnnonces(filtered);
         }
 
         function afficherAnnonces(liste) {
             const grid = document.getElementById('annonces-grid');
-            const visibles = liste.filter(a => a.statut === 'valide' || isAdmin(currentUserId));
-            
-            grid.innerHTML = visibles.length === 0 ? `<p style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:3rem;">Aucune annonce disponible.</p>` :
-                visibles.map(a => `
-                    <div class="card" onclick="voirDetail('${a.id}')">
-                        <div class="card-header">
-                            <div class="card-title">${a.nom}</div>
-                            <span class="badge ${a.statut === 'en_attente' ? 'badge-pending' : ''}">${a.statut === 'en_attente' ? 'En attente' : a.type}</span>
-                        </div>
-                        <div class="card-stats"><span>👥 ${a.membres} membres</span></div>
-                        <p class="card-body">${a.description}</p>
-                    </div>
-                `).join('');
-        }
+            grid.innerHTML = "";
 
-        window.voirDetail = function(id) {
-            const art = annonces.find(a => a.id === id);
-            if(!art) return;
-            document.getElementById('detail-nom').innerText = art.nom;
-            document.getElementById('detail-badge').innerText = art.type;
-            document.getElementById('detail-stats').innerHTML = `<span>👥 ${art.membres} membres</span>`;
-            document.getElementById('detail-description').innerText = art.description;
-            document.getElementById('detail-contact-btn').onclick = () => showPopup({ title: "Contact", message: `Contactez le propriétaire directement sur Discord : <strong>${art.proprietaire}</strong>`, icon: "💬" });
-            switchPage('detail');
-        };
-
-        function mettreAJourStats() {
-            const valides = annonces.filter(a => a.statut === 'valide');
-            document.getElementById('stat-annonces').textContent = valides.length;
-        }
-
-        document.getElementById('search-bar').addEventListener('input', filtrerEtAfficherAnnonces);
-        document.getElementById('filter-category').addEventListener('change', filtrerEtAfficherAnnonces);
-        document.getElementById('filter-type').addEventListener('change', filtrerEtAfficherAnnonces);
-
-        document.getElementById('annonce-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if(restrictedUsers.includes(currentUserId)) {
-                showPopup({ title: "Erreur", message: "Profil non vérifié ou restreint.", icon: "⛔" });
+            if (liste.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 4rem;">Aucune annonce trouvée.</p>`;
                 return;
             }
-            await addDoc(annoncesRef, {
-                serverId: document.getElementById('server-id').value,
+
+            liste.forEach(art => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.id = art.id;
+                const isOwner = currentUser && currentUser === art.proprietaire;
+                const thumb = (art.screenshots && art.screenshots[0])
+                    ? `<img src="${escapeHTML(art.screenshots[0])}" class="card-thumb" alt="" onerror="this.remove()">`
+                    : '';
+
+                card.innerHTML = `
+                    <div>
+                        ${thumb}
+                        <div class="card-header">
+                            <div class="card-title">${escapeHTML(art.nom)}</div>
+                            <span class="badge">${art.type}</span>
+                        </div>
+                        <div class="card-stats">
+                            <span>👥 ${art.membres} membres</span>
+                            <span>📊 ${art.activite}</span>
+                        </div>
+                        <p class="card-body">${escapeHTML(art.description)}</p>
+                    </div>
+                    <div class="card-actions">
+                        <button style="flex: 1;" class="contact-btn" data-id="${art.id}">
+                            💬 Contacter ${escapeHTML(art.proprietaire)}
+                        </button>
+                        ${isOwner ? `<button class="btn-danger delete-btn" data-id="${art.id}">🗑️</button>` : ''}
+                    </div>
+                `;
+                card.addEventListener('click', () => voirDetail(art.id));
+                grid.appendChild(card);
+            });
+
+            document.querySelectorAll('.contact-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = e.currentTarget.dataset.id;
+                    const annonce = annonces.find(a => a.id === id);
+                    if (annonce) ouvrirTicket(annonce);
+                });
+            });
+
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    supprimerAnnonce(e.currentTarget.dataset.id);
+                });
+            });
+        }
+
+        function voirDetail(id) {
+            const art = annonces.find(a => a.id === id);
+            if (!art) return;
+
+            document.getElementById('detail-nom').innerText = art.nom;
+            document.getElementById('detail-badge').innerText = art.type;
+            document.getElementById('detail-stats').innerHTML =
+                `<span>👥 ${art.membres} membres</span><span>📊 ${art.activite}</span><span>🗂️ ${art.categorie}</span>`;
+            document.getElementById('detail-description').innerText = art.description;
+
+            const gallery = document.getElementById('detail-gallery');
+            gallery.innerHTML = '';
+            (art.screenshots || []).forEach(url => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = '';
+                img.onerror = () => img.remove();
+                img.addEventListener('click', () => window.open(url, '_blank'));
+                gallery.appendChild(img);
+            });
+
+            const contactBtn = document.getElementById('detail-contact-btn');
+            contactBtn.textContent = `💬 Contacter ${art.proprietaire}`;
+            contactBtn.onclick = () => ouvrirTicket(art);
+
+            switchPage('detail');
+        }
+
+        function mettreAJourStats() {
+            document.getElementById('stat-annonces').textContent = annonces.length;
+            const totalMembres = annonces.reduce((sum, a) => sum + (parseInt(a.membres) || 0), 0);
+            document.getElementById('stat-membres').textContent = totalMembres.toLocaleString('fr-FR');
+        }
+
+        const statsDocRef = doc(db, 'stats', 'compteurs');
+
+        async function chargerCompteurTickets() {
+            try {
+                const snap = await getDoc(statsDocRef);
+                document.getElementById('stat-tickets').textContent = snap.exists() ? (snap.data().tickets || 0) : 0;
+            } catch (error) {
+                console.error("Erreur lecture compteur tickets:", error);
+            }
+        }
+
+        async function incrementerCompteurTickets() {
+            try {
+                await setDoc(statsDocRef, { tickets: increment(1) }, { merge: true });
+                chargerCompteurTickets();
+            } catch (error) {
+                console.error("Erreur incrémentation compteur tickets:", error);
+            }
+        }
+
+        function ecouterAnnonces() {
+            const q = query(annoncesRef, orderBy('dateCreation', 'desc'));
+            onSnapshot(q, (snapshot) => {
+                annonces = snapshot.docs.map(doc => ({ 
+                    id: doc.id, 
+                    ...doc.data({ serverTimestamps: 'estimate' })
+                }));
+                filtrerAnnonces();
+                mettreAJourStats();
+            }, (error) => {
+                console.error("Erreur d'écoute Firestore :", error);
+            });
+        }
+
+        function filtrerAnnonces() {
+            const searchVal = document.getElementById('search-bar').value.toLowerCase();
+            const catVal = document.getElementById('filter-category').value;
+            const typeVal = document.getElementById('filter-type').value;
+
+            const resultats = annonces.filter(art => {
+                const matchSearch = art.nom.toLowerCase().includes(searchVal) || art.description.toLowerCase().includes(searchVal);
+                const matchCat = catVal === "" || art.categorie === catVal;
+                const matchType = typeVal === "" || art.type === typeVal;
+                return matchSearch && matchCat && matchType;
+            });
+
+            afficherAnnonces(resultats);
+        }
+
+        async function creerAnnonce(event) {
+            event.preventDefault();
+
+            if (!currentUser || !currentUserId) {
+                showPopup({
+                    title: "Connexion requise",
+                    message: "Vous devez être connecté avec un compte Discord pour publier une annonce.",
+                    icon: "🔒",
+                    confirmText: "Se connecter avec Discord",
+                    cancelText: "Annuler",
+                    onConfirm: window.loginDiscord
+                });
+                return;
+            }
+
+            const inputServerId = document.getElementById('server-id').value.trim();
+
+            if (userGuilds.length === 0) {
+                await chargerServeursUtilisateur();
+            }
+
+            if (userGuilds.length === 0) {
+                showPopup({
+                    title: "Session expirée",
+                    message: "Impossible d'accéder à la liste de vos serveurs. Veuillez vous déconnecter et vous reconnecter avec Discord.",
+                    icon: "🔑",
+                    confirmText: "Se reconnecter",
+                    onConfirm: window.loginDiscord
+                });
+                return;
+            }
+
+            const serveurTrouve = userGuilds.find(g => g.id === inputServerId);
+
+            if (!serveurTrouve) {
+                showPopup({
+                    title: "Serveur non trouvé",
+                    message: "Impossible de trouver un serveur correspondant à cet ID dans votre compte Discord. Vérifiez l'ID entré.",
+                    icon: "❌"
+                });
+                return;
+            }
+
+            if (!serveurTrouve.owner) {
+                showPopup({
+                    title: "Accès refusé",
+                    message: `Vous êtes présent sur le serveur <strong>${escapeHTML(serveurTrouve.name)}</strong> mais vous n'en êtes <strong>PAS le propriétaire (Owner)</strong>.<br><br>Seul le propriétaire du serveur peut déposer une annonce.`,
+                    icon: "🚫"
+                });
+                return;
+            }
+
+            const screenshots = [
+                document.getElementById('server-screenshot-1').value.trim(),
+                document.getElementById('server-screenshot-2').value.trim(),
+                document.getElementById('server-screenshot-3').value.trim()
+            ].filter(Boolean);
+
+            const nouvelleAnnonce = {
+                serverId: inputServerId,
                 nom: document.getElementById('server-name').value,
                 membres: parseInt(document.getElementById('server-members').value),
                 categorie: document.getElementById('server-category').value,
+                activite: document.getElementById('server-activity').value,
                 type: document.getElementById('server-type').value,
                 description: document.getElementById('server-reason').value,
+                screenshots: screenshots,
                 proprietaire: currentUser,
                 proprietaireId: currentUserId,
-                statut: 'en_attente',
                 dateCreation: serverTimestamp()
-            });
-            document.getElementById('annonce-form').reset();
-            showPopup({ title: "Succès", message: "Annonce soumise pour validation !", icon: "⏳", onConfirm: () => switchPage('accueil') });
-        });
+            };
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const authCode = urlParams.get('code');
-        if (authCode) {
-            window.history.replaceState({}, document.title, window.location.pathname);
-            
+            try {
+                await addDoc(annoncesRef, nouvelleAnnonce);
+                document.getElementById('annonce-form').reset();
+                showPopup({
+                    title: "Propriété vérifiée !",
+                    message: `Félicitations, vous êtes bien le propriétaire de <strong>${escapeHTML(serveurTrouve.name)}</strong>. Votre annonce est en ligne !`,
+                    icon: "✅",
+                    onConfirm: () => switchPage('accueil')
+                });
+            } catch (error) {
+                console.error("Erreur ajout annonce:", error);
+                showPopup({
+                    title: "Erreur",
+                    message: "Erreur lors de la publication : " + error.message,
+                    icon: "⚠️"
+                });
+            }
+        }
+
+        async function supprimerAnnonce(id) {
             showPopup({
-                title: "Connexion Discord",
-                message: "Autorisation du bot et authentification réussies !",
-                icon: "🤖",
-                onConfirm: () => {
-                    currentUser = "Administrateur / Utilisateur";
-                    currentUserId = MASTER_ADMIN_ID;
-                    localStorage.setItem('currentUser', currentUser);
-                    localStorage.setItem('currentUserId', currentUserId);
-                    updateNavbar();
+                title: "Confirmation",
+                message: "Voulez-vous vraiment retirer cette annonce ?",
+                icon: "🗑️",
+                confirmText: "Oui, supprimer",
+                cancelText: "Annuler",
+                onConfirm: async () => {
+                    try {
+                        await deleteDoc(doc(db, 'annonces', id));
+                        showPopup({ title: "Supprimé", message: "L'annonce a été retirée.", icon: "👍" });
+                    } catch (error) {
+                        console.error("Erreur suppression:", error);
+                    }
                 }
             });
         }
 
-        initScheduleUI();
+        async function ouvrirTicket(annonce) {
+            if (!currentUser || !currentUserId) {
+                showPopup({
+                    title: "Connexion requise",
+                    message: "Il faut être connecté avec Discord pour ouvrir un ticket.",
+                    icon: "🔒",
+                    confirmText: "Se connecter avec Discord",
+                    cancelText: "Annuler",
+                    onConfirm: window.loginDiscord
+                });
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/create-ticket', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        annonceNom: annonce.nom,
+                        proprietaireUsername: annonce.proprietaire,
+                        proprietaireId: annonce.proprietaireId || null,
+                        demandeurUsername: currentUser,
+                        demandeurId: currentUserId
+                    })
+                });
+                const result = await res.json();
+
+                if (res.ok && result.success) {
+                    incrementerCompteurTickets();
+                    showPopup({
+                        title: "Ticket créé !",
+                        message: `🎫 Votre ticket a été ouvert sur Discord.<br><br>Cliquer ci-dessous pour y accéder directement.`,
+                        icon: "💬",
+                        confirmText: "Ouvrir sur Discord",
+                        cancelText: "Fermer",
+                        onConfirm: () => window.open(result.channelUrl, '_blank')
+                    });
+                } else {
+                    showPopup({
+                        title: "Erreur",
+                        message: "Erreur lors de l'ouverture du ticket : " + (result.error || "erreur inconnue."),
+                        icon: "❌"
+                    });
+                }
+            } catch (error) {
+                console.error("Erreur création ticket:", error);
+                showPopup({
+                    title: "Erreur réseau",
+                    message: "Impossible de contacter le serveur pour ouvrir le ticket.",
+                    icon: "🌐"
+                });
+            }
+        }
+
+        function escapeHTML(str) {
+            return str ? str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)) : '';
+        }
+
+        document.getElementById('annonce-form').addEventListener('submit', creerAnnonce);
+        let searchDebounceTimer;
+        document.getElementById('search-bar').addEventListener('input', () => {
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(filtrerAnnonces, 200);
+        });
+        document.getElementById('filter-category').addEventListener('change', filtrerAnnonces);
+        document.getElementById('filter-type').addEventListener('change', filtrerAnnonces);
+        document.getElementById('logo-btn').addEventListener('click', () => switchPage('accueil'));
+        document.getElementById('cancel-form-btn').addEventListener('click', () => switchPage('accueil'));
+        document.getElementById('back-home-btn').addEventListener('click', () => switchPage('accueil'));
+        document.getElementById('hero-depot-btn').addEventListener('click', window.allerAuDepot);
+        document.getElementById('hero-search-btn').addEventListener('click', () => {
+            document.getElementById('search-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.getElementById('search-bar').focus();
+        });
+        document.getElementById('detail-back-btn').addEventListener('click', () => switchPage('accueil'));
+
+        document.addEventListener('click', (event) => {
+            const menu = document.getElementById('user-menu');
+            if (menu && !menu.contains(event.target)) {
+                menu.classList.remove('open');
+            }
+        });
+
+        checkDiscordCallback();
         updateNavbar();
         ecouterAnnonces();
+        chargerCompteurTickets();
+        // ---------- ÉCRAN DE MISE À JOUR (une seule fois par visiteur) ----------
+        // Change ce numéro de version si tu veux redéclencher l'écran pour tout le
+        // monde lors d'une prochaine grosse mise à jour (ex: 'xparia_update_seen_v3').
+        const UPDATE_FLAG = 'xparia_update_seen_v2';
+
+        function initUpdateOverlay() {
+            const overlay = document.getElementById('update-overlay');
+            if (!overlay) return;
+
+            if (localStorage.getItem(UPDATE_FLAG)) {
+                overlay.classList.remove('open');
+                return;
+            }
+
+            overlay.classList.add('open');
+
+            document.getElementById('update-start-btn').addEventListener('click', (e) => {
+                const btn = e.currentTarget;
+                const track = document.getElementById('update-progress-track');
+                const bar = document.getElementById('update-progress-bar');
+
+                btn.disabled = true;
+                btn.textContent = 'Mise à jour en cours...';
+                track.style.display = 'block';
+
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 25 + 10;
+                    if (progress >= 100) {
+                        progress = 100;
+                        bar.style.width = '100%';
+                        clearInterval(interval);
+                        localStorage.setItem(UPDATE_FLAG, '1');
+                        setTimeout(() => {
+                            overlay.classList.remove('open');
+                        }, 400);
+                    } else {
+                        bar.style.width = progress + '%';
+                    }
+                }, 350);
+            });
+        }
+
+        initUpdateOverlay();
     </script>
 </body>
 </html>
