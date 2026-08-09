@@ -8,18 +8,18 @@
     <!-- Méta-balises SEO & Open Graph (Aperçu Discord / Réseaux) -->
     <meta name="description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://market.xparia-discord.workers.dev/">
+    <meta property="og:url" content="https://xparia-market.xparia-discord.workers.dev/">
     <meta property="og:title" content="Xparia Market — Donnez une seconde vie à votre serveur Discord">
     <meta property="og:description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
-    <meta property="og:image" content="https://market.xparia-discord.workers.dev/logo.jpg">
+    <meta property="og:image" content="https://xparia-market.xparia-discord.workers.dev/logo.jpg">
     <meta property="theme-color" content="#FF8A00">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://market.xparia-discord.workers.dev/">
+    <meta property="twitter:url" content="https://xparia-market.xparia-discord.workers.dev/">
     <meta property="twitter:title" content="Xparia Market — Donnez une seconde vie à votre serveur Discord">
     <meta property="twitter:description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
-    <meta property="twitter:image" content="https://market.xparia-discord.workers.dev/logo.jpg">
+    <meta property="twitter:image" content="https://xparia-market.xparia-discord.workers.dev/logo.jpg">
 
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <style>
@@ -906,6 +906,26 @@
         </div>
     </div>
 
+    <!-- ÉCRAN DE MISE À JOUR (une seule fois par visiteur) -->
+    <div class="modal" id="update-overlay">
+        <div class="modal-content">
+            <div class="modal-icon">🎉</div>
+            <h3>Xparia Market fait peau neuve !</h3>
+            <div>
+                <p style="color: var(--text-muted); margin-bottom: 1.25rem;">
+                    Nouvelle interface, annonces mises en avant, pages détaillées avec captures d'écran...
+                    Cliquez pour découvrir la nouvelle version.
+                </p>
+                <div id="update-progress-track" style="display:none; background: var(--bg-sidebar); border-radius: 6px; height: 10px; overflow: hidden; margin-bottom: 1.25rem;">
+                    <div id="update-progress-bar" style="background: var(--blurple); height: 100%; width: 0%; transition: width 0.4s ease;"></div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="update-start-btn">Mettre à jour</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
@@ -939,7 +959,7 @@
         const db = getFirestore(app);
         const annoncesRef = collection(db, 'annonces');
 
-        const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&response_type=token&redirect_uri=https%3A%2F%2Fmarket.xparia-discord.workers.dev%2F&scope=identify+connections+guilds";
+        const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&response_type=token&redirect_uri=https%3A%2F%2Fxparia-market.xparia-discord.workers.dev%2F&scope=identify+connections+guilds";
 
         let currentUser = localStorage.getItem('currentUser') || null;
         let currentUserId = localStorage.getItem('currentUserId') || null;
@@ -1050,7 +1070,7 @@
 
             if (code) {
                 try {
-                    const res = await fetch(`https://market.xparia-discord.workers.dev/?code=${code}`);
+                    const res = await fetch(`https://xparia-market.xparia-discord.workers.dev/?code=${code}`);
                     const data = await res.json();
                     if (data.access_token) {
                         accessToken = data.access_token;
@@ -1425,7 +1445,7 @@
             }
 
             try {
-                const res = await fetch('https://market.xparia-discord.workers.dev/api/create-ticket', {
+                const res = await fetch('/api/create-ticket', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -1498,6 +1518,50 @@
         updateNavbar();
         ecouterAnnonces();
         chargerCompteurTickets();
+        // ---------- ÉCRAN DE MISE À JOUR (une seule fois par visiteur) ----------
+        // Change ce numéro de version si tu veux redéclencher l'écran pour tout le
+        // monde lors d'une prochaine grosse mise à jour (ex: 'xparia_update_seen_v3').
+        const UPDATE_FLAG = 'xparia_update_seen_v2';
+
+        function initUpdateOverlay() {
+            const overlay = document.getElementById('update-overlay');
+            if (!overlay) return;
+
+            if (localStorage.getItem(UPDATE_FLAG)) {
+                overlay.classList.remove('open');
+                return;
+            }
+
+            overlay.classList.add('open');
+
+            document.getElementById('update-start-btn').addEventListener('click', (e) => {
+                const btn = e.currentTarget;
+                const track = document.getElementById('update-progress-track');
+                const bar = document.getElementById('update-progress-bar');
+
+                btn.disabled = true;
+                btn.textContent = 'Mise à jour en cours...';
+                track.style.display = 'block';
+
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 25 + 10;
+                    if (progress >= 100) {
+                        progress = 100;
+                        bar.style.width = '100%';
+                        clearInterval(interval);
+                        localStorage.setItem(UPDATE_FLAG, '1');
+                        setTimeout(() => {
+                            overlay.classList.remove('open');
+                        }, 400);
+                    } else {
+                        bar.style.width = progress + '%';
+                    }
+                }, 350);
+            });
+        }
+
+        initUpdateOverlay();
     </script>
 </body>
 </html>
