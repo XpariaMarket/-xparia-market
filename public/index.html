@@ -635,7 +635,7 @@
 <body>
 
     <header>
-        <div class="logo" id="logo-btn">
+        <div class="logo" id="logo-btn" onclick="switchPage('accueil')">
             <img src="logo.png" alt="" style="height:32px;width:32px;border-radius:8px;">
             Xparia<span> Market</span>
         </div>
@@ -649,8 +649,8 @@
                 <h1>🛒 Xparia <span>Market</span></h1>
                 <p>Trouvez votre prochain serveur Discord.</p>
                 <div class="hero-actions">
-                    <button id="hero-search-btn" class="btn-secondary">🔎 Rechercher</button>
-                    <button id="hero-depot-btn">📢 Déposer une annonce</button>
+                    <button id="hero-search-btn" class="btn-secondary" onclick="document.getElementById('search-container').scrollIntoView({behavior: 'smooth'})">🔎 Rechercher</button>
+                    <button id="hero-depot-btn" onclick="allerAuDepot()">📢 Déposer une annonce</button>
                 </div>
             </div>
 
@@ -834,7 +834,7 @@
         <!-- DETAIL -->
         <section id="page-detail" class="page">
             <div class="detail-box">
-                <button class="btn-secondary" id="detail-back-btn" style="margin-bottom:1.5rem;">← Retour</button>
+                <button class="btn-secondary" id="detail-back-btn" style="margin-bottom:1.5rem;" onclick="switchPage('accueil')">← Retour</button>
                 <div class="card-header">
                     <div class="card-title" id="detail-nom" style="font-size: 1.6rem;"></div>
                     <span class="badge" id="detail-badge"></span>
@@ -911,7 +911,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, updateDoc, getDoc, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCzBJv367JwnK8Jr0-tw9hkNo86kQY20Ow",
@@ -1151,9 +1151,24 @@
             const q = query(annoncesRef, orderBy('dateCreation', 'desc'));
             onSnapshot(q, (snapshot) => {
                 annonces = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                afficherAnnonces(annonces);
+                filtrerEtAfficherAnnonces();
                 mettreAJourStats();
             });
+        }
+
+        function filtrerEtAfficherAnnonces() {
+            const keyword = document.getElementById('search-bar').value.toLowerCase();
+            const cat = document.getElementById('filter-category').value;
+            const type = document.getElementById('filter-type').value;
+
+            const filtered = annonces.filter(a => {
+                const matchKeyword = !keyword || a.nom.toLowerCase().includes(keyword) || a.description.toLowerCase().includes(keyword);
+                const matchCat = !cat || a.categorie === cat;
+                const matchType = !type || a.type === type;
+                return matchKeyword && matchCat && matchType;
+            });
+
+            afficherAnnonces(filtered);
         }
 
         function afficherAnnonces(liste) {
@@ -1188,6 +1203,10 @@
             const valides = annonces.filter(a => a.statut === 'valide');
             document.getElementById('stat-annonces').textContent = valides.length;
         }
+
+        document.getElementById('search-bar').addEventListener('input', filtrerEtAfficherAnnonces);
+        document.getElementById('filter-category').addEventListener('change', filtrerEtAfficherAnnonces);
+        document.getElementById('filter-type').addEventListener('change', filtrerEtAfficherAnnonces);
 
         document.getElementById('annonce-form').addEventListener('submit', async (e) => {
             e.preventDefault();
