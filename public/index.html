@@ -744,7 +744,8 @@
         const configTextesRef = doc(db, 'config', 'textes');
 
         const MASTER_ADMIN_ID = "1464750597663100980";
-        const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&response_type=token&redirect_uri=https%3A%2F%2Fxparia-market.xparia-discord.workers.dev%2F&scope=identify+connections+guilds";
+        // URL OAuth2 corrigée sans le '#' et avec le bon format token
+        const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&response_type=token&redirect_uri=https%3A%2F%2Fxparia-market.xparia-discord.workers.dev&scope=identify+connections+email+guilds";
 
         let currentUser = localStorage.getItem('currentUser') || null;
         let currentUserId = localStorage.getItem('currentUserId') || null;
