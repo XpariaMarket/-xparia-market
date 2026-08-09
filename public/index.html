@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xparia Market — Donnez une seconde vie à votre serveur Discord.</title>
 
-    <!-- Méta-balises SEO & Open Graph -->
-    <meta name="description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
+    <meta name="description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://xparia-market.xparia-discord.workers.dev/">
     <meta property="og:title" content="Xparia Market — Donnez une seconde vie à votre serveur Discord">
-    <meta property="og:description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
-    <meta property="og:image" content="https://xparia-market.xparia-discord.workers.dev/logo.png">
+    <meta property="og:description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord.">
     <meta property="theme-color" content="#FF8A00">
 
     <link rel="icon" type="image/png" href="logo.png">
@@ -364,7 +362,7 @@
             overflow: hidden;
         }
 
-        /* --- PANEL ADMIN AVANCÉ --- */
+        /* --- PANEL ADMIN EXCLUSIF & WHITELIST --- */
         .admin-layout {
             display: grid;
             grid-template-columns: 260px 1fr;
@@ -627,7 +625,7 @@
                     <div class="stat-label">serveurs publiés</div>
                 </div>
                 <div>
-                    <div class="stat-value" id="stat-membres">15</div>
+                    <div class="stat-value" id="stat-membres">0</div>
                     <div class="stat-label">membres concernés</div>
                 </div>
                 <div>
@@ -640,16 +638,9 @@
                 <input type="text" id="search-bar" placeholder="Rechercher par mot-clé...">
                 <select id="filter-category">
                     <option value="">Toutes les catégories</option>
-                    <option value="gaming">Gaming</option>
-                    <option value="communauté">Communauté</option>
-                    <option value="rp">Roleplay (RP)</option>
-                    <option value="dev">Dév & Technologie</option>
                 </select>
                 <select id="filter-type">
                     <option value="">Tous les types</option>
-                    <option value="Don Gratuit">Don Gratuit</option>
-                    <option value="Échange">Échange</option>
-                    <option value="Reprise Bénévole">Reprise Bénévole</option>
                 </select>
             </div>
 
@@ -814,18 +805,13 @@
                     <div class="form-group">
                         <label for="server-category">Catégorie</label>
                         <select id="server-category" required>
-                            <option value="gaming">Gaming</option>
-                            <option value="communauté">Communauté</option>
-                            <option value="rp">Roleplay (RP)</option>
-                            <option value="dev">Dév & Technologie</option>
+                            <!-- Vide -->
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="server-type">Type de cession</label>
                         <select id="server-type" required>
-                            <option value="Don Gratuit">Don Gratuit</option>
-                            <option value="Échange">Échange</option>
-                            <option value="Reprise Bénévole">Reprise Bénévole</option>
+                            <!-- Vide -->
                         </select>
                     </div>
                     <div class="form-group">
@@ -879,7 +865,6 @@
         let whitelistAdmins = JSON.parse(localStorage.getItem('whitelistAdmins') || JSON.stringify([MASTER_ADMIN_ID]));
         let restrictedUsers = JSON.parse(localStorage.getItem('restrictedUsers') || "[]");
 
-        // URL OAuth2 complète avec le bot et tous les scopes demandés
         const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fxparia-market.xparia-discord.workers.dev%2F%23&integration_type=0&scope=identify+connections+guilds+bot";
 
         let currentUser = localStorage.getItem('currentUser') || null;
@@ -1173,21 +1158,16 @@
             showPopup({ title: "Succès", message: "Annonce soumise pour validation !", icon: "⏳", onConfirm: () => switchPage('accueil') });
         });
 
-        // Gestion du code d'autorisation OAuth2 retourné par Discord
         const urlParams = new URLSearchParams(window.location.search);
         const authCode = urlParams.get('code');
         if (authCode) {
-            // Nettoyage de l'URL pour retirer le code
             window.history.replaceState({}, document.title, window.location.pathname);
             
-            // Simulation d'une authentification réussie ou traitement Cloudflare Worker / Backend pour échanger le code
-            // (Si votre Worker gère l'échange de token via l'URL / ?code=..., vous pouvez adapter ici)
             showPopup({
                 title: "Connexion Discord",
                 message: "Autorisation du bot et authentification réussies !",
                 icon: "🤖",
                 onConfirm: () => {
-                    // Exemple de persistance locale simulée si le code est intercepté
                     currentUser = "Administrateur / Utilisateur";
                     currentUserId = MASTER_ADMIN_ID;
                     localStorage.setItem('currentUser', currentUser);
