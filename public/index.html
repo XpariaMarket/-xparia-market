@@ -237,19 +237,6 @@
         .hero {
             text-align: center;
             margin-bottom: 3rem;
-            position: relative; /* Permet de positionner l'animation par rapport au hero */
-            padding-right: 140px; /* Espace pour éviter que le texte ne chevauche l'animation sur grand écran */
-        }
-
-        /* --- ZONE ANIMATION XYRO --- */
-        #xyro-canvas {
-            position: absolute;
-            right: 0px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 130px;
-            height: auto;
-            pointer-events: none;
         }
 
         .hero h1 {
@@ -670,26 +657,15 @@
         }
 
         @media (max-width: 900px) {
-            .hero {
-                padding-right: 0;
-            }
             .container { padding: 0 1rem; }
             .hero h1 { font-size: 2.2rem; }
             .grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
         }
 
         @media (max-width: 600px) {
-            .hero {
-                padding-right: 0;
-            }
-            #xyro-canvas {
+            #xyro-mascot {
                 width: 110px;
                 right: 4px;
-                position: relative;
-                top: auto;
-                transform: none;
-                margin: 1rem auto 0 auto;
-                display: block;
             }
             header { flex-wrap: wrap; gap: 0.75rem; padding: 0.85rem 1rem; }
             .logo { font-size: 1.15rem; }
@@ -735,9 +711,6 @@
         <!-- ACCUEIL -->
         <section id="page-accueil" class="page active">
             <div class="hero">
-                <!-- Emplacement de l'animation / image Xyro ajouté -->
-                <canvas id="xyro-canvas"></canvas>
-
                 <h1>🛒 Xparia <span>Market</span></h1>
                 <p style="font-style: normal; font-size: 1.15rem;">Trouvez votre prochain serveur Discord.</p>
                 <p>Découvrez des serveurs disponibles à la reprise, à l'échange ou au don.</p>
@@ -948,11 +921,655 @@
                     Cliquez pour découvrir la nouvelle version.
                 </p>
                 <div id="update-progress-track" style="display:none; background: var(--bg-sidebar); border-radius: 6px; height: 10px; overflow: hidden; margin-bottom: 1.25rem;">
-                    <div id="update-progress-bar" style="background: var(--blurple); height: 100%; width: 0%;"></div>
+                    <div id="update-progress-bar" style="background: var(--blurple); height: 100%; width: 0%; transition: width 0.4s ease;"></div>
                 </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="update-start-btn">Mettre à jour</button>
             </div>
         </div>
     </div>
 
+    <!-- MASCOTTE XYRO (image animée transparente, boucle infinie native) -->
+    <img id="xyro-mascot" src="xyro.webp" alt="" aria-hidden="true"
+         style="position:fixed; bottom:0; right:8px; width:190px; height:auto; pointer-events:none; z-index:60;">
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            deleteDoc, 
+            doc, 
+            onSnapshot, 
+            query, 
+            orderBy, 
+            serverTimestamp,
+            setDoc,
+            getDoc,
+            increment
+        } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCzBJv367JwnK8Jr0-tw9hkNo86kQY20Ow",
+            authDomain: "xparia-markey.firebaseapp.com",
+            projectId: "xparia-markey",
+            storageBucket: "xparia-markey.firebasestorage.app",
+            messagingSenderId: "720343322758",
+            appId: "1:720343322758:web:fbed10b7631137b522c107",
+            measurementId: "G-43WWKNL9YS"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+        const annoncesRef = collection(db, 'annonces');
+
+        const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&response_type=token&redirect_uri=https%3A%2F%2Fxparia-market.xparia-discord.workers.dev%2F&scope=identify+connections+guilds";
+
+        let currentUser = localStorage.getItem('currentUser') || null;
+        let currentUserId = localStorage.getItem('currentUserId') || null;
+        let accessToken = localStorage.getItem('discordToken') || null;
+        let userGuilds = [];
+        let annonces = [];
+
+        function showPopup({ title = "Information", message = "", icon = "ℹ️", confirmText = "OK", cancelText = null, onConfirm = null }) {
+            const modal = document.getElementById('custom-popup');
+            document.getElementById('popup-title').innerText = title;
+            document.getElementById('popup-message').innerHTML = message;
+            document.getElementById('popup-icon').innerText = icon;
+            
+            const confirmBtn = document.getElementById('popup-confirm-btn');
+            const cancelBtn = document.getElementById('popup-cancel-btn');
+
+            confirmBtn.innerText = confirmText;
+
+            if (cancelText) {
+                cancelBtn.innerText = cancelText;
+                cancelBtn.style.display = 'inline-block';
+            } else {
+                cancelBtn.style.display = 'none';
+            }
+
+            modal.classList.add('open');
+
+            const newConfirmBtn = confirmBtn.cloneNode(true);
+            const newCancelBtn = cancelBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+            cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+
+            newConfirmBtn.addEventListener('click', () => {
+                modal.classList.remove('open');
+                if (onConfirm) onConfirm();
+            });
+
+            newCancelBtn.addEventListener('click', () => {
+                modal.classList.remove('open');
+            });
+        }
+
+        window.switchPage = function(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(`page-${pageId}`).classList.add('active');
+            window.scrollTo(0, 0);
+        };
+
+        window.allerAuDepot = function() {
+            if (!currentUser || !currentUserId) {
+                showPopup({
+                    title: "Connexion requise",
+                    message: "Vous devez impérativement être connecté avec un compte Discord pour pouvoir déposer une annonce.",
+                    icon: "🔒",
+                    confirmText: "Se connecter avec Discord",
+                    cancelText: "Annuler",
+                    onConfirm: window.loginDiscord
+                });
+                return;
+            }
+            switchPage('depot');
+        };
+
+        window.loginDiscord = function() {
+            window.location.href = DISCORD_AUTH_URL;
+        };
+
+        window.logoutDiscord = function() {
+            currentUser = null;
+            currentUserId = null;
+            accessToken = null;
+            userGuilds = [];
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('currentUserId');
+            localStorage.removeItem('discordToken');
+            updateNavbar();
+            filtrerAnnonces();
+            switchPage('accueil');
+            showPopup({ title: "Déconnexion", message: "Vous avez été déconnecté avec succès.", icon: "🚪" });
+        };
+
+        document.getElementById('link-mentions').addEventListener('click', () => {
+            showPopup({ title: "Mentions légales", message: "Xparia Market est un service bénévole indépendant hébergé sur Cloudflare Workers. Plateforme non affiliée à Discord Inc.", icon: "⚖️" });
+        });
+        document.getElementById('link-privacy').addEventListener('click', () => {
+            showPopup({ title: "Politique de confidentialité", message: "Nous stockons uniquement vos identifiants Discord publics nécessaires pour la vérification de propriété et la création de tickets.", icon: "🔒" });
+        });
+        document.getElementById('link-cgu').addEventListener('click', () => {
+            showPopup({ title: "CGU", message: "Toute transaction financière est strictly interdite. La plateforme est dédiée aux dons, échanges et reprises bénévoles.", icon: "📜" });
+        });
+        document.getElementById('link-features').addEventListener('click', () => {
+            showPopup({ title: "Fonctionnalités", message: "• Vérification de la propriété du serveur via le bot<br>• Publication d'annonces<br>• Tickets automatiques sur Discord", icon: "🚀" });
+        });
+        document.getElementById('link-how').addEventListener('click', () => {
+            showPopup({ title: "Comment ça marche", message: "1. Connectez-vous avec Discord.<br>2. Ajoutez le Bot sur votre serveur.<br>3. Renseignez l'ID du serveur.<br>4. Le site vérifie votre propriété et valide la publication !", icon: "❓" });
+        });
+        document.getElementById('link-faq').addEventListener('click', () => {
+            showPopup({ title: "FAQ", message: "<strong>Comment trouver l'ID d'un serveur ?</strong><br>Activer le Mode Développeur sur Discord > Clic droit sur le serveur > Copier l'ID.", icon: "💡" });
+        });
+        document.getElementById('link-register').addEventListener('click', window.loginDiscord);
+
+        async function checkDiscordCallback() {
+            const searchParams = new URLSearchParams(window.location.search);
+            const hashParams = new URLSearchParams(window.location.hash.substring(1));
+            
+            const code = searchParams.get('code');
+            const token = hashParams.get('access_token') || searchParams.get('access_token');
+
+            if (code) {
+                try {
+                    const res = await fetch(`https://xparia-market.xparia-discord.workers.dev/?code=${code}`);
+                    const data = await res.json();
+                    if (data.access_token) {
+                        accessToken = data.access_token;
+                        localStorage.setItem('discordToken', accessToken);
+                        await verifierTokenDiscord();
+                    }
+                } catch (error) {
+                    console.error("Erreur d'échange du code Discord:", error);
+                }
+                window.history.replaceState({}, document.title, window.location.origin + window.location.pathname);
+            } else if (token) {
+                accessToken = token;
+                localStorage.setItem('discordToken', token);
+                await verifierTokenDiscord();
+                window.history.replaceState({}, document.title, window.location.origin + window.location.pathname);
+            } else if (accessToken) {
+                chargerServeursUtilisateur();
+            }
+        }
+
+        async function verifierTokenDiscord() {
+            try {
+                const response = await fetch('https://discord.com/api/users/@me', {
+                    headers: { Authorization: `Bearer ${accessToken}` }
+                });
+                const data = await response.json();
+                if (response.ok && data.username) {
+                    currentUser = data.username;
+                    currentUserId = data.id;
+                    localStorage.setItem('currentUser', currentUser);
+                    localStorage.setItem('currentUserId', currentUserId);
+                    
+                    await chargerServeursUtilisateur();
+
+                    updateNavbar();
+                    showPopup({
+                        title: "Connexion réussie !",
+                        message: `Bienvenue sur Xparia Market, <strong>${escapeHTML(currentUser)}</strong> !`,
+                        icon: "🎉"
+                    });
+                }
+            } catch (error) {
+                console.error("Erreur vérification utilisateur Discord:", error);
+            }
+        }
+
+        async function chargerServeursUtilisateur() {
+            if (!accessToken) return;
+            try {
+                const res = await fetch('https://discord.com/api/users/@me/guilds', {
+                    headers: { Authorization: `Bearer ${accessToken}` }
+                });
+                if (res.ok) {
+                    userGuilds = await res.json();
+                } else {
+                    console.warn("Échec de la récupération des serveurs (Token expiré ou invalide).");
+                    userGuilds = [];
+                }
+            } catch (e) {
+                console.error("Impossible de récupérer la liste des serveurs:", e);
+                userGuilds = [];
+            }
+        }
+
+        function updateNavbar() {
+            const nav = document.getElementById('nav-actions');
+
+            if(currentUser) {
+                const initiale = escapeHTML(currentUser).charAt(0).toUpperCase();
+                nav.innerHTML = `
+                    <div class="user-menu" id="user-menu">
+                        <button class="user-trigger" id="user-trigger-btn">
+                            <span class="user-avatar">${initiale}</span>
+                            <span>${escapeHTML(currentUser)}</span>
+                        </button>
+                        <div class="user-dropdown" id="user-dropdown">
+                            <div class="user-dropdown-header">
+                                Connecté avec Discord
+                                <strong>${escapeHTML(currentUser)}</strong>
+                            </div>
+                            <a href="#" id="info-dropdown-btn">ℹ️ À propos</a>
+                            <a href="https://discord.gg/bfXMVMatNf" target="_blank">💬 Support</a>
+                            <button type="button" class="dropdown-item danger" id="logout-btn">🚪 Déconnexion</button>
+                        </div>
+                    </div>
+                    <button id="depot-nav-btn">Déposer une annonce</button>
+                `;
+
+                document.getElementById('user-trigger-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    document.getElementById('user-menu').classList.toggle('open');
+                });
+                document.getElementById('logout-btn').addEventListener('click', window.logoutDiscord);
+                document.getElementById('depot-nav-btn').addEventListener('click', window.allerAuDepot);
+                document.getElementById('info-dropdown-btn').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('user-menu').classList.remove('open');
+                    switchPage('apropos');
+                });
+            } else {
+                nav.innerHTML = `
+                    <button class="btn-secondary" id="login-nav-btn">Se connecter à Discord</button>
+                    <button id="depot-nav-btn">Déposer une annonce</button>
+                `;
+                document.getElementById('login-nav-btn').addEventListener('click', window.loginDiscord);
+                document.getElementById('depot-nav-btn').addEventListener('click', window.allerAuDepot);
+            }
+        }
+
+        function afficherAnnonces(liste) {
+            const grid = document.getElementById('annonces-grid');
+            grid.innerHTML = "";
+
+            if (liste.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 4rem;">Aucune annonce trouvée.</p>`;
+                return;
+            }
+
+            liste.forEach(art => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.id = art.id;
+                const isOwner = currentUser && currentUser === art.proprietaire;
+                const thumb = (art.screenshots && art.screenshots[0])
+                    ? `<img src="${escapeHTML(art.screenshots[0])}" class="card-thumb" alt="" onerror="this.remove()">`
+                    : '';
+
+                card.innerHTML = `
+                    <div>
+                        ${thumb}
+                        <div class="card-header">
+                            <div class="card-title">${escapeHTML(art.nom)}</div>
+                            <span class="badge">${art.type}</span>
+                        </div>
+                        <div class="card-stats">
+                            <span>👥 ${art.membres} membres</span>
+                            <span>📊 ${art.activite}</span>
+                        </div>
+                        <p class="card-body">${escapeHTML(art.description)}</p>
+                    </div>
+                    <div class="card-actions">
+                        <button style="flex: 1;" class="contact-btn" data-id="${art.id}">
+                            💬 Contacter ${escapeHTML(art.proprietaire)}
+                        </button>
+                        ${isOwner ? `<button class="btn-danger delete-btn" data-id="${art.id}">🗑️</button>` : ''}
+                    </div>
+                `;
+                card.addEventListener('click', () => voirDetail(art.id));
+                grid.appendChild(card);
+            });
+
+            document.querySelectorAll('.contact-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = e.currentTarget.dataset.id;
+                    const annonce = annonces.find(a => a.id === id);
+                    if (annonce) ouvrirTicket(annonce);
+                });
+            });
+
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    supprimerAnnonce(e.currentTarget.dataset.id);
+                });
+            });
+        }
+
+        function voirDetail(id) {
+            const art = annonces.find(a => a.id === id);
+            if (!art) return;
+
+            document.getElementById('detail-nom').innerText = art.nom;
+            document.getElementById('detail-badge').innerText = art.type;
+            document.getElementById('detail-stats').innerHTML =
+                `<span>👥 ${art.membres} membres</span><span>📊 ${art.activite}</span><span>🗂️ ${art.categorie}</span>`;
+            document.getElementById('detail-description').innerText = art.description;
+
+            const gallery = document.getElementById('detail-gallery');
+            gallery.innerHTML = '';
+            (art.screenshots || []).forEach(url => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = '';
+                img.onerror = () => img.remove();
+                img.addEventListener('click', () => window.open(url, '_blank'));
+                gallery.appendChild(img);
+            });
+
+            const contactBtn = document.getElementById('detail-contact-btn');
+            contactBtn.textContent = `💬 Contacter ${art.proprietaire}`;
+            contactBtn.onclick = () => ouvrirTicket(art);
+
+            switchPage('detail');
+        }
+
+        function mettreAJourStats() {
+            document.getElementById('stat-annonces').textContent = annonces.length;
+            const totalMembres = annonces.reduce((sum, a) => sum + (parseInt(a.membres) || 0), 0);
+            document.getElementById('stat-membres').textContent = totalMembres.toLocaleString('fr-FR');
+        }
+
+        const statsDocRef = doc(db, 'stats', 'compteurs');
+
+        async function chargerCompteurTickets() {
+            try {
+                const snap = await getDoc(statsDocRef);
+                document.getElementById('stat-tickets').textContent = snap.exists() ? (snap.data().tickets || 0) : 0;
+            } catch (error) {
+                console.error("Erreur lecture compteur tickets:", error);
+            }
+        }
+
+        async function incrementerCompteurTickets() {
+            try {
+                await setDoc(statsDocRef, { tickets: increment(1) }, { merge: true });
+                chargerCompteurTickets();
+            } catch (error) {
+                console.error("Erreur incrémentation compteur tickets:", error);
+            }
+        }
+
+        function ecouterAnnonces() {
+            const q = query(annoncesRef, orderBy('dateCreation', 'desc'));
+            onSnapshot(q, (snapshot) => {
+                annonces = snapshot.docs.map(doc => ({ 
+                    id: doc.id, 
+                    ...doc.data({ serverTimestamps: 'estimate' })
+                }));
+                filtrerAnnonces();
+                mettreAJourStats();
+            }, (error) => {
+                console.error("Erreur d'écoute Firestore :", error);
+            });
+        }
+
+        function filtrerAnnonces() {
+            const searchVal = document.getElementById('search-bar').value.toLowerCase();
+            const catVal = document.getElementById('filter-category').value;
+            const typeVal = document.getElementById('filter-type').value;
+
+            const resultats = annonces.filter(art => {
+                const matchSearch = art.nom.toLowerCase().includes(searchVal) || art.description.toLowerCase().includes(searchVal);
+                const matchCat = catVal === "" || art.categorie === catVal;
+                const matchType = typeVal === "" || art.type === typeVal;
+                return matchSearch && matchCat && matchType;
+            });
+
+            afficherAnnonces(resultats);
+        }
+
+        async function creerAnnonce(event) {
+            event.preventDefault();
+
+            if (!currentUser || !currentUserId) {
+                showPopup({
+                    title: "Connexion requise",
+                    message: "Vous devez être connecté avec un compte Discord pour publier une annonce.",
+                    icon: "🔒",
+                    confirmText: "Se connecter avec Discord",
+                    cancelText: "Annuler",
+                    onConfirm: window.loginDiscord
+                });
+                return;
+            }
+
+            const inputServerId = document.getElementById('server-id').value.trim();
+
+            if (userGuilds.length === 0) {
+                await chargerServeursUtilisateur();
+            }
+
+            if (userGuilds.length === 0) {
+                showPopup({
+                    title: "Session expirée",
+                    message: "Impossible d'accéder à la liste de vos serveurs. Veuillez vous déconnecter et vous reconnecter avec Discord.",
+                    icon: "🔑",
+                    confirmText: "Se reconnecter",
+                    onConfirm: window.loginDiscord
+                });
+                return;
+            }
+
+            const serveurTrouve = userGuilds.find(g => g.id === inputServerId);
+
+            if (!serveurTrouve) {
+                showPopup({
+                    title: "Serveur non trouvé",
+                    message: "Impossible de trouver un serveur correspondant à cet ID dans votre compte Discord. Vérifiez l'ID entré.",
+                    icon: "❌"
+                });
+                return;
+            }
+
+            if (!serveurTrouve.owner) {
+                showPopup({
+                    title: "Accès refusé",
+                    message: `Vous êtes présent sur le serveur <strong>${escapeHTML(serveurTrouve.name)}</strong> mais vous n'en êtes <strong>PAS le propriétaire (Owner)</strong>.<br><br>Seul le propriétaire du serveur peut déposer une annonce.`,
+                    icon: "🚫"
+                });
+                return;
+            }
+
+            const screenshots = [
+                document.getElementById('server-screenshot-1').value.trim(),
+                document.getElementById('server-screenshot-2').value.trim(),
+                document.getElementById('server-screenshot-3').value.trim()
+            ].filter(Boolean);
+
+            const nouvelleAnnonce = {
+                serverId: inputServerId,
+                nom: document.getElementById('server-name').value,
+                membres: parseInt(document.getElementById('server-members').value),
+                categorie: document.getElementById('server-category').value,
+                activite: document.getElementById('server-activity').value,
+                type: document.getElementById('server-type').value,
+                description: document.getElementById('server-reason').value,
+                screenshots: screenshots,
+                proprietaire: currentUser,
+                proprietaireId: currentUserId,
+                dateCreation: serverTimestamp()
+            };
+
+            try {
+                await addDoc(annoncesRef, nouvelleAnnonce);
+                document.getElementById('annonce-form').reset();
+                showPopup({
+                    title: "Propriété vérifiée !",
+                    message: `Félicitations, vous êtes bien le propriétaire de <strong>${escapeHTML(serveurTrouve.name)}</strong>. Votre annonce est en ligne !`,
+                    icon: "✅",
+                    onConfirm: () => switchPage('accueil')
+                });
+            } catch (error) {
+                console.error("Erreur ajout annonce:", error);
+                showPopup({
+                    title: "Erreur",
+                    message: "Erreur lors de la publication : " + error.message,
+                    icon: "⚠️"
+                });
+            }
+        }
+
+        async function supprimerAnnonce(id) {
+            showPopup({
+                title: "Confirmation",
+                message: "Voulez-vous vraiment retirer cette annonce ?",
+                icon: "🗑️",
+                confirmText: "Oui, supprimer",
+                cancelText: "Annuler",
+                onConfirm: async () => {
+                    try {
+                        await deleteDoc(doc(db, 'annonces', id));
+                        showPopup({ title: "Supprimé", message: "L'annonce a été retirée.", icon: "👍" });
+                    } catch (error) {
+                        console.error("Erreur suppression:", error);
+                    }
+                }
+            });
+        }
+
+        async function ouvrirTicket(annonce) {
+            if (!currentUser || !currentUserId) {
+                showPopup({
+                    title: "Connexion requise",
+                    message: "Il faut être connecté avec Discord pour ouvrir un ticket.",
+                    icon: "🔒",
+                    confirmText: "Se connecter avec Discord",
+                    cancelText: "Annuler",
+                    onConfirm: window.loginDiscord
+                });
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/create-ticket', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        annonceNom: annonce.nom,
+                        proprietaireUsername: annonce.proprietaire,
+                        proprietaireId: annonce.proprietaireId || null,
+                        demandeurUsername: currentUser,
+                        demandeurId: currentUserId
+                    })
+                });
+                const result = await res.json();
+
+                if (res.ok && result.success) {
+                    incrementerCompteurTickets();
+                    showPopup({
+                        title: "Ticket créé !",
+                        message: `🎫 Votre ticket a été ouvert sur Discord.<br><br>Cliquer ci-dessous pour y accéder directement.`,
+                        icon: "💬",
+                        confirmText: "Ouvrir sur Discord",
+                        cancelText: "Fermer",
+                        onConfirm: () => window.open(result.channelUrl, '_blank')
+                    });
+                } else {
+                    showPopup({
+                        title: "Erreur",
+                        message: "Erreur lors de l'ouverture du ticket : " + (result.error || "erreur inconnue."),
+                        icon: "❌"
+                    });
+                }
+            } catch (error) {
+                console.error("Erreur création ticket:", error);
+                showPopup({
+                    title: "Erreur réseau",
+                    message: "Impossible de contacter le serveur pour ouvrir le ticket.",
+                    icon: "🌐"
+                });
+            }
+        }
+
+        function escapeHTML(str) {
+            return str ? str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)) : '';
+        }
+
+        document.getElementById('annonce-form').addEventListener('submit', creerAnnonce);
+        let searchDebounceTimer;
+        document.getElementById('search-bar').addEventListener('input', () => {
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(filtrerAnnonces, 200);
+        });
+        document.getElementById('filter-category').addEventListener('change', filtrerAnnonces);
+        document.getElementById('filter-type').addEventListener('change', filtrerAnnonces);
+        document.getElementById('logo-btn').addEventListener('click', () => switchPage('accueil'));
+        document.getElementById('cancel-form-btn').addEventListener('click', () => switchPage('accueil'));
+        document.getElementById('back-home-btn').addEventListener('click', () => switchPage('accueil'));
+        document.getElementById('hero-depot-btn').addEventListener('click', window.allerAuDepot);
+        document.getElementById('hero-search-btn').addEventListener('click', () => {
+            document.getElementById('search-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.getElementById('search-bar').focus();
+        });
+        document.getElementById('detail-back-btn').addEventListener('click', () => switchPage('accueil'));
+
+        document.addEventListener('click', (event) => {
+            const menu = document.getElementById('user-menu');
+            if (menu && !menu.contains(event.target)) {
+                menu.classList.remove('open');
+            }
+        });
+
+        checkDiscordCallback();
+        updateNavbar();
+        ecouterAnnonces();
+        chargerCompteurTickets();
+        // ---------- ÉCRAN DE MISE À JOUR (une seule fois par visiteur) ----------
+        // Change ce numéro de version si tu veux redéclencher l'écran pour tout le
+        // monde lors d'une prochaine grosse mise à jour (ex: 'xparia_update_seen_v3').
+        const UPDATE_FLAG = 'xparia_update_seen_v2';
+
+        function initUpdateOverlay() {
+            const overlay = document.getElementById('update-overlay');
+            if (!overlay) return;
+
+            if (localStorage.getItem(UPDATE_FLAG)) {
+                overlay.classList.remove('open');
+                return;
+            }
+
+            overlay.classList.add('open');
+
+            document.getElementById('update-start-btn').addEventListener('click', (e) => {
+                const btn = e.currentTarget;
+                const track = document.getElementById('update-progress-track');
+                const bar = document.getElementById('update-progress-bar');
+
+                btn.disabled = true;
+                btn.textContent = 'Mise à jour en cours...';
+                track.style.display = 'block';
+
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 25 + 10;
+                    if (progress >= 100) {
+                        progress = 100;
+                        bar.style.width = '100%';
+                        clearInterval(interval);
+                        localStorage.setItem(UPDATE_FLAG, '1');
+                        setTimeout(() => {
+                            overlay.classList.remove('open');
+                        }, 400);
+                    } else {
+                        bar.style.width = progress + '%';
+                    }
+                }, 350);
+            });
+        }
+
+        initUpdateOverlay();
+    </script>
 </body>
 </html>
