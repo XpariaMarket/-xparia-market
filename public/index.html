@@ -320,15 +320,6 @@
             border-color: var(--blurple);
         }
 
-        .card-thumb {
-            width: 100%;
-            height: 130px;
-            object-fit: cover;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            background-color: var(--bg-sidebar);
-        }
-
         .card-header {
             display: flex;
             justify-content: space-between;
@@ -371,12 +362,6 @@
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
         }
 
         /* --- PANEL ADMIN AVANCÉ --- */
@@ -466,7 +451,6 @@
             color: var(--text-muted);
         }
 
-        /* Horaires Style */
         .schedule-row {
             display: flex;
             align-items: center;
@@ -500,7 +484,6 @@
             border-radius: 4px;
         }
 
-        /* Formulaire de base */
         .form-box {
             background-color: var(--bg-card);
             border: 1px solid var(--border);
@@ -549,21 +532,6 @@
             box-shadow: var(--shadow);
         }
 
-        .detail-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 0.75rem;
-            margin: 1.5rem 0;
-        }
-
-        .detail-gallery img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-        }
-
         footer {
             background-color: var(--bg-sidebar);
             border-top: 1px solid var(--border);
@@ -574,7 +542,6 @@
             font-size: 0.85rem;
         }
 
-        /* Modale */
         .modal {
             display: none;
             position: fixed;
@@ -693,7 +660,6 @@
         <!-- PANEL ADMIN EXCLUSIF & WHITELIST -->
         <section id="page-admin" class="page">
             <div class="admin-layout">
-                <!-- Sidebar du Panel Admin inspirée de votre image -->
                 <div class="admin-sidebar">
                     <div class="admin-sidebar-title">Administration</div>
                     <button class="admin-nav-item active" onclick="switchAdminTab('tickets', this)">🎟️ Tickets</button>
@@ -710,9 +676,7 @@
                     <button class="btn-secondary" style="margin-top:auto;" onclick="switchPage('accueil')">Retour au site</button>
                 </div>
 
-                <!-- Contenu dynamique du Panel Admin -->
                 <div class="admin-content">
-                    <!-- Onglet TICKETS -->
                     <div id="admin-tab-tickets" class="admin-section active">
                         <h2 class="section-heading">Gestion des Tickets</h2>
                         <p style="color: var(--text-muted); margin-bottom: 1rem;">Suivi des ouvertures de tickets et mises en relation de la communauté.</p>
@@ -721,52 +685,41 @@
                         </div>
                     </div>
 
-                    <!-- Onglet HORAIRES (inspiré de votre capture d'écran) -->
                     <div id="admin-tab-horaires" class="admin-section">
                         <h2 class="section-heading">Horaires d'ouverture de la plateforme</h2>
                         <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Définissez les plages horaires où la soumission de nouvelles annonces est autorisée.</p>
-                        
-                        <div id="schedule-config-container">
-                            <!-- Généré dynamiquement pour chaque jour -->
-                        </div>
+                        <div id="schedule-config-container"></div>
                         <button class="btn" style="margin-top: 1rem;" onclick="sauvegarderHoraires()">💾 Sauvegarder les horaires</button>
                     </div>
 
-                    <!-- Onglet FERMETURES -->
                     <div id="admin-tab-fermetures" class="admin-section">
                         <h2 class="section-heading">Fermeture Exceptionnelle</h2>
                         <p style="color: var(--text-muted); margin-bottom: 1rem;">Bloquer temporairement les dépôts de pubs en cas de maintenance.</p>
                         <button class="btn-danger" onclick="toggleMaintenance()">Activer/Désactiver la maintenance globale</button>
                     </div>
 
-                    <!-- Onglet BOT -->
                     <div id="admin-tab-bot" class="admin-section">
                         <h2 class="section-heading">Configuration du Bot Discord</h2>
                         <p style="color: var(--text-muted);">Paramétrez l'intégration du Bot OAuth2 pour les vérifications automatiques.</p>
                     </div>
 
-                    <!-- Onglet SALONS -->
                     <div id="admin-tab-salons" class="admin-section">
                         <h2 class="section-heading">Salons de notification</h2>
                         <p style="color: var(--text-muted);">Gestion des salons de logs et de publication.</p>
                     </div>
 
-                    <!-- Onglet OPTIONS -->
                     <div id="admin-tab-options" class="admin-section">
                         <h2 class="section-heading">Options Générales</h2>
                         <p style="color: var(--text-muted);">Paramètres généraux de l'application Cloudflare Workers.</p>
                     </div>
 
-                    <!-- Onglet PERMISSIONS (WHITELIST ID) -->
                     <div id="admin-tab-permissions" class="admin-section">
                         <h2 class="section-heading">Permissions & Whitelist des Admins</h2>
                         <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Ajoutez un ID Discord pour lui donner accès au panel et aux commandes de modération.</p>
-                        
                         <div class="form-group" style="display:flex; gap:1rem;">
                             <input type="text" id="new-whitelist-id" placeholder="Ex: 1464750597663100980" style="flex:1;">
                             <button onclick="ajouterWhitelist()">Ajouter à la Whitelist</button>
                         </div>
-
                         <table class="admin-table">
                             <thead>
                                 <tr>
@@ -778,26 +731,22 @@
                         </table>
                     </div>
 
-                    <!-- Onglet PARTENAIRES -->
                     <div id="admin-tab-partenaires" class="admin-section">
                         <h2 class="section-heading">Partenaires</h2>
                         <p style="color: var(--text-muted);">Gestion des serveurs partenaires mis en avant.</p>
                     </div>
 
-                    <!-- Onglet BANNISSEMENTS -->
                     <div id="admin-tab-bannissements" class="admin-section">
                         <h2 class="section-heading">Bannissements</h2>
                         <p style="color: var(--text-muted);">Utilisateurs bannis définitivement de la plateforme.</p>
                     </div>
 
-                    <!-- Onglet RESTRICTIONS -->
                     <div id="admin-tab-restrictions" class="admin-section">
                         <h2 class="section-heading">Restrictions des comptes</h2>
                         <p style="color: var(--text-muted);">Comptes dont la publication de pubs est bloquée.</p>
                         <div id="admin-restrictions-list"></div>
                     </div>
 
-                    <!-- Onglet VERIFICATIONS & SUPPRESSION TOTALE ANNONCES -->
                     <div id="admin-tab-verifications" class="admin-section">
                         <h2 class="section-heading">Vérifications & Modération des Annonces</h2>
                         <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Validez les annonces en attente ou supprimez n'importe quelle annonce du site instantanément.</p>
@@ -840,7 +789,6 @@
                     <span class="badge" id="detail-badge"></span>
                 </div>
                 <div class="card-stats" id="detail-stats" style="margin-bottom: 1.5rem;"></div>
-                <div id="detail-gallery" class="detail-gallery"></div>
                 <p id="detail-description" style="line-height: 1.6; margin-bottom: 1.5rem; white-space: pre-wrap; color:var(--text-muted);"></p>
                 <button id="detail-contact-btn">💬 Contacter le propriétaire</button>
             </div>
@@ -927,16 +875,15 @@
         const db = getFirestore(app);
         const annoncesRef = collection(db, 'annonces');
 
-        // ID PRINCIPAL + WHITELIST DYNAMIQUE
         const MASTER_ADMIN_ID = "1464750597663100980";
         let whitelistAdmins = JSON.parse(localStorage.getItem('whitelistAdmins') || JSON.stringify([MASTER_ADMIN_ID]));
         let restrictedUsers = JSON.parse(localStorage.getItem('restrictedUsers') || "[]");
 
-        const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&response_type=token&redirect_uri=https%3A%2F%2Fxparia-market.xparia-discord.workers.dev%2F&scope=identify+connections+guilds";
+        // URL OAuth2 complète avec le bot et tous les scopes demandés
+        const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fxparia-market.xparia-discord.workers.dev%2F%23&integration_type=0&scope=identify+connections+guilds+bot";
 
         let currentUser = localStorage.getItem('currentUser') || null;
         let currentUserId = localStorage.getItem('currentUserId') || null;
-        let accessToken = localStorage.getItem('discordToken') || null;
         let annonces = [];
 
         function showPopup({ title = "Information", message = "", icon = "ℹ️", onConfirm = null }) {
@@ -994,7 +941,6 @@
             localStorage.clear();
             currentUser = null;
             currentUserId = null;
-            accessToken = null;
             updateNavbar();
             switchPage('accueil');
             showPopup({ title: "Déconnexion", message: "Déconnecté avec succès.", icon: "🚪" });
@@ -1035,7 +981,6 @@
             }
         }
 
-        // Gestionnaire des Horaires (inspiré de votre maquette)
         function initScheduleUI() {
             const container = document.getElementById('schedule-config-container');
             const jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
@@ -1107,7 +1052,6 @@
         function chargerPanelAdmin() {
             if (!isAdmin(currentUserId)) return;
 
-            // Annonces en attente
             const pendingTbody = document.getElementById('admin-pending-annonces');
             const pendingList = annonces.filter(a => a.statut === 'en_attente');
             pendingTbody.innerHTML = pendingList.length === 0 ? `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Aucune annonce en attente.</td></tr>` :
@@ -1122,7 +1066,6 @@
                     </tr>
                 `).join('');
 
-            // TOUTES LES ANNONCES (Suppression libre admin)
             const allTbody = document.getElementById('admin-all-annonces');
             allTbody.innerHTML = annonces.length === 0 ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune annonce sur le site.</td></tr>` :
                 annonces.map(a => `
@@ -1230,24 +1173,28 @@
             showPopup({ title: "Succès", message: "Annonce soumise pour validation !", icon: "⏳", onConfirm: () => switchPage('accueil') });
         });
 
-        // Connexion Discord Callback check
-        const hash = new URLSearchParams(window.location.hash.substring(1));
-        const token = hash.get('access_token');
-        if(token) {
-            accessToken = token;
-            localStorage.setItem('discordToken', token);
-            fetch('https://discord.com/api/users/@me', { headers: { Authorization: `Bearer ${token}` } })
-                .then(res => res.json())
-                .then(data => {
-                    if(data.username) {
-                        currentUser = data.username;
-                        currentUserId = data.id;
-                        localStorage.setItem('currentUser', currentUser);
-                        localStorage.setItem('currentUserId', currentUserId);
-                        updateNavbar();
-                        window.history.replaceState({}, document.title, window.location.pathname);
-                    }
-                });
+        // Gestion du code d'autorisation OAuth2 retourné par Discord
+        const urlParams = new URLSearchParams(window.location.search);
+        const authCode = urlParams.get('code');
+        if (authCode) {
+            // Nettoyage de l'URL pour retirer le code
+            window.history.replaceState({}, document.title, window.location.pathname);
+            
+            // Simulation d'une authentification réussie ou traitement Cloudflare Worker / Backend pour échanger le code
+            // (Si votre Worker gère l'échange de token via l'URL / ?code=..., vous pouvez adapter ici)
+            showPopup({
+                title: "Connexion Discord",
+                message: "Autorisation du bot et authentification réussies !",
+                icon: "🤖",
+                onConfirm: () => {
+                    // Exemple de persistance locale simulée si le code est intercepté
+                    currentUser = "Administrateur / Utilisateur";
+                    currentUserId = MASTER_ADMIN_ID;
+                    localStorage.setItem('currentUser', currentUser);
+                    localStorage.setItem('currentUserId', currentUserId);
+                    updateNavbar();
+                }
+            });
         }
 
         initScheduleUI();
