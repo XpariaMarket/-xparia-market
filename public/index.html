@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xparia Market — Donnez une seconde vie à votre serveur Discord.</title>
 
-    <!-- Méta-balises SEO & Open Graph (Aperçu Discord / Réseaux) -->
+    <!-- Méta-balises SEO & Open Graph -->
     <meta name="description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://xparia-market.xparia-discord.workers.dev/">
@@ -14,28 +14,21 @@
     <meta property="og:image" content="https://xparia-market.xparia-discord.workers.dev/logo.png">
     <meta property="theme-color" content="#FF8A00">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://xparia-market.xparia-discord.workers.dev/">
-    <meta property="twitter:title" content="Xparia Market — Donnez une seconde vie à votre serveur Discord">
-    <meta property="twitter:description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
-    <meta property="twitter:image" content="https://xparia-market.xparia-discord.workers.dev/logo.png">
-
     <link rel="icon" type="image/png" href="logo.png">
     <style>
         :root {
-            --bg-main: #ffffff;
-            --bg-sidebar: #f7f7f8;
-            --bg-card: #ffffff;
-            --text-main: #2b2b2b;
-            --text-muted: #767676;
+            --bg-main: #121214;
+            --bg-sidebar: #18181b;
+            --bg-card: #1f1f23;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
             --blurple: #ff7a1a;
             --blurple-hover: #e5690d;
             --green: #248046;
             --red: #da373c;
             --red-hover: #a92b2f;
-            --border: #ececec;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+            --border: #27272a;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
         * {
@@ -76,22 +69,16 @@
             letter-spacing: 0.5px;
         }
 
-        .logo span {
-            color: var(--blurple);
-        }
+        .logo span { color: var(--blurple); }
 
-        nav {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
+        nav { display: flex; gap: 1rem; align-items: center; }
 
         button, .btn-link {
             background-color: var(--blurple);
             color: white;
             border: none;
             padding: 0.6rem 1.2rem;
-            border-radius: 4px;
+            border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
@@ -102,31 +89,19 @@
             font-size: 0.9rem;
         }
 
-        button:hover, .btn-link:hover {
-            background-color: var(--blurple-hover);
-        }
+        button:hover, .btn-link:hover { background-color: var(--blurple-hover); }
 
         .btn-secondary {
             background-color: transparent;
             border: 1px solid var(--text-muted);
             color: var(--text-main);
         }
+        .btn-secondary:hover { background-color: var(--border); }
 
-        .btn-secondary:hover {
-            background-color: var(--border);
-        }
+        .btn-danger { background-color: var(--red); }
+        .btn-danger:hover { background-color: var(--red-hover); }
 
-        .btn-danger {
-            background-color: var(--red);
-        }
-        .btn-danger:hover {
-            background-color: var(--red-hover);
-        }
-
-        /* --- BARRE UTILISATEUR & MENU DÉROULANT --- */
-        .user-menu {
-            position: relative;
-        }
+        .user-menu { position: relative; }
 
         .user-trigger {
             background-color: var(--bg-sidebar);
@@ -142,23 +117,13 @@
             cursor: pointer;
             transition: background 0.2s, border-color 0.2s;
         }
-
-        .user-trigger:hover {
-            border-color: var(--blurple);
-            background-color: var(--bg-sidebar);
-        }
+        .user-trigger:hover { border-color: var(--blurple); }
 
         .user-avatar {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background-color: var(--blurple);
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85rem;
-            font-weight: 700;
+            width: 26px; height: 26px; border-radius: 50%;
+            background-color: var(--blurple); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; font-weight: 700;
         }
 
         .user-dropdown {
@@ -174,10 +139,7 @@
             overflow: hidden;
             z-index: 30;
         }
-
-        .user-menu.open .user-dropdown {
-            display: block;
-        }
+        .user-menu.open .user-dropdown { display: block; }
 
         .user-dropdown-header {
             padding: 0.9rem 1rem;
@@ -185,212 +147,69 @@
             font-size: 0.85rem;
             color: var(--text-muted);
         }
-
-        .user-dropdown-header strong {
-            display: block;
-            color: var(--text-main);
-            font-size: 0.95rem;
-        }
+        .user-dropdown-header strong { display: block; color: var(--text-main); font-size: 0.95rem; }
 
         .user-dropdown a, .user-dropdown button.dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.75rem 1rem;
-            font-size: 0.9rem;
-            color: var(--text-main);
-            text-decoration: none;
-            cursor: pointer;
-            background: none;
-            border: none;
-            width: 100%;
-            text-align: left;
+            display: flex; align-items: center; gap: 0.6rem;
+            padding: 0.75rem 1rem; font-size: 0.9rem;
+            color: var(--text-main); text-decoration: none;
+            cursor: pointer; background: none; border: none;
+            width: 100%; text-align: left;
         }
-
-        .user-dropdown a:hover, .user-dropdown button.dropdown-item:hover {
-            background-color: var(--bg-sidebar);
-        }
-
-        .user-dropdown .dropdown-item.danger {
-            color: var(--red);
-        }
-        .user-dropdown .dropdown-item.danger:hover {
-            background-color: rgba(218, 55, 60, 0.08);
-        }
+        .user-dropdown a:hover, .user-dropdown button.dropdown-item:hover { background-color: var(--bg-sidebar); }
 
         .container {
-            max-width: 1100px;
-            width: 100%;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            flex: 1;
+            max-width: 1200px; width: 100%; margin: 2rem auto;
+            padding: 0 1rem; flex: 1;
         }
 
-        .page {
+        .page { display: none; }
+        .page.active { display: block; }
+
+        .maintenance-banner {
             display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        .hero {
+            background: var(--red);
+            color: #fff;
             text-align: center;
-            margin-bottom: 3rem;
+            padding: 0.7rem 1rem;
+            font-weight: 700;
+            font-size: 0.9rem;
         }
+        .maintenance-banner.show { display: block; }
 
-        .hero h1 {
-            font-size: 2.8rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
-            font-weight: 800;
-        }
-
-        .hero h1 span {
-            color: var(--blurple);
-        }
-
-        .hero p {
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            font-style: italic;
-        }
+        .hero { text-align: center; margin-bottom: 3rem; }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 0.5rem; font-weight: 800; }
+        .hero h1 span { color: var(--blurple); }
+        .hero p { color: var(--text-muted); font-size: 1.15rem; }
 
         .hero-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
+            display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;
         }
 
         .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            background-color: var(--bg-sidebar);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem 1rem;
-            margin-bottom: 2.5rem;
-            text-align: center;
-        }
-
-        .stats-bar .stat-value {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--blurple);
-        }
-
-        .stats-bar .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .section-heading {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin: 0 0 1.25rem;
-            color: var(--text-main);
-        }
-
-        .card {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
             background-color: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: var(--shadow);
-            cursor: pointer;
-        }
-
-        .card-body {
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.4;
-            color: var(--text-main);
-            word-break: break-word;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .card-thumb {
-            width: 100%;
-            height: 130px;
-            object-fit: cover;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            background-color: var(--bg-sidebar);
-        }
-
-        .detail-box {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
+            border-radius: 8px; padding: 1.5rem;
+            margin-bottom: 2.5rem; text-align: center;
             box-shadow: var(--shadow);
         }
+        .stats-bar .stat-value { font-size: 1.6rem; font-weight: 800; color: var(--blurple); }
+        .stats-bar .stat-label { font-size: 0.85rem; color: var(--text-muted); }
 
-        .detail-back {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-weight: 600;
-            padding: 0;
-            margin-bottom: 1.25rem;
-            cursor: pointer;
-        }
-        .detail-back:hover {
-            color: var(--blurple);
-            background: none;
-        }
-
-        .detail-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 0.75rem;
-            margin: 1.5rem 0;
-        }
-
-        .detail-gallery img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-        }
+        .section-heading { font-size: 1.3rem; font-weight: 700; margin-bottom: 1.25rem; }
 
         .search-container {
             background-color: var(--bg-card);
-            padding: 1.5rem;
-            border-radius: 8px;
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
+            padding: 1.5rem; border-radius: 8px;
+            display: flex; gap: 1rem; margin-bottom: 2.5rem;
+            border: 1px solid var(--border); box-shadow: var(--shadow);
         }
-
         .search-container input, .search-container select {
             background-color: var(--bg-sidebar);
             border: 1px solid var(--border);
             color: var(--text-main);
-            padding: 0.8rem;
-            border-radius: 4px;
-            flex: 1;
-            font-size: 1rem;
-        }
-
-        .search-container select {
-            flex: 0.5;
+            padding: 0.8rem; border-radius: 6px; flex: 1; font-size: 1rem;
         }
 
         .grid {
@@ -399,309 +218,177 @@
             gap: 1.5rem;
         }
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px; padding: 1.5rem;
+            display: flex; flex-direction: column; justify-content: space-between;
+            box-shadow: var(--shadow); cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
         }
+        .card:hover { transform: translateY(-2px); border-color: var(--blurple); }
 
-        .card-title {
-            font-size: 1.25rem;
-            color: var(--text-main);
-            font-weight: bold;
+        .card-header {
+            display: flex; justify-content: space-between;
+            align-items: flex-start; margin-bottom: 1rem;
         }
+        .card-title { font-size: 1.25rem; font-weight: bold; }
 
         .badge {
-            background-color: var(--green);
-            color: white;
-            padding: 0.2rem 0.6rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            text-transform: uppercase;
+            background-color: var(--green); color: white;
+            padding: 0.2rem 0.6rem; border-radius: 12px;
+            font-size: 0.75rem; text-transform: uppercase;
         }
+        .badge-pending { background-color: #f59e0b; }
 
         .card-stats {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
+            display: flex; gap: 1rem; font-size: 0.9rem;
+            color: var(--text-muted); margin-bottom: 1rem;
         }
 
-        .card-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
+        .card-body {
+            font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.4;
+            color: var(--text-muted);
+            display: -webkit-box; -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical; overflow: hidden;
+        }
+
+        /* --- PANEL ADMIN --- */
+        .admin-layout {
+            display: grid; grid-template-columns: 260px 1fr; gap: 2rem;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);
+            min-height: 600px;
+        }
+        .admin-sidebar {
+            background: var(--bg-sidebar); border-right: 1px solid var(--border);
+            padding: 1.5rem 1rem; display: flex; flex-direction: column; gap: 0.4rem;
+        }
+        .admin-sidebar-title {
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--text-muted); margin-bottom: 0.8rem;
+            padding-left: 0.6rem; font-weight: 700;
+        }
+        .admin-nav-item {
+            display: flex; align-items: center; gap: 0.8rem;
+            padding: 0.75rem 1rem; border-radius: 6px;
+            color: var(--text-muted); background: none; border: none;
+            width: 100%; text-align: left; font-size: 0.95rem;
+            font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .admin-nav-item:hover, .admin-nav-item.active {
+            background: rgba(255, 122, 26, 0.1); color: var(--blurple);
+        }
+        .admin-content { padding: 2rem; overflow-y: auto; max-height: 75vh; }
+        .admin-section { display: none; }
+        .admin-section.active { display: block; }
+
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9rem; }
+        .admin-table th, .admin-table td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--border); text-align: left; }
+        .admin-table th { background-color: var(--bg-sidebar); font-weight: 600; color: var(--text-muted); }
+
+        .schedule-row {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--bg-sidebar); border: 1px solid var(--border);
+            padding: 1rem; border-radius: 8px; margin-bottom: 0.8rem;
+        }
+        .schedule-row label { display: flex; align-items: center; gap: 0.8rem; font-weight: 600; cursor: pointer; }
+        .schedule-times { display: flex; align-items: center; gap: 0.8rem; }
+        .schedule-times select {
+            background: var(--bg-main); border: 1px solid var(--border);
+            color: var(--text-main); padding: 0.5rem; border-radius: 4px;
         }
 
         .form-box {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2rem;
-            max-width: 600px;
-            margin: 0 auto;
-            box-shadow: var(--shadow);
+            background-color: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 8px; padding: 2rem; max-width: 600px;
+            margin: 0 auto; box-shadow: var(--shadow);
         }
-
-        .form-box h2 {
-            margin-bottom: 1.5rem;
-        }
-
-        .bot-verification-box {
-            background-color: #1e1e24;
-            border: 1px solid var(--blurple);
-            border-radius: 8px;
-            padding: 1.2rem;
-            margin-bottom: 1.5rem;
-            color: #ffffff;
-        }
-
-        .bot-verification-box h3 {
-            margin-top: 0;
-            color: var(--blurple);
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .bot-verification-box p {
-            font-size: 0.9rem;
-            line-height: 1.4;
-            color: #d1d1d6;
-            margin-bottom: 1rem;
-        }
-
-        .btn-invite-bot {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--blurple), var(--blurple-hover));
-            color: #ffffff;
-            padding: 0.7rem 1.2rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.9rem;
-            transition: opacity 0.2s;
-        }
-
-        .btn-invite-bot:hover {
-            opacity: 0.9;
-        }
-
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: 600; }
         .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            background-color: var(--bg-sidebar);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 0.8rem;
-            border-radius: 4px;
-            font-size: 1rem;
+            width: 100%; background-color: var(--bg-sidebar);
+            border: 1px solid var(--border); color: var(--text-main);
+            padding: 0.8rem; border-radius: 6px; font-size: 1rem;
         }
+        .form-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; }
 
-        .form-group small {
-            display: block;
-            margin-top: 0.3rem;
-            color: var(--text-muted);
-            font-size: 0.8rem;
+        .detail-box {
+            background-color: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 8px; padding: 2rem; max-width: 800px;
+            margin: 0 auto; box-shadow: var(--shadow);
         }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
+        .detail-gallery {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem; margin: 1.5rem 0;
         }
-
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-            margin-top: 2rem;
+        .detail-gallery img {
+            width: 100%; height: 160px; object-fit: cover;
+            border-radius: 6px; border: 1px solid var(--border);
         }
 
         footer {
-            background-color: var(--bg-sidebar);
-            border-top: 1px solid var(--border);
-            margin-top: auto;
-            padding: 3rem 1.5rem 1.5rem 1.5rem;
-        }
-
-        .footer-grid {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            text-align: left;
-            margin-bottom: 2rem;
-        }
-
-        .footer-column h4 {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 1rem;
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column ul li {
-            margin-bottom: 0.6rem;
-        }
-
-        .footer-column ul li a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-            cursor: pointer;
-        }
-
-        .footer-column ul li a:hover {
-            color: var(--blurple);
-        }
-
-        .footer-bottom {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border);
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            background-color: var(--bg-sidebar); border-top: 1px solid var(--border);
+            margin-top: auto; padding: 3rem 1.5rem 1.5rem 1.5rem;
+            text-align: center; color: var(--text-muted); font-size: 0.85rem;
         }
 
         .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(4px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.2s ease-out;
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px); z-index: 1000;
+            align-items: center; justify-content: center;
         }
-
-        .modal.open {
-            display: flex;
-        }
-
+        .modal.open { display: flex; }
         .modal-content {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border: 1px solid var(--border);
-            text-align: center;
+            background: var(--bg-card); border-radius: 12px; padding: 2rem;
+            max-width: 500px; width: 90%; border: 1px solid var(--border);
+            text-align: center; box-shadow: var(--shadow);
+        }
+        .modal-icon { font-size: 3rem; margin-bottom: 0.8rem; }
+        .modal-content h3 { font-size: 1.4rem; margin-bottom: 0.8rem; }
+        .modal-content p { color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5; }
+        .modal-actions { display: flex; justify-content: center; gap: 1rem; }
+
+        .inline-form-row { display: flex; gap: 1rem; margin-bottom: 1rem; }
+        .inline-form-row input, .inline-form-row select {
+            flex: 1; background-color: var(--bg-sidebar);
+            border: 1px solid var(--border); color: var(--text-main);
+            padding: 0.7rem; border-radius: 6px;
         }
 
-        .modal-icon {
-            font-size: 3rem;
-            margin-bottom: 0.8rem;
+        .toggle-switch { position: relative; display: inline-block; width: 52px; height: 28px; vertical-align: middle; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider {
+            position: absolute; cursor: pointer; inset: 0;
+            background-color: var(--border); border-radius: 28px; transition: 0.2s;
         }
-
-        .modal-content h3 {
-            font-size: 1.4rem;
-            margin-bottom: 0.8rem;
-            color: var(--text-main);
+        .toggle-slider:before {
+            content: ""; position: absolute; height: 20px; width: 20px;
+            left: 4px; bottom: 4px; background-color: white;
+            border-radius: 50%; transition: 0.2s;
         }
+        .toggle-switch input:checked + .toggle-slider { background-color: var(--green); }
+        .toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
 
-        .modal-content p {
-            font-size: 1rem;
-            line-height: 1.5;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
+        .status-pill { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; font-size: 0.9rem; }
 
-        .modal-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        @media (hover: hover) {
-            .card:hover {
-                transform: translateY(-2px);
-                border-color: var(--blurple);
-                box-shadow: 0 6px 18px rgba(255, 122, 26, 0.15);
-            }
-        }
-
-        html, body {
-            overflow-x: hidden;
-        }
-
-        @media (max-width: 900px) {
-            .container { padding: 0 1rem; }
-            .hero h1 { font-size: 2.2rem; }
-            .grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
-        }
-
-        @media (max-width: 600px) {
-            #xyro-mascot {
-                width: 110px;
-                right: 4px;
-            }
-            header { flex-wrap: wrap; gap: 0.75rem; padding: 0.85rem 1rem; }
-            .logo { font-size: 1.15rem; }
-            nav#nav-actions { width: 100%; flex-wrap: wrap; justify-content: flex-start; gap: 0.5rem; }
-            nav#nav-actions .btn-link, nav#nav-actions button, .user-trigger { font-size: 0.82rem; padding: 0.5rem 0.8rem; }
-            .user-trigger span:not(.user-avatar) { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-            .user-dropdown { right: auto; left: 0; min-width: 200px; }
-            .hero { margin-bottom: 2rem; }
-            .hero h1 { font-size: 1.7rem; }
-            .hero p { font-size: 1rem; }
-            .search-container { flex-direction: column; gap: 0.75rem; padding: 1rem; }
-            .search-container select { flex: 1; }
-            .grid { grid-template-columns: 1fr; }
-            .card { padding: 1.2rem; }
-            .card-header { flex-wrap: wrap; gap: 0.5rem; }
-            .card-actions { flex-direction: column; }
-            .card-actions button, .card-actions .btn-link { width: 100%; }
-            .form-box { padding: 1.25rem; max-width: 100%; }
-            .form-actions { flex-direction: column-reverse; gap: 0.75rem; }
-            .form-actions button { width: 100%; }
-            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 1.5rem; }
-            .stats-bar { grid-template-columns: 1fr; gap: 1.25rem; }
-            .hero-actions { flex-direction: column; }
-            .hero-actions button { width: 100%; }
-            .detail-box { padding: 1.25rem; }
-            .modal-content { padding: 1.5rem; width: 92%; }
-            .modal-actions { flex-direction: column-reverse; gap: 0.6rem; }
-            .modal-actions button { width: 100%; }
+        @media (max-width: 800px) {
+            .admin-layout { grid-template-columns: 1fr; }
+            .admin-sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+            .inline-form-row { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
+    <div class="maintenance-banner" id="maintenance-banner">
+        <span id="text-maintenance-banner">🚧 Le site est actuellement en maintenance — le dépôt de nouvelles annonces est temporairement désactivé.</span>
+    </div>
+
     <header>
         <div class="logo" id="logo-btn">
-            <img src="logo.png" alt="Xparia Market" style="height:32px;width:32px;border-radius:8px;">
+            <img src="logo.png" alt="" style="height:32px;width:32px;border-radius:8px;">
             Xparia<span> Market</span>
         </div>
         <nav id="nav-actions"></nav>
@@ -711,16 +398,15 @@
         <!-- ACCUEIL -->
         <section id="page-accueil" class="page active">
             <div class="hero">
-                <h1>🛒 Xparia <span>Market</span></h1>
-                <p style="font-style: normal; font-size: 1.15rem;">Trouvez votre prochain serveur Discord.</p>
-                <p>Découvrez des serveurs disponibles à la reprise, à l'échange ou au don.</p>
+                <h1 id="text-hero-title">🛒 Xparia <span>Market</span></h1>
+                <p id="text-hero-subtitle">Trouvez votre prochain serveur Discord.</p>
                 <div class="hero-actions">
-                    <button id="hero-search-btn" class="btn-secondary">🔎 Rechercher un serveur</button>
+                    <button id="hero-search-btn" class="btn-secondary">🔎 Rechercher</button>
                     <button id="hero-depot-btn">📢 Déposer une annonce</button>
                 </div>
             </div>
 
-            <div class="stats-bar" id="stats-bar">
+            <div class="stats-bar">
                 <div>
                     <div class="stat-value" id="stat-annonces">0</div>
                     <div class="stat-label">serveurs publiés</div>
@@ -736,7 +422,7 @@
             </div>
 
             <div class="search-container" id="search-container">
-                <input type="text" id="search-bar" placeholder="Rechercher par mot-clé (ex: Gaming, Dev...)">
+                <input type="text" id="search-bar" placeholder="Rechercher par mot-clé...">
                 <select id="filter-category">
                     <option value="">Toutes les catégories</option>
                     <option value="gaming">Gaming</option>
@@ -745,31 +431,225 @@
                     <option value="dev">Dév & Technologie</option>
                 </select>
                 <select id="filter-type">
-                    <option value="">Tous les types de cession</option>
+                    <option value="">Tous les types</option>
                     <option value="Don Gratuit">Don Gratuit</option>
                     <option value="Échange">Échange</option>
                     <option value="Reprise Bénévole">Reprise Bénévole</option>
                 </select>
             </div>
 
-            <h2 class="section-heading">🔥 Serveurs récemment publiés</h2>
+            <h2 class="section-heading" id="text-listings-heading">🔥 Serveurs récemment publiés</h2>
             <div class="grid" id="annonces-grid"></div>
         </section>
 
-        <!-- DETAIL D'UNE ANNONCE -->
+        <!-- PANEL ADMIN -->
+        <section id="page-admin" class="page">
+            <div class="admin-layout">
+                <div class="admin-sidebar">
+                    <div class="admin-sidebar-title">Administration</div>
+                    <button class="admin-nav-item active" onclick="switchAdminTab('verifications', this)">✅ Vérifications & Annonces</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('textes', this)">📝 Texte Général</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('tickets', this)">🎟️ Tickets</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('horaires', this)">⏰ Horaires</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('fermetures', this)">🚫 Maintenance</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('salons', this)">#️⃣ Salons & Webhooks</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('bot', this)">🤖 Bot Discord</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('permissions', this)">🛡️ Permissions (Whitelist)</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('restrictions', this)">🔒 Restrictions</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('bannissements', this)">⛔ Bannissements</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('partenaires', this)">🤝 Partenaires</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('logs', this)">📜 Logs</button>
+                    <button class="btn-secondary" style="margin-top:auto;" onclick="switchPage('accueil')">Retour au site</button>
+                </div>
+
+                <div class="admin-content">
+                    <div id="admin-tab-verifications" class="admin-section active">
+                        <h2 class="section-heading">Vérifications & Modération des Annonces</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Validez les annonces en attente ou supprimez n'importe quelle annonce du site instantanément.</p>
+
+                        <h3 style="font-size:1.1rem; color:var(--blurple); margin-bottom:0.5rem;">📢 En attente de validation</h3>
+                        <table class="admin-table" style="margin-bottom:2rem;">
+                            <thead><tr><th>Serveur</th><th>Propriétaire</th><th>Actions</th></tr></thead>
+                            <tbody id="admin-pending-annonces"></tbody>
+                        </table>
+
+                        <h3 style="font-size:1.1rem; color:var(--blurple); margin-bottom:0.5rem;">🗑️ Toutes les annonces publiées</h3>
+                        <table class="admin-table">
+                            <thead><tr><th>Serveur</th><th>ID Serveur</th><th>Propriétaire</th><th>Action</th></tr></thead>
+                            <tbody id="admin-all-annonces"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="admin-tab-textes" class="admin-section">
+                        <h2 class="section-heading">Texte Général du site</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Modifie directement les textes affichés sur le site, sans toucher au code. Visible immédiatement par tous les visiteurs.</p>
+
+                        <div class="form-group">
+                            <label>Titre principal (page d'accueil)</label>
+                            <input type="text" id="txt-hero-title" placeholder="🛒 Xparia Market">
+                        </div>
+                        <div class="form-group">
+                            <label>Sous-titre (sous le titre)</label>
+                            <input type="text" id="txt-hero-subtitle" placeholder="Trouvez votre prochain serveur Discord.">
+                        </div>
+                        <div class="form-group">
+                            <label>Titre au-dessus de la liste des annonces</label>
+                            <input type="text" id="txt-listings-heading" placeholder="🔥 Serveurs récemment publiés">
+                        </div>
+                        <div class="form-group">
+                            <label>Bandeau affiché en mode maintenance</label>
+                            <input type="text" id="txt-maintenance-banner" placeholder="🚧 Le site est en maintenance...">
+                        </div>
+                        <div class="form-group">
+                            <label>Texte du pied de page (footer)</label>
+                            <input type="text" id="txt-footer" placeholder="© 2026 Xparia Market...">
+                        </div>
+                        <button onclick="sauvegarderTextes()">💾 Sauvegarder les textes</button>
+                    </div>
+
+                    <div id="admin-tab-tickets" class="admin-section">
+                        <h2 class="section-heading">Gestion des Tickets</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Configuration et historique des mises en relation ouvertes par les utilisateurs (salon Discord créé automatiquement).</p>
+
+                        <div class="form-group">
+                            <label>Nom de la catégorie Discord utilisée pour les tickets</label>
+                            <input type="text" id="ticket-category-name" placeholder="ticket site">
+                        </div>
+                        <div class="form-group">
+                            <label>Message d'accueil envoyé dans le salon créé</label>
+                            <textarea id="ticket-welcome-message" rows="4" placeholder="Utilise {demandeur}, {proprietaire} et {annonce} — ils seront remplacés automatiquement."></textarea>
+                        </div>
+                        <button onclick="sauvegarderTicketConfig()">💾 Sauvegarder</button>
+
+                        <h3 style="font-size:1.1rem; color:var(--blurple); margin: 2rem 0 0.5rem;">📜 Historique</h3>
+                        <table class="admin-table">
+                            <thead><tr><th>Annonce</th><th>Demandeur</th><th>Propriétaire</th><th>Date</th><th>Salon</th><th>Action</th></tr></thead>
+                            <tbody id="admin-tickets-list"><tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Aucun ticket pour le moment.</td></tr></tbody>
+                        </table>
+                    </div>
+
+                    <div id="admin-tab-horaires" class="admin-section">
+                        <h2 class="section-heading">Horaires d'ouverture de la plateforme</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">En dehors de ces plages, le dépôt de nouvelles annonces est automatiquement bloqué pour les visiteurs (les admins ne sont jamais bloqués).</p>
+                        <div id="schedule-config-container"></div>
+                        <button style="margin-top: 1rem;" onclick="sauvegarderHoraires()">💾 Sauvegarder les horaires</button>
+                    </div>
+
+                    <div id="admin-tab-fermetures" class="admin-section">
+                        <h2 class="section-heading">Mode Maintenance</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">Bloque le dépôt de nouvelles annonces pour tout le monde (sauf les admins) et affiche un bandeau d'avertissement sur tout le site.</p>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="maintenance-toggle" onchange="toggleMaintenance()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="status-pill" id="maintenance-status" style="margin-left:0.8rem;">Chargement...</span>
+                    </div>
+
+                    <div id="admin-tab-salons" class="admin-section">
+                        <h2 class="section-heading">Salons & Webhooks de notification</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Colle ici les URL de webhooks Discord (Paramètres du salon → Intégrations → Webhooks) pour recevoir des notifications automatiques.</p>
+                        <div class="form-group">
+                            <label>Webhook — Logs d'administration (validations, suppressions, bans...)</label>
+                            <input type="text" id="webhook-logs" placeholder="https://discord.com/api/webhooks/...">
+                        </div>
+                        <div class="form-group">
+                            <label>Webhook — Publication automatique des annonces validées</label>
+                            <input type="text" id="webhook-publish" placeholder="https://discord.com/api/webhooks/...">
+                        </div>
+                        <button onclick="sauvegarderSalons()">💾 Sauvegarder</button>
+                    </div>
+
+                    <div id="admin-tab-bot" class="admin-section">
+                        <h2 class="section-heading">Configuration du Bot Discord</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Informations de référence utilisées par le site et la fonction serveur (Cloudflare Worker). Le Token du bot ne se modifie pas ici pour des raisons de sécurité — il reste dans les variables d'environnement Cloudflare, jamais visible ici.</p>
+                        <div class="form-group">
+                            <label>Client ID de l'application Discord</label>
+                            <input type="text" id="bot-client-id" placeholder="1535232825656082503">
+                        </div>
+                        <div class="form-group">
+                            <label>Lien d'invitation du bot sur un serveur</label>
+                            <input type="text" id="bot-invite-link" placeholder="https://discord.com/oauth2/authorize?client_id=...&permissions=8&scope=bot">
+                        </div>
+                        <button onclick="sauvegarderBotConfig()">💾 Sauvegarder</button>
+                    </div>
+
+                    <div id="admin-tab-permissions" class="admin-section">
+                        <h2 class="section-heading">Permissions & Whitelist des Admins</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Ajoutez un ID Discord pour lui donner accès au panel. Partagé entre tous les admins (pas juste ton navigateur).</p>
+                        <div class="inline-form-row">
+                            <input type="text" id="new-whitelist-id" placeholder="Ex: 1464750597663100980">
+                            <button onclick="ajouterWhitelist()">Ajouter</button>
+                        </div>
+                        <table class="admin-table">
+                            <thead><tr><th>ID Discord Whitelisté</th><th>Action</th></tr></thead>
+                            <tbody id="whitelist-table-body"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="admin-tab-restrictions" class="admin-section">
+                        <h2 class="section-heading">Restrictions des comptes</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Ces comptes restent connectés au site mais ne peuvent plus publier de nouvelle annonce.</p>
+                        <div class="inline-form-row">
+                            <input type="text" id="new-restriction-id" placeholder="ID Discord à restreindre">
+                            <button onclick="ajouterRestriction()">Restreindre</button>
+                        </div>
+                        <table class="admin-table">
+                            <thead><tr><th>ID Discord Restreint</th><th>Action</th></tr></thead>
+                            <tbody id="restrictions-table-body"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="admin-tab-bannissements" class="admin-section">
+                        <h2 class="section-heading">Bannissements</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Un compte banni est immédiatement déconnecté et ne peut plus se reconnecter au site.</p>
+                        <div class="inline-form-row">
+                            <input type="text" id="new-ban-id" placeholder="ID Discord à bannir">
+                            <button class="btn-danger" onclick="ajouterBan()">Bannir</button>
+                        </div>
+                        <table class="admin-table">
+                            <thead><tr><th>ID Discord Banni</th><th>Action</th></tr></thead>
+                            <tbody id="bans-table-body"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="admin-tab-partenaires" class="admin-section">
+                        <h2 class="section-heading">Partenaires</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Serveurs partenaires mis en avant.</p>
+                        <div class="inline-form-row">
+                            <input type="text" id="new-partner-nom" placeholder="Nom du serveur">
+                            <input type="text" id="new-partner-lien" placeholder="Lien d'invitation Discord">
+                            <button onclick="ajouterPartenaire()">Ajouter</button>
+                        </div>
+                        <table class="admin-table">
+                            <thead><tr><th>Nom</th><th>Lien</th><th>Action</th></tr></thead>
+                            <tbody id="partners-table-body"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="admin-tab-logs" class="admin-section">
+                        <h2 class="section-heading">Logs d'administration</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Historique de toutes les actions effectuées depuis le panel admin (les 100 plus récentes).</p>
+                        <table class="admin-table">
+                            <thead><tr><th>Date</th><th>Action</th><th>Détail</th><th>Par</th></tr></thead>
+                            <tbody id="logs-table-body"><tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune action enregistrée pour le moment.</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DETAIL -->
         <section id="page-detail" class="page">
             <div class="detail-box">
-                <button class="detail-back" id="detail-back-btn">← Retour aux annonces</button>
+                <button class="btn-secondary" id="detail-back-btn" style="margin-bottom:1.5rem;">← Retour</button>
                 <div class="card-header">
                     <div class="card-title" id="detail-nom" style="font-size: 1.6rem;"></div>
                     <span class="badge" id="detail-badge"></span>
                 </div>
                 <div class="card-stats" id="detail-stats" style="margin-bottom: 1.5rem;"></div>
                 <div id="detail-gallery" class="detail-gallery"></div>
-                <p id="detail-description" style="line-height: 1.6; margin-bottom: 1.5rem; white-space: pre-wrap;"></p>
-                <div class="form-actions" style="justify-content: flex-start;">
-                    <button id="detail-contact-btn">💬 Contacter le propriétaire</button>
-                </div>
+                <p id="detail-description" style="line-height: 1.6; margin-bottom: 1.5rem; white-space: pre-wrap; color:var(--text-muted);"></p>
+                <button id="detail-contact-btn">💬 Contacter le propriétaire</button>
             </div>
         </section>
 
@@ -778,32 +658,20 @@
             <div class="form-box">
                 <h2>Publier une annonce de cession</h2>
                 <form id="annonce-form">
-                    <div class="bot-verification-box">
-                        <h3>1. Inviter le Bot sur votre serveur</h3>
-                        <p>Pour vérifier que le serveur vous appartient bien et permettre la création des tickets de négociation, vous devez obligatoirement y ajouter le Bot Xparia.</p>
-                        <a href="https://discord.com/oauth2/authorize?client_id=1535232825656082503&permissions=8&integration_type=0&scope=bot+applications.commands" target="_blank" class="btn-invite-bot">
-                            🤖 Inviter le bot Xparia
-                        </a>
-                    </div>
-
                     <div class="form-group">
-                        <label for="server-id">2. ID de votre serveur Discord *</label>
-                        <input type="text" id="server-id" required placeholder="Ex: 1234567890123456789" pattern="[0-9]{17,20}">
-                        <small>💡 Activer le Mode Développeur sur Discord > Clic droit sur votre serveur > Copier l'ID du serveur.</small>
+                        <label for="server-id">ID de votre serveur Discord *</label>
+                        <input type="text" id="server-id" required placeholder="Ex: 1234567890123456789">
                     </div>
-
                     <div class="form-group">
-                        <label for="server-name">Nom du serveur Discord</label>
-                        <input type="text" id="server-name" required placeholder="Ex: La Taverne des Aventuriers">
+                        <label for="server-name">Nom du serveur</label>
+                        <input type="text" id="server-name" required placeholder="Ex: Ma Communauté">
                     </div>
-
                     <div class="form-group">
                         <label for="server-members">Nombre de membres</label>
-                        <input type="number" id="server-members" required min="1" placeholder="Ex: 450">
+                        <input type="number" id="server-members" required min="1" placeholder="Ex: 250">
                     </div>
-
                     <div class="form-group">
-                        <label for="server-category">Catégorie principale</label>
+                        <label for="server-category">Catégorie</label>
                         <select id="server-category" required>
                             <option value="gaming">Gaming</option>
                             <option value="communauté">Communauté</option>
@@ -811,145 +679,48 @@
                             <option value="dev">Dév & Technologie</option>
                         </select>
                     </div>
-
                     <div class="form-group">
-                        <label for="server-activity">Niveau d'activité global</label>
-                        <select id="server-activity" required>
-                            <option value="Très Actif">Très Actif (Messages H24)</option>
-                            <option value="Modéré">Modéré (Actif en soirée)</option>
-                            <option value="Calme / À relancer">Calme / À relancer</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="server-type">Ce que vous recherchez</label>
+                        <label for="server-type">Type de cession</label>
                         <select id="server-type" required>
-                            <option value="Don Gratuit">Don Gratuit (Cession simple)</option>
-                            <option value="Échange">Échange contre un autre serveur</option>
-                            <option value="Reprise Bénévole">Reprise Bénévole (Reste au staff)</option>
+                            <option value="Don Gratuit">Don Gratuit</option>
+                            <option value="Échange">Échange</option>
+                            <option value="Reprise Bénévole">Reprise Bénévole</option>
                         </select>
                     </div>
-
                     <div class="form-group">
-                        <label for="server-reason">Raison du transfert & Description</label>
-                        <textarea id="server-reason" required placeholder="Expliquez pourquoi vous cédez le serveur..."></textarea>
+                        <label for="server-reason">Description</label>
+                        <textarea id="server-reason" required placeholder="Expliquez votre projet..."></textarea>
                     </div>
-
-                    <div class="form-group">
-                        <label for="server-screenshot-1">Captures d'écran (optionnel)</label>
-                        <small style="margin-top:0; margin-bottom: 0.5rem;">Colle des liens d'images (depuis Discord, Imgur...). Jusqu'à 3, un lien par champ.</small>
-                        <input type="url" id="server-screenshot-1" placeholder="https://... (lien image 1)" style="margin-bottom: 0.6rem;">
-                        <input type="url" id="server-screenshot-2" placeholder="https://... (lien image 2)" style="margin-bottom: 0.6rem;">
-                        <input type="url" id="server-screenshot-3" placeholder="https://... (lien image 3)">
-                    </div>
-
                     <div class="form-actions">
-                        <button type="button" class="btn-secondary" id="cancel-form-btn">Annuler</button>
-                        <button type="submit" id="submit-btn">Vérifier & Publier</button>
+                        <button type="button" class="btn-secondary" onclick="switchPage('accueil')">Annuler</button>
+                        <button type="submit">Publier</button>
                     </div>
                 </form>
             </div>
         </section>
-
-        <!-- A PROPOS -->
-        <section id="page-apropos" class="page">
-            <div class="form-box" style="max-width: 700px;">
-                <h2>ℹ️ À propos de Xparia Market</h2>
-                <p style="margin-bottom: 1rem;">
-                    Xparia Market est une plateforme communautaire de cession de serveurs Discord sous forme de dons, d'échanges ou de reprises bénévoles.
-                </p>
-                <div class="form-actions">
-                    <button class="btn-secondary" id="back-home-btn">Retour à l'accueil</button>
-                </div>
-            </div>
-        </section>
     </div>
 
-    <!-- FOOTER -->
     <footer>
-        <div class="footer-grid">
-            <div class="footer-column">
-                <h4>Plateforme</h4>
-                <ul>
-                    <li><a id="link-features">Fonctionnalités</a></li>
-                    <li><a id="link-how">Comment ça marche</a></li>
-                    <li><a id="link-faq">FAQ</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>Communauté</h4>
-                <ul>
-                    <li><a href="https://discord.gg/bfXMVMatNf" target="_blank">Serveur Support</a></li>
-                    <li><a id="link-register">Créer un compte</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>Légal</h4>
-                <ul>
-                    <li><a id="link-mentions">Mentions légales</a></li>
-                    <li><a id="link-privacy">Politique de confidentialité</a></li>
-                    <li><a id="link-cgu">CGU</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Xparia Market. Plateforme de mise en relation bénévole. Non affiliée à Discord Inc.</p>
-        </div>
+        <p id="text-footer">&copy; 2026 Xparia Market. Non affilié à Discord Inc.</p>
     </footer>
 
-    <!-- POP-UP MODALE PERSONNALISÉE DU SITE -->
     <div class="modal" id="custom-popup">
         <div class="modal-content">
             <div class="modal-icon" id="popup-icon">✨</div>
             <h3 id="popup-title">Notification</h3>
-            <div id="popup-body"><p id="popup-message">Message...</p></div>
-            <div class="modal-actions" id="popup-actions">
-                <button type="button" class="btn-secondary" id="popup-cancel-btn" style="display: none;">Annuler</button>
+            <p id="popup-message">Message...</p>
+            <div class="modal-actions">
                 <button type="button" id="popup-confirm-btn">OK</button>
             </div>
         </div>
     </div>
 
-    <!-- ÉCRAN DE MISE À JOUR (une seule fois par visiteur) -->
-    <div class="modal" id="update-overlay">
-        <div class="modal-content">
-            <div class="modal-icon">🎉</div>
-            <h3>Xparia Market fait peau neuve !</h3>
-            <div>
-                <p style="color: var(--text-muted); margin-bottom: 1.25rem;">
-                    Nouvelle interface, annonces mises en avant, pages détaillées avec captures d'écran...
-                    Cliquez pour découvrir la nouvelle version.
-                </p>
-                <div id="update-progress-track" style="display:none; background: var(--bg-sidebar); border-radius: 6px; height: 10px; overflow: hidden; margin-bottom: 1.25rem;">
-                    <div id="update-progress-bar" style="background: var(--blurple); height: 100%; width: 0%; transition: width 0.4s ease;"></div>
-                </div>
-            </div>
-            <div class="modal-actions">
-                <button type="button" id="update-start-btn">Mettre à jour</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MASCOTTE XYRO (image animée transparente, boucle infinie native) -->
-    <img id="xyro-mascot" src="xyro.webp" alt="" aria-hidden="true"
-         style="position:fixed; bottom:0; right:8px; width:190px; height:auto; pointer-events:none; z-index:60;">
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
-        import { 
-            getFirestore, 
-            collection, 
-            addDoc, 
-            deleteDoc, 
-            doc, 
-            onSnapshot, 
-            query, 
-            orderBy, 
-            serverTimestamp,
-            setDoc,
-            getDoc,
-            increment
+        import {
+            getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot,
+            query, orderBy, serverTimestamp, updateDoc, setDoc,
+            arrayUnion, arrayRemove, limit
         } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -963,492 +734,538 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
         const db = getFirestore(app);
         const annoncesRef = collection(db, 'annonces');
+        const ticketsRef = collection(db, 'tickets');
+        const partenairesRef = collection(db, 'partenaires');
+        const logsRef = collection(db, 'logs');
+        const configModRef = doc(db, 'config', 'moderation');
+        const configParamRef = doc(db, 'config', 'parametres');
+        const configTextesRef = doc(db, 'config', 'textes');
 
+        const MASTER_ADMIN_ID = "1464750597663100980";
         const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&response_type=token&redirect_uri=https%3A%2F%2Fxparia-market.xparia-discord.workers.dev%2F&scope=identify+connections+guilds";
 
         let currentUser = localStorage.getItem('currentUser') || null;
         let currentUserId = localStorage.getItem('currentUserId') || null;
-        let accessToken = localStorage.getItem('discordToken') || null;
-        let userGuilds = [];
         let annonces = [];
+        let tickets = [];
+        let partenaires = [];
 
-        function showPopup({ title = "Information", message = "", icon = "ℹ️", confirmText = "OK", cancelText = null, onConfirm = null }) {
+        let whitelistAdmins = [MASTER_ADMIN_ID];
+        let restrictedUsers = [];
+        let bannedUsers = [];
+        let maintenanceMode = false;
+
+        const JOURS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+        let horaires = JOURS.map(() => ({ active: true, start: "09:00", end: "23:00" }));
+        let webhookLogs = "";
+        let webhookPublish = "";
+        let botClientId = "";
+        let botInviteLink = "";
+        let ticketCategoryName = "ticket site";
+        let ticketWelcomeMessage = "";
+
+        function isAdmin(userId) {
+            return !!userId && whitelistAdmins.includes(userId);
+        }
+
+        function showPopup({ title = "Information", message = "", icon = "ℹ️", onConfirm = null }) {
             const modal = document.getElementById('custom-popup');
             document.getElementById('popup-title').innerText = title;
             document.getElementById('popup-message').innerHTML = message;
             document.getElementById('popup-icon').innerText = icon;
-            
-            const confirmBtn = document.getElementById('popup-confirm-btn');
-            const cancelBtn = document.getElementById('popup-cancel-btn');
-
-            confirmBtn.innerText = confirmText;
-
-            if (cancelText) {
-                cancelBtn.innerText = cancelText;
-                cancelBtn.style.display = 'inline-block';
-            } else {
-                cancelBtn.style.display = 'none';
-            }
-
             modal.classList.add('open');
 
-            const newConfirmBtn = confirmBtn.cloneNode(true);
-            const newCancelBtn = cancelBtn.cloneNode(true);
-            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
-            cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+            const confirmBtn = document.getElementById('popup-confirm-btn');
+            const newBtn = confirmBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newBtn, confirmBtn);
 
-            newConfirmBtn.addEventListener('click', () => {
+            newBtn.addEventListener('click', () => {
                 modal.classList.remove('open');
                 if (onConfirm) onConfirm();
             });
+        }
 
-            newCancelBtn.addEventListener('click', () => {
-                modal.classList.remove('open');
-            });
+        function envoyerWebhook(url, embedTitle, description, color = 16744192) {
+            if (!url) return;
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ embeds: [{ title: embedTitle, description, color, timestamp: new Date().toISOString() }] })
+            }).catch(err => console.error('Erreur webhook:', err));
+        }
+
+        function ajouterLog(titre, detail) {
+            addDoc(logsRef, {
+                titre,
+                detail: detail || '',
+                auteur: currentUser || 'Système',
+                date: serverTimestamp()
+            }).catch(err => console.error('Erreur log:', err));
         }
 
         window.switchPage = function(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(`page-${pageId}`).classList.add('active');
             window.scrollTo(0, 0);
+        };
+
+        window.switchAdminTab = function(tabId, btnElement) {
+            document.querySelectorAll('.admin-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.admin-nav-item').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`admin-tab-${tabId}`).classList.add('active');
+            if (btnElement) btnElement.classList.add('active');
         };
 
         window.allerAuDepot = function() {
             if (!currentUser || !currentUserId) {
                 showPopup({
                     title: "Connexion requise",
-                    message: "Vous devez impérativement être connecté avec un compte Discord pour pouvoir déposer une annonce.",
+                    message: "Vous devez être connecté avec Discord pour poster une pub.",
                     icon: "🔒",
-                    confirmText: "Se connecter avec Discord",
-                    cancelText: "Annuler",
-                    onConfirm: window.loginDiscord
+                    onConfirm: () => window.location.href = DISCORD_AUTH_URL
                 });
+                return;
+            }
+            if (bannedUsers.includes(currentUserId)) {
+                showPopup({ title: "Compte banni", message: "Votre compte a été banni de la plateforme.", icon: "⛔" });
+                return;
+            }
+            if (restrictedUsers.includes(currentUserId)) {
+                showPopup({ title: "Profil restreint", message: "Votre profil a été restreint par l'administration. Impossible de poster une pub.", icon: "⛔" });
+                return;
+            }
+            if (maintenanceMode && !isAdmin(currentUserId)) {
+                showPopup({ title: "Maintenance en cours", message: "Le dépôt de nouvelles annonces est temporairement désactivé pour maintenance.", icon: "🚧" });
+                return;
+            }
+            if (!isAdmin(currentUserId) && !estDansLesHoraires()) {
+                showPopup({ title: "En dehors des horaires", message: "Le dépôt de nouvelles annonces n'est autorisé que pendant les horaires d'ouverture définis par l'équipe.", icon: "⏰" });
                 return;
             }
             switchPage('depot');
         };
 
-        window.loginDiscord = function() {
-            window.location.href = DISCORD_AUTH_URL;
-        };
-
         window.logoutDiscord = function() {
+            localStorage.clear();
             currentUser = null;
             currentUserId = null;
-            accessToken = null;
-            userGuilds = [];
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('currentUserId');
-            localStorage.removeItem('discordToken');
             updateNavbar();
-            filtrerAnnonces();
             switchPage('accueil');
-            showPopup({ title: "Déconnexion", message: "Vous avez été déconnecté avec succès.", icon: "🚪" });
         };
 
-        document.getElementById('link-mentions').addEventListener('click', () => {
-            showPopup({ title: "Mentions légales", message: "Xparia Market est un service bénévole indépendant hébergé sur Cloudflare Workers. Plateforme non affiliée à Discord Inc.", icon: "⚖️" });
-        });
-        document.getElementById('link-privacy').addEventListener('click', () => {
-            showPopup({ title: "Politique de confidentialité", message: "Nous stockons uniquement vos identifiants Discord publics nécessaires pour la vérification de propriété et la création de tickets.", icon: "🔒" });
-        });
-        document.getElementById('link-cgu').addEventListener('click', () => {
-            showPopup({ title: "CGU", message: "Toute transaction financière est strictly interdite. La plateforme est dédiée aux dons, échanges et reprises bénévoles.", icon: "📜" });
-        });
-        document.getElementById('link-features').addEventListener('click', () => {
-            showPopup({ title: "Fonctionnalités", message: "• Vérification de la propriété du serveur via le bot<br>• Publication d'annonces<br>• Tickets automatiques sur Discord", icon: "🚀" });
-        });
-        document.getElementById('link-how').addEventListener('click', () => {
-            showPopup({ title: "Comment ça marche", message: "1. Connectez-vous avec Discord.<br>2. Ajoutez le Bot sur votre serveur.<br>3. Renseignez l'ID du serveur.<br>4. Le site vérifie votre propriété et valide la publication !", icon: "❓" });
-        });
-        document.getElementById('link-faq').addEventListener('click', () => {
-            showPopup({ title: "FAQ", message: "<strong>Comment trouver l'ID d'un serveur ?</strong><br>Activer le Mode Développeur sur Discord > Clic droit sur le serveur > Copier l'ID.", icon: "💡" });
-        });
-        document.getElementById('link-register').addEventListener('click', window.loginDiscord);
-
-        async function checkDiscordCallback() {
-            const searchParams = new URLSearchParams(window.location.search);
-            const hashParams = new URLSearchParams(window.location.hash.substring(1));
-            
-            const code = searchParams.get('code');
-            const token = hashParams.get('access_token') || searchParams.get('access_token');
-
-            if (code) {
-                try {
-                    const res = await fetch(`https://xparia-market.xparia-discord.workers.dev/?code=${code}`);
-                    const data = await res.json();
-                    if (data.access_token) {
-                        accessToken = data.access_token;
-                        localStorage.setItem('discordToken', accessToken);
-                        await verifierTokenDiscord();
-                    }
-                } catch (error) {
-                    console.error("Erreur d'échange du code Discord:", error);
-                }
-                window.history.replaceState({}, document.title, window.location.origin + window.location.pathname);
-            } else if (token) {
-                accessToken = token;
-                localStorage.setItem('discordToken', token);
-                await verifierTokenDiscord();
-                window.history.replaceState({}, document.title, window.location.origin + window.location.pathname);
-            } else if (accessToken) {
-                chargerServeursUtilisateur();
-            }
-        }
-
-        async function verifierTokenDiscord() {
-            try {
-                const response = await fetch('https://discord.com/api/users/@me', {
-                    headers: { Authorization: `Bearer ${accessToken}` }
-                });
-                const data = await response.json();
-                if (response.ok && data.username) {
-                    currentUser = data.username;
-                    currentUserId = data.id;
-                    localStorage.setItem('currentUser', currentUser);
-                    localStorage.setItem('currentUserId', currentUserId);
-                    
-                    await chargerServeursUtilisateur();
-
-                    updateNavbar();
-                    showPopup({
-                        title: "Connexion réussie !",
-                        message: `Bienvenue sur Xparia Market, <strong>${escapeHTML(currentUser)}</strong> !`,
-                        icon: "🎉"
-                    });
-                }
-            } catch (error) {
-                console.error("Erreur vérification utilisateur Discord:", error);
-            }
-        }
-
-        async function chargerServeursUtilisateur() {
-            if (!accessToken) return;
-            try {
-                const res = await fetch('https://discord.com/api/users/@me/guilds', {
-                    headers: { Authorization: `Bearer ${accessToken}` }
-                });
-                if (res.ok) {
-                    userGuilds = await res.json();
-                } else {
-                    console.warn("Échec de la récupération des serveurs (Token expiré ou invalide).");
-                    userGuilds = [];
-                }
-            } catch (e) {
-                console.error("Impossible de récupérer la liste des serveurs:", e);
-                userGuilds = [];
-            }
+        function estDansLesHoraires() {
+            const now = new Date();
+            let jsDay = now.getDay();
+            const idx = jsDay === 0 ? 6 : jsDay - 1;
+            const jour = horaires[idx];
+            if (!jour || !jour.active) return false;
+            const nowMinutes = now.getHours() * 60 + now.getMinutes();
+            const [sh, sm] = jour.start.split(':').map(Number);
+            const [eh, em] = jour.end.split(':').map(Number);
+            return nowMinutes >= (sh * 60 + sm) && nowMinutes <= (eh * 60 + em);
         }
 
         function updateNavbar() {
             const nav = document.getElementById('nav-actions');
+            const userIsAdmin = isAdmin(currentUserId);
 
-            if(currentUser) {
-                const initiale = escapeHTML(currentUser).charAt(0).toUpperCase();
+            if (currentUser) {
                 nav.innerHTML = `
                     <div class="user-menu" id="user-menu">
                         <button class="user-trigger" id="user-trigger-btn">
-                            <span class="user-avatar">${initiale}</span>
-                            <span>${escapeHTML(currentUser)}</span>
+                            <span class="user-avatar">${currentUser.charAt(0).toUpperCase()}</span>
+                            <span>${currentUser}</span>
                         </button>
                         <div class="user-dropdown" id="user-dropdown">
-                            <div class="user-dropdown-header">
-                                Connecté avec Discord
-                                <strong>${escapeHTML(currentUser)}</strong>
-                            </div>
-                            <a href="#" id="info-dropdown-btn">ℹ️ À propos</a>
-                            <a href="https://discord.gg/bfXMVMatNf" target="_blank">💬 Support</a>
-                            <button type="button" class="dropdown-item danger" id="logout-btn">🚪 Déconnexion</button>
+                            <div class="user-dropdown-header">Connecté en tant qu'<strong>${currentUser}</strong></div>
+                            ${userIsAdmin ? `<a href="#" id="goto-admin-link" style="color:var(--blurple); font-weight:bold;">⚙️ Panel Admin</a>` : ''}
+                            <button type="button" class="dropdown-item danger" id="logout-btn-nav">🚪 Déconnexion</button>
                         </div>
                     </div>
                     <button id="depot-nav-btn">Déposer une annonce</button>
                 `;
-
                 document.getElementById('user-trigger-btn').addEventListener('click', (e) => {
                     e.stopPropagation();
                     document.getElementById('user-menu').classList.toggle('open');
                 });
-                document.getElementById('logout-btn').addEventListener('click', window.logoutDiscord);
+                document.getElementById('logout-btn-nav').addEventListener('click', window.logoutDiscord);
                 document.getElementById('depot-nav-btn').addEventListener('click', window.allerAuDepot);
-                document.getElementById('info-dropdown-btn').addEventListener('click', (e) => {
+                const gotoAdmin = document.getElementById('goto-admin-link');
+                if (gotoAdmin) gotoAdmin.addEventListener('click', (e) => {
                     e.preventDefault();
                     document.getElementById('user-menu').classList.remove('open');
-                    switchPage('apropos');
+                    switchPage('admin');
                 });
             } else {
                 nav.innerHTML = `
-                    <button class="btn-secondary" id="login-nav-btn">Se connecter à Discord</button>
+                    <button class="btn-secondary" id="login-nav-btn">Se connecter</button>
                     <button id="depot-nav-btn">Déposer une annonce</button>
                 `;
-                document.getElementById('login-nav-btn').addEventListener('click', window.loginDiscord);
+                document.getElementById('login-nav-btn').addEventListener('click', () => window.location.href = DISCORD_AUTH_URL);
                 document.getElementById('depot-nav-btn').addEventListener('click', window.allerAuDepot);
             }
         }
 
-        function afficherAnnonces(liste) {
-            const grid = document.getElementById('annonces-grid');
-            grid.innerHTML = "";
+        document.addEventListener('click', () => {
+            const menu = document.getElementById('user-menu');
+            if (menu) menu.classList.remove('open');
+        });
 
-            if (liste.length === 0) {
-                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 4rem;">Aucune annonce trouvée.</p>`;
+        function initScheduleUI() {
+            const container = document.getElementById('schedule-config-container');
+            container.innerHTML = JOURS.map((jour, index) => `
+                <div class="schedule-row">
+                    <label><input type="checkbox" id="sch-active-${index}" ${horaires[index].active ? 'checked' : ''}> ${jour}</label>
+                    <div class="schedule-times">
+                        <select id="sch-start-${index}">${generateTimeOptions(horaires[index].start)}</select>
+                        <span>à</span>
+                        <select id="sch-end-${index}">${generateTimeOptions(horaires[index].end)}</select>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateTimeOptions(selectedTime) {
+            let options = '';
+            for (let h = 0; h < 24; h++) {
+                let hourStr = h < 10 ? '0' + h : h;
+                ['00', '30'].forEach(m => {
+                    let time = `${hourStr}:${m}`;
+                    options += `<option value="${time}" ${time === selectedTime ? 'selected' : ''}>${time}</option>`;
+                });
+            }
+            return options;
+        }
+
+        window.sauvegarderHoraires = async function() {
+            horaires = JOURS.map((_, index) => ({
+                active: document.getElementById(`sch-active-${index}`).checked,
+                start: document.getElementById(`sch-start-${index}`).value,
+                end: document.getElementById(`sch-end-${index}`).value
+            }));
+            await setDoc(configParamRef, { horaires }, { merge: true });
+            showPopup({ title: "Horaires enregistrés", message: "Les plages horaires d'ouverture ont été mises à jour avec succès !", icon: "⏰" });
+            ajouterLog("⏰ Horaires modifiés", '');
+        };
+
+        window.toggleMaintenance = async function() {
+            const checked = document.getElementById('maintenance-toggle').checked;
+            await setDoc(configModRef, { maintenanceMode: checked }, { merge: true });
+            envoyerWebhook(webhookLogs, checked ? "🚧 Maintenance activée" : "✅ Maintenance désactivée", `Par ${currentUser || 'un administrateur'}`, checked ? 14431557 : 2333747);
+            ajouterLog(checked ? "🚧 Maintenance activée" : "✅ Maintenance désactivée", '');
+        };
+
+        function appliquerBanniereMaintenance() {
+            document.getElementById('maintenance-banner').classList.toggle('show', maintenanceMode);
+            const toggle = document.getElementById('maintenance-toggle');
+            const status = document.getElementById('maintenance-status');
+            if (toggle) toggle.checked = maintenanceMode;
+            if (status) status.innerHTML = maintenanceMode ? '🔴 Maintenance active' : '🟢 Site normal';
+        }
+
+        window.sauvegarderSalons = async function() {
+            webhookLogs = document.getElementById('webhook-logs').value.trim();
+            webhookPublish = document.getElementById('webhook-publish').value.trim();
+            await setDoc(configParamRef, { webhookLogs, webhookPublish }, { merge: true });
+            showPopup({ title: "Enregistré", message: "Les webhooks ont été sauvegardés.", icon: "#️⃣" });
+            ajouterLog("#️⃣ Webhooks modifiés", '');
+        };
+
+        window.sauvegarderBotConfig = async function() {
+            botClientId = document.getElementById('bot-client-id').value.trim();
+            botInviteLink = document.getElementById('bot-invite-link').value.trim();
+            await setDoc(configParamRef, { botClientId, botInviteLink }, { merge: true });
+            showPopup({ title: "Enregistré", message: "Configuration du bot mise à jour.", icon: "🤖" });
+            ajouterLog("🤖 Configuration du bot modifiée", '');
+        };
+
+        window.sauvegarderTicketConfig = async function() {
+            ticketCategoryName = document.getElementById('ticket-category-name').value.trim() || "ticket site";
+            ticketWelcomeMessage = document.getElementById('ticket-welcome-message').value.trim();
+            await setDoc(configParamRef, { ticketCategoryName, ticketWelcomeMessage }, { merge: true });
+            showPopup({ title: "Enregistré", message: "Configuration des tickets mise à jour.", icon: "🎟️" });
+            ajouterLog("🎟️ Configuration des tickets modifiée", '');
+        };
+
+        window.sauvegarderTextes = async function() {
+            const textes = {
+                heroTitle: document.getElementById('txt-hero-title').value.trim(),
+                heroSubtitle: document.getElementById('txt-hero-subtitle').value.trim(),
+                listingsHeading: document.getElementById('txt-listings-heading').value.trim(),
+                maintenanceBanner: document.getElementById('txt-maintenance-banner').value.trim(),
+                footer: document.getElementById('txt-footer').value.trim()
+            };
+            await setDoc(configTextesRef, textes, { merge: true });
+            showPopup({ title: "Enregistré", message: "Les textes du site ont été mis à jour.", icon: "📝" });
+            ajouterLog("📝 Textes du site modifiés", '');
+        };
+
+        window.ajouterWhitelist = async function() {
+            const inputId = document.getElementById('new-whitelist-id').value.trim();
+            if (!inputId) return;
+            await setDoc(configModRef, { whitelist: arrayUnion(inputId) }, { merge: true });
+            document.getElementById('new-whitelist-id').value = '';
+            showPopup({ title: "Ajouté", message: `L'ID ${inputId} a été ajouté à la Whitelist.`, icon: "✅" });
+            ajouterLog("🛡️ Admin ajouté à la whitelist", inputId);
+        };
+
+        window.retirerWhitelist = async function(id) {
+            if (id === MASTER_ADMIN_ID) {
+                showPopup({ title: "Action interdite", message: "Impossible de retirer le maître administrateur principal.", icon: "🚫" });
                 return;
             }
+            await setDoc(configModRef, { whitelist: arrayRemove(id) }, { merge: true });
+            ajouterLog("🛡️ Admin retiré de la whitelist", id);
+        };
 
-            liste.forEach(art => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.dataset.id = art.id;
-                const isOwner = currentUser && currentUser === art.proprietaire;
-                const thumb = (art.screenshots && art.screenshots[0])
-                    ? `<img src="${escapeHTML(art.screenshots[0])}" class="card-thumb" alt="" onerror="this.remove()">`
-                    : '';
-
-                card.innerHTML = `
-                    <div>
-                        ${thumb}
-                        <div class="card-header">
-                            <div class="card-title">${escapeHTML(art.nom)}</div>
-                            <span class="badge">${art.type}</span>
-                        </div>
-                        <div class="card-stats">
-                            <span>👥 ${art.membres} membres</span>
-                            <span>📊 ${art.activite}</span>
-                        </div>
-                        <p class="card-body">${escapeHTML(art.description)}</p>
-                    </div>
-                    <div class="card-actions">
-                        <button style="flex: 1;" class="contact-btn" data-id="${art.id}">
-                            💬 Contacter ${escapeHTML(art.proprietaire)}
-                        </button>
-                        ${isOwner ? `<button class="btn-danger delete-btn" data-id="${art.id}">🗑️</button>` : ''}
-                    </div>
-                `;
-                card.addEventListener('click', () => voirDetail(art.id));
-                grid.appendChild(card);
-            });
-
-            document.querySelectorAll('.contact-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const id = e.currentTarget.dataset.id;
-                    const annonce = annonces.find(a => a.id === id);
-                    if (annonce) ouvrirTicket(annonce);
-                });
-            });
-
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    supprimerAnnonce(e.currentTarget.dataset.id);
-                });
-            });
+        function chargerWhitelistTable() {
+            const tbody = document.getElementById('whitelist-table-body');
+            tbody.innerHTML = whitelistAdmins.map(id => `
+                <tr>
+                    <td><code>${id}</code> ${id === MASTER_ADMIN_ID ? ' (Maître Admin)' : ''}</td>
+                    <td>${id !== MASTER_ADMIN_ID ? `<button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="retirerWhitelist('${id}')">Retirer</button>` : ''}</td>
+                </tr>
+            `).join('');
         }
 
-        function voirDetail(id) {
-            const art = annonces.find(a => a.id === id);
-            if (!art) return;
-
-            document.getElementById('detail-nom').innerText = art.nom;
-            document.getElementById('detail-badge').innerText = art.type;
-            document.getElementById('detail-stats').innerHTML =
-                `<span>👥 ${art.membres} membres</span><span>📊 ${art.activite}</span><span>🗂️ ${art.categorie}</span>`;
-            document.getElementById('detail-description').innerText = art.description;
-
-            const gallery = document.getElementById('detail-gallery');
-            gallery.innerHTML = '';
-            (art.screenshots || []).forEach(url => {
-                const img = document.createElement('img');
-                img.src = url;
-                img.alt = '';
-                img.onerror = () => img.remove();
-                img.addEventListener('click', () => window.open(url, '_blank'));
-                gallery.appendChild(img);
-            });
-
-            const contactBtn = document.getElementById('detail-contact-btn');
-            contactBtn.textContent = `💬 Contacter ${art.proprietaire}`;
-            contactBtn.onclick = () => ouvrirTicket(art);
-
-            switchPage('detail');
-        }
-
-        function mettreAJourStats() {
-            document.getElementById('stat-annonces').textContent = annonces.length;
-            const totalMembres = annonces.reduce((sum, a) => sum + (parseInt(a.membres) || 0), 0);
-            document.getElementById('stat-membres').textContent = totalMembres.toLocaleString('fr-FR');
-        }
-
-        const statsDocRef = doc(db, 'stats', 'compteurs');
-
-        async function chargerCompteurTickets() {
-            try {
-                const snap = await getDoc(statsDocRef);
-                document.getElementById('stat-tickets').textContent = snap.exists() ? (snap.data().tickets || 0) : 0;
-            } catch (error) {
-                console.error("Erreur lecture compteur tickets:", error);
+        window.ajouterRestriction = async function() {
+            const inputId = document.getElementById('new-restriction-id').value.trim();
+            if (!inputId) return;
+            if (whitelistAdmins.includes(inputId)) {
+                showPopup({ title: "Action impossible", message: "Impossible de restreindre un administrateur.", icon: "🚫" });
+                return;
             }
+            await setDoc(configModRef, { restrictions: arrayUnion(inputId) }, { merge: true });
+            document.getElementById('new-restriction-id').value = '';
+            ajouterLog("🔒 Compte restreint", inputId);
+        };
+
+        window.retirerRestriction = async function(id) {
+            await setDoc(configModRef, { restrictions: arrayRemove(id) }, { merge: true });
+            ajouterLog("🔒 Restriction levée", id);
+        };
+
+        function chargerRestrictionsTable() {
+            const tbody = document.getElementById('restrictions-table-body');
+            tbody.innerHTML = restrictedUsers.length === 0
+                ? `<tr><td colspan="2" style="text-align:center; color:var(--text-muted);">Aucun compte restreint.</td></tr>`
+                : restrictedUsers.map(id => `
+                    <tr>
+                        <td><code>${id}</code></td>
+                        <td><button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="retirerRestriction('${id}')">Lever la restriction</button></td>
+                    </tr>
+                `).join('');
         }
 
-        async function incrementerCompteurTickets() {
-            try {
-                await setDoc(statsDocRef, { tickets: increment(1) }, { merge: true });
-                chargerCompteurTickets();
-            } catch (error) {
-                console.error("Erreur incrémentation compteur tickets:", error);
+        window.ajouterBan = async function() {
+            const inputId = document.getElementById('new-ban-id').value.trim();
+            if (!inputId) return;
+            if (whitelistAdmins.includes(inputId)) {
+                showPopup({ title: "Action impossible", message: "Impossible de bannir un administrateur.", icon: "🚫" });
+                return;
             }
+            await setDoc(configModRef, { bannis: arrayUnion(inputId) }, { merge: true });
+            document.getElementById('new-ban-id').value = '';
+            envoyerWebhook(webhookLogs, "⛔ Nouveau bannissement", `ID banni : ${inputId}\nPar : ${currentUser || 'admin'}`, 14362664);
+            ajouterLog("⛔ Compte banni", inputId);
+        };
+
+        window.retirerBan = async function(id) {
+            await setDoc(configModRef, { bannis: arrayRemove(id) }, { merge: true });
+            ajouterLog("⛔ Compte débanni", id);
+        };
+
+        function chargerBansTable() {
+            const tbody = document.getElementById('bans-table-body');
+            tbody.innerHTML = bannedUsers.length === 0
+                ? `<tr><td colspan="2" style="text-align:center; color:var(--text-muted);">Aucun compte banni.</td></tr>`
+                : bannedUsers.map(id => `
+                    <tr>
+                        <td><code>${id}</code></td>
+                        <td><button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="retirerBan('${id}')">Débannir</button></td>
+                    </tr>
+                `).join('');
         }
+
+        window.ajouterPartenaire = async function() {
+            const nom = document.getElementById('new-partner-nom').value.trim();
+            const lien = document.getElementById('new-partner-lien').value.trim();
+            if (!nom || !lien) return;
+            await addDoc(partenairesRef, { nom, lien, dateAjout: serverTimestamp() });
+            document.getElementById('new-partner-nom').value = '';
+            document.getElementById('new-partner-lien').value = '';
+            ajouterLog("🤝 Partenaire ajouté", nom);
+        };
+
+        window.retirerPartenaire = async function(id) {
+            await deleteDoc(doc(db, 'partenaires', id));
+            ajouterLog("🤝 Partenaire retiré", id);
+        };
+
+        function chargerPartenairesTable() {
+            const tbody = document.getElementById('partners-table-body');
+            tbody.innerHTML = partenaires.length === 0
+                ? `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Aucun partenaire pour le moment.</td></tr>`
+                : partenaires.map(p => `
+                    <tr>
+                        <td>${p.nom}</td>
+                        <td><a href="${p.lien}" target="_blank" style="color:var(--blurple);">${p.lien}</a></td>
+                        <td><button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="retirerPartenaire('${p.id}')">Retirer</button></td>
+                    </tr>
+                `).join('');
+        }
+
+        function chargerPanelAdmin() {
+            const pendingTbody = document.getElementById('admin-pending-annonces');
+            const pendingList = annonces.filter(a => a.statut === 'en_attente');
+            pendingTbody.innerHTML = pendingList.length === 0
+                ? `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Aucune annonce en attente.</td></tr>`
+                : pendingList.map(a => `
+                    <tr>
+                        <td><strong>${a.nom}</strong></td>
+                        <td>${a.proprietaire}</td>
+                        <td>
+                            <button class="btn-link" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="validerAnnonce('${a.id}')">Valider</button>
+                            <button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="supprimerAnnonceAdmin('${a.id}')">Refuser</button>
+                        </td>
+                    </tr>
+                `).join('');
+
+            const allTbody = document.getElementById('admin-all-annonces');
+            allTbody.innerHTML = annonces.length === 0
+                ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune annonce sur le site.</td></tr>`
+                : annonces.map(a => `
+                    <tr>
+                        <td><strong>${a.nom}</strong></td>
+                        <td><code>${a.serverId || 'N/A'}</code></td>
+                        <td>${a.proprietaire}</td>
+                        <td><button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="supprimerAnnonceAdmin('${a.id}')">🗑️ Supprimer</button></td>
+                    </tr>
+                `).join('');
+        }
+
+        window.validerAnnonce = async function(id) {
+            const annonce = annonces.find(a => a.id === id);
+            await updateDoc(doc(db, 'annonces', id), { statut: 'valide' });
+            if (annonce) {
+                envoyerWebhook(webhookPublish, "✅ Nouvelle annonce publiée", `**${annonce.nom}**\n${annonce.description}\n\nPar : ${annonce.proprietaire}`, 2333747);
+                envoyerWebhook(webhookLogs, "✅ Annonce validée", `${annonce.nom} — validée par ${currentUser || 'admin'}`, 2333747);
+                ajouterLog("✅ Annonce validée", annonce.nom);
+            }
+        };
+
+        window.supprimerAnnonceAdmin = async function(id) {
+            const annonce = annonces.find(a => a.id === id);
+            await deleteDoc(doc(db, 'annonces', id));
+            if (annonce) {
+                envoyerWebhook(webhookLogs, "🗑️ Annonce supprimée", `${annonce.nom} — supprimée par ${currentUser || 'admin'}`, 14362664);
+                ajouterLog("🗑️ Annonce supprimée", annonce.nom);
+            }
+        };
 
         function ecouterAnnonces() {
             const q = query(annoncesRef, orderBy('dateCreation', 'desc'));
             onSnapshot(q, (snapshot) => {
-                annonces = snapshot.docs.map(doc => ({ 
-                    id: doc.id, 
-                    ...doc.data({ serverTimestamps: 'estimate' })
-                }));
-                filtrerAnnonces();
+                annonces = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                afficherAnnonces(annonces);
                 mettreAJourStats();
-            }, (error) => {
-                console.error("Erreur d'écoute Firestore :", error);
+                chargerPanelAdmin();
             });
         }
 
-        function filtrerAnnonces() {
-            const searchVal = document.getElementById('search-bar').value.toLowerCase();
-            const catVal = document.getElementById('filter-category').value;
-            const typeVal = document.getElementById('filter-type').value;
-
-            const resultats = annonces.filter(art => {
-                const matchSearch = art.nom.toLowerCase().includes(searchVal) || art.description.toLowerCase().includes(searchVal);
-                const matchCat = catVal === "" || art.categorie === catVal;
-                const matchType = typeVal === "" || art.type === typeVal;
-                return matchSearch && matchCat && matchType;
+        function ecouterTickets() {
+            const q = query(ticketsRef, orderBy('dateCreation', 'desc'));
+            onSnapshot(q, (snapshot) => {
+                tickets = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                afficherTicketsAdmin();
+                document.getElementById('stat-tickets').textContent = tickets.length;
             });
-
-            afficherAnnonces(resultats);
         }
 
-        async function creerAnnonce(event) {
-            event.preventDefault();
+        function ecouterPartenaires() {
+            onSnapshot(partenairesRef, (snapshot) => {
+                partenaires = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                chargerPartenairesTable();
+            });
+        }
 
-            if (!currentUser || !currentUserId) {
-                showPopup({
-                    title: "Connexion requise",
-                    message: "Vous devez être connecté avec un compte Discord pour publier une annonce.",
-                    icon: "🔒",
-                    confirmText: "Se connecter avec Discord",
-                    cancelText: "Annuler",
-                    onConfirm: window.loginDiscord
-                });
-                return;
-            }
+        function afficherTicketsAdmin() {
+            const tbody = document.getElementById('admin-tickets-list');
+            if (!tbody) return;
+            tbody.innerHTML = tickets.length === 0
+                ? `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Aucun ticket pour le moment.</td></tr>`
+                : tickets.map(t => `
+                    <tr>
+                        <td>${t.annonceNom || '—'}</td>
+                        <td>${t.demandeurUsername || '—'}</td>
+                        <td>${t.proprietaireUsername || '—'}</td>
+                        <td>${t.dateCreation && t.dateCreation.toDate ? t.dateCreation.toDate().toLocaleString('fr-FR') : '—'}</td>
+                        <td>${t.channelUrl ? `<a href="${t.channelUrl}" target="_blank" style="color:var(--blurple);">Ouvrir</a>` : '—'}</td>
+                        <td>${t.ferme ? '<span style="color:var(--text-muted);">Fermé</span>' : `<button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="fermerTicket('${t.id}', '${t.channelId || ''}')">Fermer</button>`}</td>
+                    </tr>
+                `).join('');
+        }
 
-            const inputServerId = document.getElementById('server-id').value.trim();
-
-            if (userGuilds.length === 0) {
-                await chargerServeursUtilisateur();
-            }
-
-            if (userGuilds.length === 0) {
-                showPopup({
-                    title: "Session expirée",
-                    message: "Impossible d'accéder à la liste de vos serveurs. Veuillez vous déconnecter et vous reconnecter avec Discord.",
-                    icon: "🔑",
-                    confirmText: "Se reconnecter",
-                    onConfirm: window.loginDiscord
-                });
-                return;
-            }
-
-            const serveurTrouve = userGuilds.find(g => g.id === inputServerId);
-
-            if (!serveurTrouve) {
-                showPopup({
-                    title: "Serveur non trouvé",
-                    message: "Impossible de trouver un serveur correspondant à cet ID dans votre compte Discord. Vérifiez l'ID entré.",
-                    icon: "❌"
-                });
-                return;
-            }
-
-            if (!serveurTrouve.owner) {
-                showPopup({
-                    title: "Accès refusé",
-                    message: `Vous êtes présent sur le serveur <strong>${escapeHTML(serveurTrouve.name)}</strong> mais vous n'en êtes <strong>PAS le propriétaire (Owner)</strong>.<br><br>Seul le propriétaire du serveur peut déposer une annonce.`,
-                    icon: "🚫"
-                });
-                return;
-            }
-
-            const screenshots = [
-                document.getElementById('server-screenshot-1').value.trim(),
-                document.getElementById('server-screenshot-2').value.trim(),
-                document.getElementById('server-screenshot-3').value.trim()
-            ].filter(Boolean);
-
-            const nouvelleAnnonce = {
-                serverId: inputServerId,
-                nom: document.getElementById('server-name').value,
-                membres: parseInt(document.getElementById('server-members').value),
-                categorie: document.getElementById('server-category').value,
-                activite: document.getElementById('server-activity').value,
-                type: document.getElementById('server-type').value,
-                description: document.getElementById('server-reason').value,
-                screenshots: screenshots,
-                proprietaire: currentUser,
-                proprietaireId: currentUserId,
-                dateCreation: serverTimestamp()
-            };
-
+        window.fermerTicket = async function(ticketId, channelId) {
             try {
-                await addDoc(annoncesRef, nouvelleAnnonce);
-                document.getElementById('annonce-form').reset();
-                showPopup({
-                    title: "Propriété vérifiée !",
-                    message: `Félicitations, vous êtes bien le propriétaire de <strong>${escapeHTML(serveurTrouve.name)}</strong>. Votre annonce est en ligne !`,
-                    icon: "✅",
-                    onConfirm: () => switchPage('accueil')
-                });
-            } catch (error) {
-                console.error("Erreur ajout annonce:", error);
-                showPopup({
-                    title: "Erreur",
-                    message: "Erreur lors de la publication : " + error.message,
-                    icon: "⚠️"
-                });
+                if (channelId) {
+                    await fetch('/api/close-ticket', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ channelId })
+                    });
+                }
+                await updateDoc(doc(db, 'tickets', ticketId), { ferme: true });
+                showPopup({ title: "Ticket fermé", message: "Le salon Discord a été supprimé et le ticket marqué comme fermé.", icon: "✅" });
+                ajouterLog("🎟️ Ticket fermé", ticketId);
+            } catch (err) {
+                showPopup({ title: "Erreur", message: "Impossible de fermer ce ticket.", icon: "❌" });
             }
+        };
+
+        function afficherAnnonces(liste) {
+            const grid = document.getElementById('annonces-grid');
+            const visibles = liste.filter(a => a.statut === 'valide' || isAdmin(currentUserId));
+
+            grid.innerHTML = visibles.length === 0
+                ? `<p style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:3rem;">Aucune annonce disponible.</p>`
+                : visibles.map(a => `
+                    <div class="card" onclick="voirDetail('${a.id}')">
+                        <div class="card-header">
+                            <div class="card-title">${a.nom}</div>
+                            <span class="badge ${a.statut === 'en_attente' ? 'badge-pending' : ''}">${a.statut === 'en_attente' ? 'En attente' : a.type}</span>
+                        </div>
+                        <div class="card-stats"><span>👥 ${a.membres} membres</span></div>
+                        <p class="card-body">${a.description}</p>
+                    </div>
+                `).join('');
         }
 
-        async function supprimerAnnonce(id) {
-            showPopup({
-                title: "Confirmation",
-                message: "Voulez-vous vraiment retirer cette annonce ?",
-                icon: "🗑️",
-                confirmText: "Oui, supprimer",
-                cancelText: "Annuler",
-                onConfirm: async () => {
-                    try {
-                        await deleteDoc(doc(db, 'annonces', id));
-                        showPopup({ title: "Supprimé", message: "L'annonce a été retirée.", icon: "👍" });
-                    } catch (error) {
-                        console.error("Erreur suppression:", error);
-                    }
-                }
-            });
-        }
+        window.voirDetail = function(id) {
+            const art = annonces.find(a => a.id === id);
+            if (!art) return;
+            document.getElementById('detail-nom').innerText = art.nom;
+            document.getElementById('detail-badge').innerText = art.type;
+            document.getElementById('detail-stats').innerHTML = `<span>👥 ${art.membres} membres</span>`;
+            document.getElementById('detail-description').innerText = art.description;
+            document.getElementById('detail-contact-btn').onclick = () => ouvrirTicket(art);
+            switchPage('detail');
+        };
 
         async function ouvrirTicket(annonce) {
             if (!currentUser || !currentUserId) {
                 showPopup({
                     title: "Connexion requise",
-                    message: "Il faut être connecté avec Discord pour ouvrir un ticket.",
+                    message: "Connecte-toi avec Discord pour contacter le propriétaire.",
                     icon: "🔒",
-                    confirmText: "Se connecter avec Discord",
-                    cancelText: "Annuler",
-                    onConfirm: window.loginDiscord
+                    onConfirm: () => window.location.href = DISCORD_AUTH_URL
                 });
+                return;
+            }
+            if (bannedUsers.includes(currentUserId)) {
+                showPopup({ title: "Compte banni", message: "Votre compte a été banni de la plateforme.", icon: "⛔" });
                 return;
             }
 
@@ -1461,115 +1278,226 @@
                         proprietaireUsername: annonce.proprietaire,
                         proprietaireId: annonce.proprietaireId || null,
                         demandeurUsername: currentUser,
-                        demandeurId: currentUserId
+                        demandeurId: currentUserId,
+                        categoryName: ticketCategoryName,
+                        welcomeMessage: ticketWelcomeMessage || null
                     })
                 });
                 const result = await res.json();
 
                 if (res.ok && result.success) {
-                    incrementerCompteurTickets();
+                    await addDoc(ticketsRef, {
+                        annonceId: annonce.id,
+                        annonceNom: annonce.nom,
+                        proprietaireUsername: annonce.proprietaire,
+                        proprietaireId: annonce.proprietaireId || null,
+                        demandeurUsername: currentUser,
+                        demandeurId: currentUserId,
+                        channelUrl: result.channelUrl,
+                        channelId: result.channelId,
+                        dateCreation: serverTimestamp()
+                    });
                     showPopup({
-                        title: "Ticket créé !",
-                        message: `🎫 Votre ticket a été ouvert sur Discord.<br><br>Cliquer ci-dessous pour y accéder directement.`,
+                        title: "Ticket ouvert !",
+                        message: "🎫 Un salon a été créé sur Discord pour discuter avec le propriétaire.",
                         icon: "💬",
-                        confirmText: "Ouvrir sur Discord",
-                        cancelText: "Fermer",
                         onConfirm: () => window.open(result.channelUrl, '_blank')
                     });
                 } else {
-                    showPopup({
-                        title: "Erreur",
-                        message: "Erreur lors de l'ouverture du ticket : " + (result.error || "erreur inconnue."),
-                        icon: "❌"
-                    });
+                    showPopup({ title: "Erreur", message: result.error || "Erreur inconnue lors de l'ouverture du ticket.", icon: "❌" });
                 }
-            } catch (error) {
-                console.error("Erreur création ticket:", error);
-                showPopup({
-                    title: "Erreur réseau",
-                    message: "Impossible de contacter le serveur pour ouvrir le ticket.",
-                    icon: "🌐"
-                });
+            } catch (err) {
+                showPopup({ title: "Erreur réseau", message: "Impossible de contacter le serveur pour ouvrir le ticket.", icon: "🌐" });
             }
         }
 
-        function escapeHTML(str) {
-            return str ? str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)) : '';
+        function mettreAJourStats() {
+            const valides = annonces.filter(a => a.statut === 'valide');
+            document.getElementById('stat-annonces').textContent = valides.length;
+            const totalMembres = valides.reduce((sum, a) => sum + (parseInt(a.membres) || 0), 0);
+            document.getElementById('stat-membres').textContent = totalMembres.toLocaleString('fr-FR');
         }
 
-        document.getElementById('annonce-form').addEventListener('submit', creerAnnonce);
-        let searchDebounceTimer;
-        document.getElementById('search-bar').addEventListener('input', () => {
-            clearTimeout(searchDebounceTimer);
-            searchDebounceTimer = setTimeout(filtrerAnnonces, 200);
-        });
-        document.getElementById('filter-category').addEventListener('change', filtrerAnnonces);
-        document.getElementById('filter-type').addEventListener('change', filtrerAnnonces);
-        document.getElementById('logo-btn').addEventListener('click', () => switchPage('accueil'));
-        document.getElementById('cancel-form-btn').addEventListener('click', () => switchPage('accueil'));
-        document.getElementById('back-home-btn').addEventListener('click', () => switchPage('accueil'));
-        document.getElementById('hero-depot-btn').addEventListener('click', window.allerAuDepot);
-        document.getElementById('hero-search-btn').addEventListener('click', () => {
-            document.getElementById('search-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            document.getElementById('search-bar').focus();
-        });
-        document.getElementById('detail-back-btn').addEventListener('click', () => switchPage('accueil'));
-
-        document.addEventListener('click', (event) => {
-            const menu = document.getElementById('user-menu');
-            if (menu && !menu.contains(event.target)) {
-                menu.classList.remove('open');
-            }
-        });
-
-        checkDiscordCallback();
-        updateNavbar();
-        ecouterAnnonces();
-        chargerCompteurTickets();
-        // ---------- ÉCRAN DE MISE À JOUR (une seule fois par visiteur) ----------
-        // Change ce numéro de version si tu veux redéclencher l'écran pour tout le
-        // monde lors d'une prochaine grosse mise à jour (ex: 'xparia_update_seen_v3').
-        const UPDATE_FLAG = 'xparia_update_seen_v2';
-
-        function initUpdateOverlay() {
-            const overlay = document.getElementById('update-overlay');
-            if (!overlay) return;
-
-            if (localStorage.getItem(UPDATE_FLAG)) {
-                overlay.classList.remove('open');
+        document.getElementById('annonce-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (bannedUsers.includes(currentUserId)) {
+                showPopup({ title: "Compte banni", message: "Impossible de publier.", icon: "⛔" });
                 return;
             }
+            if (restrictedUsers.includes(currentUserId)) {
+                showPopup({ title: "Erreur", message: "Profil restreint.", icon: "⛔" });
+                return;
+            }
+            const nomServeur = document.getElementById('server-name').value;
+            await addDoc(annoncesRef, {
+                serverId: document.getElementById('server-id').value,
+                nom: nomServeur,
+                membres: parseInt(document.getElementById('server-members').value),
+                categorie: document.getElementById('server-category').value,
+                type: document.getElementById('server-type').value,
+                description: document.getElementById('server-reason').value,
+                proprietaire: currentUser,
+                proprietaireId: currentUserId,
+                statut: 'en_attente',
+                dateCreation: serverTimestamp()
+            });
+            document.getElementById('annonce-form').reset();
+            envoyerWebhook(webhookLogs, "📢 Nouvelle annonce en attente", `${nomServeur} — par ${currentUser}`, 16776960);
+            showPopup({ title: "Succès", message: "Annonce soumise pour validation !", icon: "⏳", onConfirm: () => switchPage('accueil') });
+        });
 
-            overlay.classList.add('open');
+        document.getElementById('hero-search-btn').addEventListener('click', () => {
+            document.getElementById('search-container').scrollIntoView({ behavior: 'smooth' });
+        });
+        document.getElementById('hero-depot-btn').addEventListener('click', window.allerAuDepot);
+        document.getElementById('detail-back-btn').addEventListener('click', () => switchPage('accueil'));
+        document.getElementById('logo-btn').addEventListener('click', () => switchPage('accueil'));
 
-            document.getElementById('update-start-btn').addEventListener('click', (e) => {
-                const btn = e.currentTarget;
-                const track = document.getElementById('update-progress-track');
-                const bar = document.getElementById('update-progress-bar');
+        document.getElementById('search-bar').addEventListener('input', filtrer);
+        document.getElementById('filter-category').addEventListener('change', filtrer);
+        document.getElementById('filter-type').addEventListener('change', filtrer);
+        function filtrer() {
+            const kw = document.getElementById('search-bar').value.toLowerCase();
+            const cat = document.getElementById('filter-category').value;
+            const type = document.getElementById('filter-type').value;
+            const filtered = annonces.filter(a =>
+                (!kw || a.nom.toLowerCase().includes(kw) || a.description.toLowerCase().includes(kw)) &&
+                (!cat || a.categorie === cat) &&
+                (!type || a.type === type)
+            );
+            afficherAnnonces(filtered);
+        }
 
-                btn.disabled = true;
-                btn.textContent = 'Mise à jour en cours...';
-                track.style.display = 'block';
+        async function checkDiscordCallback() {
+            const hashParams = new URLSearchParams(window.location.hash.substring(1));
+            const tok = hashParams.get('access_token');
+            if (!tok) return;
 
-                let progress = 0;
-                const interval = setInterval(() => {
-                    progress += Math.random() * 25 + 10;
-                    if (progress >= 100) {
-                        progress = 100;
-                        bar.style.width = '100%';
-                        clearInterval(interval);
-                        localStorage.setItem(UPDATE_FLAG, '1');
-                        setTimeout(() => {
-                            overlay.classList.remove('open');
-                        }, 400);
-                    } else {
-                        bar.style.width = progress + '%';
+            try {
+                const res = await fetch('https://discord.com/api/users/@me', { headers: { Authorization: `Bearer ${tok}` } });
+                const data = await res.json();
+                if (data.username) {
+                    if (bannedUsers.includes(data.id)) {
+                        showPopup({ title: "Compte banni", message: "Ce compte Discord a été banni de la plateforme.", icon: "⛔" });
+                        history.replaceState(null, '', window.location.pathname);
+                        return;
                     }
-                }, 350);
+                    currentUser = data.username;
+                    currentUserId = data.id;
+                    localStorage.setItem('currentUser', currentUser);
+                    localStorage.setItem('currentUserId', currentUserId);
+                    updateNavbar();
+                }
+            } catch (err) {
+                console.error('Erreur connexion Discord:', err);
+            }
+            history.replaceState(null, '', window.location.pathname);
+        }
+
+        function ecouterConfig() {
+            onSnapshot(configModRef, (snap) => {
+                const data = snap.exists() ? snap.data() : {};
+                whitelistAdmins = Array.from(new Set([MASTER_ADMIN_ID, ...(data.whitelist || [])]));
+                restrictedUsers = data.restrictions || [];
+                bannedUsers = data.bannis || [];
+                maintenanceMode = !!data.maintenanceMode;
+
+                chargerWhitelistTable();
+                chargerRestrictionsTable();
+                chargerBansTable();
+                appliquerBanniereMaintenance();
+                updateNavbar();
+                afficherAnnonces(annonces);
+
+                if (currentUserId && bannedUsers.includes(currentUserId)) {
+                    showPopup({ title: "Compte banni", message: "Votre accès a été révoqué par un administrateur.", icon: "⛔" });
+                    window.logoutDiscord();
+                }
+            });
+
+            onSnapshot(configParamRef, (snap) => {
+                const data = snap.exists() ? snap.data() : {};
+                if (data.horaires) horaires = data.horaires;
+                webhookLogs = data.webhookLogs || "";
+                webhookPublish = data.webhookPublish || "";
+                botClientId = data.botClientId || "";
+                botInviteLink = data.botInviteLink || "";
+                ticketCategoryName = data.ticketCategoryName || "ticket site";
+                ticketWelcomeMessage = data.ticketWelcomeMessage || "";
+
+                initScheduleUI();
+                const logsInput = document.getElementById('webhook-logs');
+                const pubInput = document.getElementById('webhook-publish');
+                const clientInput = document.getElementById('bot-client-id');
+                const inviteInput = document.getElementById('bot-invite-link');
+                const catInput = document.getElementById('ticket-category-name');
+                const msgInput = document.getElementById('ticket-welcome-message');
+                if (logsInput) logsInput.value = webhookLogs;
+                if (pubInput) pubInput.value = webhookPublish;
+                if (clientInput) clientInput.value = botClientId;
+                if (inviteInput) inviteInput.value = botInviteLink;
+                if (catInput) catInput.value = ticketCategoryName;
+                if (msgInput) msgInput.value = ticketWelcomeMessage;
             });
         }
 
-        initUpdateOverlay();
+        function ecouterTextes() {
+            onSnapshot(configTextesRef, (snap) => {
+                const data = snap.exists() ? snap.data() : {};
+
+                const heroTitleEl = document.getElementById('text-hero-title');
+                const heroSubtitleEl = document.getElementById('text-hero-subtitle');
+                const listingsHeadingEl = document.getElementById('text-listings-heading');
+                const maintenanceBannerEl = document.getElementById('text-maintenance-banner');
+                const footerEl = document.getElementById('text-footer');
+
+                if (data.heroTitle && heroTitleEl) heroTitleEl.innerHTML = data.heroTitle;
+                if (data.heroSubtitle && heroSubtitleEl) heroSubtitleEl.textContent = data.heroSubtitle;
+                if (data.listingsHeading && listingsHeadingEl) listingsHeadingEl.textContent = data.listingsHeading;
+                if (data.maintenanceBanner && maintenanceBannerEl) maintenanceBannerEl.textContent = data.maintenanceBanner;
+                if (data.footer && footerEl) footerEl.innerHTML = data.footer;
+
+                const titleInput = document.getElementById('txt-hero-title');
+                const subInput = document.getElementById('txt-hero-subtitle');
+                const listInput = document.getElementById('txt-listings-heading');
+                const banInput = document.getElementById('txt-maintenance-banner');
+                const footInput = document.getElementById('txt-footer');
+                if (titleInput) titleInput.value = data.heroTitle || heroTitleEl?.textContent || '';
+                if (subInput) subInput.value = data.heroSubtitle || heroSubtitleEl?.textContent || '';
+                if (listInput) listInput.value = data.listingsHeading || listingsHeadingEl?.textContent || '';
+                if (banInput) banInput.value = data.maintenanceBanner || maintenanceBannerEl?.textContent || '';
+                if (footInput) footInput.value = data.footer || footerEl?.textContent || '';
+            });
+        }
+
+        function ecouterLogs() {
+            const q = query(logsRef, orderBy('date', 'desc'), limit(100));
+            onSnapshot(q, (snapshot) => {
+                const logs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                const tbody = document.getElementById('logs-table-body');
+                if (!tbody) return;
+                tbody.innerHTML = logs.length === 0
+                    ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune action enregistrée pour le moment.</td></tr>`
+                    : logs.map(l => `
+                        <tr>
+                            <td>${l.date && l.date.toDate ? l.date.toDate().toLocaleString('fr-FR') : '—'}</td>
+                            <td>${l.titre || '—'}</td>
+                            <td>${l.detail || ''}</td>
+                            <td>${l.auteur || '—'}</td>
+                        </tr>
+                    `).join('');
+            });
+        }
+
+        checkDiscordCallback().then(() => {
+            ecouterConfig();
+            ecouterTextes();
+            ecouterLogs();
+            ecouterAnnonces();
+            ecouterTickets();
+            ecouterPartenaires();
+            updateNavbar();
+        });
     </script>
 </body>
 </html>
