@@ -726,7 +726,7 @@
                     <div class="stat-label">serveurs publiés</div>
                 </div>
                 <div>
-                    <div class="stat-value" id="stat-membres">0</div>
+                    <div class="stat-value" id="stat-membres">15</div>
                     <div class="stat-label">membres concernés</div>
                 </div>
                 <div>
@@ -905,6 +905,7 @@
             <div id="popup-body"><p id="popup-message">Message...</p></div>
             <div class="modal-actions" id="popup-actions">
                 <button type="button" class="btn-secondary" id="popup-cancel-btn" style="display: none;">Annuler</button>
+                <button type="button" class="btn-danger" id="popup-close-ticket-btn" style="display: none;">🔒 Fermer le ticket</button>
                 <button type="button" id="popup-confirm-btn">OK</button>
             </div>
         </div>
@@ -975,7 +976,7 @@
         let userGuilds = [];
         let annonces = [];
 
-        function showPopup({ title = "Information", message = "", icon = "ℹ️", confirmText = "OK", cancelText = null, onConfirm = null }) {
+        function showPopup({ title = "Information", message = "", icon = "ℹ️", confirmText = "OK", cancelText = null, showCloseTicket = false, onConfirm = null, onCloseTicket = null }) {
             const modal = document.getElementById('custom-popup');
             document.getElementById('popup-title').innerText = title;
             document.getElementById('popup-message').innerHTML = message;
@@ -983,6 +984,7 @@
             
             const confirmBtn = document.getElementById('popup-confirm-btn');
             const cancelBtn = document.getElementById('popup-cancel-btn');
+            const closeTicketBtn = document.getElementById('popup-close-ticket-btn');
 
             confirmBtn.innerText = confirmText;
 
@@ -993,12 +995,21 @@
                 cancelBtn.style.display = 'none';
             }
 
+            if (showCloseTicket) {
+                closeTicketBtn.style.display = 'inline-block';
+            } else {
+                closeTicketBtn.style.display = 'none';
+            }
+
             modal.classList.add('open');
 
             const newConfirmBtn = confirmBtn.cloneNode(true);
             const newCancelBtn = cancelBtn.cloneNode(true);
+            const newCloseTicketBtn = closeTicketBtn.cloneNode(true);
+
             confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
             cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+            closeTicketBtn.parentNode.replaceChild(newCloseTicketBtn, closeTicketBtn);
 
             newConfirmBtn.addEventListener('click', () => {
                 modal.classList.remove('open');
@@ -1007,6 +1018,13 @@
 
             newCancelBtn.addEventListener('click', () => {
                 modal.classList.remove('open');
+            });
+
+            newCloseTicketBtn.addEventListener('click', () => {
+                if (confirm("Êtes-vous sûr de vouloir fermer ce ticket ?")) {
+                    modal.classList.remove('open');
+                    if (onCloseTicket) onCloseTicket();
+                }
             });
         }
 
@@ -1277,8 +1295,12 @@
 
         function mettreAJourStats() {
             document.getElementById('stat-annonces').textContent = annonces.length;
-            const totalMembres = annonces.reduce((sum, a) => sum + (parseInt(a.membres) || 0), 0);
-            document.getElementById('stat-membres').textContent = totalMembres.toLocaleString('fr-FR');
+            
+            // Calcul automatique basé sur une base de 15, augmentant automatiquement selon les membres des serveurs publiés
+            const totalMembresAnnonces = annonces.reduce((sum, a) => sum + (parseInt(a.membres) || 0), 0);
+            const totalMembresAffichage = 15 + totalMembresAnnonces;
+            
+            document.getElementById('stat-membres').textContent = totalMembresAffichage.toLocaleString('fr-FR');
         }
 
         const statsDocRef = doc(db, 'stats', 'compteurs');
@@ -1470,11 +1492,13 @@
                     incrementerCompteurTickets();
                     showPopup({
                         title: "Ticket créé !",
-                        message: `🎫 Votre ticket a été ouvert sur Discord.<br><br>Cliquer ci-dessous pour y accéder directement.`,
+                        message: `🎫 Votre ticket a été ouvert sur Discord.<br><br>Cliquez ci-dessous pour y accéder ou utilisez l'option pour le fermer.`,
                         icon: "💬",
                         confirmText: "Ouvrir sur Discord",
                         cancelText: "Fermer",
-                        onConfirm: () => window.open(result.channelUrl, '_blank')
+                        showCloseTicket: true,
+                        onConfirm: () => window.open(result.channelUrl, '_blank'),
+                        onCloseTicket: () => fermerTicket(result.ticketId || annonce.id)
                     });
                 } else {
                     showPopup({
@@ -1488,6 +1512,35 @@
                 showPopup({
                     title: "Erreur réseau",
                     message: "Impossible de contacter le serveur pour ouvrir le ticket.",
+                    icon: "🌐"
+                });
+            }
+        }
+
+        async function fermerTicket(ticketId) {
+            try {
+                const res = await fetch(`/api/tickets/${ticketId}/close`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                if (res.ok) {
+                    showPopup({
+                        title: "Ticket fermé",
+                        message: "Le ticket a été fermé avec succès.",
+                        icon: "🔒"
+                    });
+                } else {
+                    showPopup({
+                        title: "Erreur",
+                        message: "Erreur lors de la fermeture du ticket.",
+                        icon: "⚠️"
+                    });
+                }
+            } catch (error) {
+                console.error("Erreur fermeture ticket:", error);
+                showPopup({
+                    title: "Erreur réseau",
+                    message: "Impossible de contacter le serveur pour fermer le ticket.",
                     icon: "🌐"
                 });
             }
@@ -1526,9 +1579,7 @@
         updateNavbar();
         ecouterAnnonces();
         chargerCompteurTickets();
-        // ---------- ÉCRAN DE MISE À JOUR (une seule fois par visiteur) ----------
-        // Change ce numéro de version si tu veux redéclencher l'écran pour tout le
-        // monde lors d'une prochaine grosse mise à jour (ex: 'xparia_update_seen_v3').
+
         const UPDATE_FLAG = 'xparia_update_seen_v2';
 
         function initUpdateOverlay() {
