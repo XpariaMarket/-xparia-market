@@ -69,15 +69,9 @@
             letter-spacing: 0.5px;
         }
 
-        .logo span {
-            color: var(--blurple);
-        }
+        .logo span { color: var(--blurple); }
 
-        nav {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
+        nav { display: flex; gap: 1rem; align-items: center; }
 
         button, .btn-link {
             background-color: var(--blurple);
@@ -95,30 +89,19 @@
             font-size: 0.9rem;
         }
 
-        button:hover, .btn-link:hover {
-            background-color: var(--blurple-hover);
-        }
+        button:hover, .btn-link:hover { background-color: var(--blurple-hover); }
 
         .btn-secondary {
             background-color: transparent;
             border: 1px solid var(--text-muted);
             color: var(--text-main);
         }
+        .btn-secondary:hover { background-color: var(--border); }
 
-        .btn-secondary:hover {
-            background-color: var(--border);
-        }
+        .btn-danger { background-color: var(--red); }
+        .btn-danger:hover { background-color: var(--red-hover); }
 
-        .btn-danger {
-            background-color: var(--red);
-        }
-        .btn-danger:hover {
-            background-color: var(--red-hover);
-        }
-
-        .user-menu {
-            position: relative;
-        }
+        .user-menu { position: relative; }
 
         .user-trigger {
             background-color: var(--bg-sidebar);
@@ -134,22 +117,13 @@
             cursor: pointer;
             transition: background 0.2s, border-color 0.2s;
         }
-
-        .user-trigger:hover {
-            border-color: var(--blurple);
-        }
+        .user-trigger:hover { border-color: var(--blurple); }
 
         .user-avatar {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background-color: var(--blurple);
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85rem;
-            font-weight: 700;
+            width: 26px; height: 26px; border-radius: 50%;
+            background-color: var(--blurple); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; font-weight: 700;
         }
 
         .user-dropdown {
@@ -165,10 +139,7 @@
             overflow: hidden;
             z-index: 30;
         }
-
-        .user-menu.open .user-dropdown {
-            display: block;
-        }
+        .user-menu.open .user-dropdown { display: block; }
 
         .user-dropdown-header {
             padding: 0.9rem 1rem;
@@ -176,124 +147,69 @@
             font-size: 0.85rem;
             color: var(--text-muted);
         }
-
-        .user-dropdown-header strong {
-            display: block;
-            color: var(--text-main);
-            font-size: 0.95rem;
-        }
+        .user-dropdown-header strong { display: block; color: var(--text-main); font-size: 0.95rem; }
 
         .user-dropdown a, .user-dropdown button.dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.75rem 1rem;
-            font-size: 0.9rem;
-            color: var(--text-main);
-            text-decoration: none;
-            cursor: pointer;
-            background: none;
-            border: none;
-            width: 100%;
-            text-align: left;
+            display: flex; align-items: center; gap: 0.6rem;
+            padding: 0.75rem 1rem; font-size: 0.9rem;
+            color: var(--text-main); text-decoration: none;
+            cursor: pointer; background: none; border: none;
+            width: 100%; text-align: left;
         }
-
-        .user-dropdown a:hover, .user-dropdown button.dropdown-item:hover {
-            background-color: var(--bg-sidebar);
-        }
+        .user-dropdown a:hover, .user-dropdown button.dropdown-item:hover { background-color: var(--bg-sidebar); }
 
         .container {
-            max-width: 1200px;
-            width: 100%;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            flex: 1;
+            max-width: 1200px; width: 100%; margin: 2rem auto;
+            padding: 0 1rem; flex: 1;
         }
 
-        .page {
+        .page { display: none; }
+        .page.active { display: block; }
+
+        .maintenance-banner {
             display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        .hero {
+            background: var(--red);
+            color: #fff;
             text-align: center;
-            margin-bottom: 3rem;
+            padding: 0.7rem 1rem;
+            font-weight: 700;
+            font-size: 0.9rem;
         }
+        .maintenance-banner.show { display: block; }
 
-        .hero h1 {
-            font-size: 2.8rem;
-            margin-bottom: 0.5rem;
-            font-weight: 800;
-        }
-
-        .hero h1 span {
-            color: var(--blurple);
-        }
-
-        .hero p {
-            color: var(--text-muted);
-            font-size: 1.15rem;
-        }
+        .hero { text-align: center; margin-bottom: 3rem; }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 0.5rem; font-weight: 800; }
+        .hero h1 span { color: var(--blurple); }
+        .hero p { color: var(--text-muted); font-size: 1.15rem; }
 
         .hero-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
+            display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;
         }
 
         .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
             background-color: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 2.5rem;
-            text-align: center;
+            border-radius: 8px; padding: 1.5rem;
+            margin-bottom: 2.5rem; text-align: center;
             box-shadow: var(--shadow);
         }
+        .stats-bar .stat-value { font-size: 1.6rem; font-weight: 800; color: var(--blurple); }
+        .stats-bar .stat-label { font-size: 0.85rem; color: var(--text-muted); }
 
-        .stats-bar .stat-value {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--blurple);
-        }
-
-        .stats-bar .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .section-heading {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 1.25rem;
-        }
+        .section-heading { font-size: 1.3rem; font-weight: 700; margin-bottom: 1.25rem; }
 
         .search-container {
             background-color: var(--bg-card);
-            padding: 1.5rem;
-            border-radius: 8px;
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
+            padding: 1.5rem; border-radius: 8px;
+            display: flex; gap: 1rem; margin-bottom: 2.5rem;
+            border: 1px solid var(--border); box-shadow: var(--shadow);
         }
-
         .search-container input, .search-container select {
             background-color: var(--bg-sidebar);
             border: 1px solid var(--border);
             color: var(--text-main);
-            padding: 0.8rem;
-            border-radius: 6px;
-            flex: 1;
-            font-size: 1rem;
+            padding: 0.8rem; border-radius: 6px; flex: 1; font-size: 1rem;
         }
 
         .grid {
@@ -305,334 +221,170 @@
         .card {
             background-color: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: var(--shadow);
-            cursor: pointer;
+            border-radius: 8px; padding: 1.5rem;
+            display: flex; flex-direction: column; justify-content: space-between;
+            box-shadow: var(--shadow); cursor: pointer;
             transition: transform 0.2s, border-color 0.2s;
         }
-
-        .card:hover {
-            transform: translateY(-2px);
-            border-color: var(--blurple);
-        }
-
-        .card-thumb {
-            width: 100%;
-            height: 130px;
-            object-fit: cover;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            background-color: var(--bg-sidebar);
-        }
+        .card:hover { transform: translateY(-2px); border-color: var(--blurple); }
 
         .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
+            display: flex; justify-content: space-between;
+            align-items: flex-start; margin-bottom: 1rem;
         }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
+        .card-title { font-size: 1.25rem; font-weight: bold; }
 
         .badge {
-            background-color: var(--green);
-            color: white;
-            padding: 0.2rem 0.6rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            text-transform: uppercase;
+            background-color: var(--green); color: white;
+            padding: 0.2rem 0.6rem; border-radius: 12px;
+            font-size: 0.75rem; text-transform: uppercase;
         }
-
-        .badge-pending {
-            background-color: #f59e0b;
-        }
+        .badge-pending { background-color: #f59e0b; }
 
         .card-stats {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
+            display: flex; gap: 1rem; font-size: 0.9rem;
+            color: var(--text-muted); margin-bottom: 1rem;
         }
 
         .card-body {
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.4;
+            font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.4;
             color: var(--text-muted);
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            display: -webkit-box; -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical; overflow: hidden;
         }
 
-        .card-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        /* --- PANEL ADMIN AVANCÉ --- */
+        /* --- PANEL ADMIN --- */
         .admin-layout {
-            display: grid;
-            grid-template-columns: 260px 1fr;
-            gap: 2rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
+            display: grid; grid-template-columns: 260px 1fr; gap: 2rem;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);
             min-height: 600px;
         }
-
         .admin-sidebar {
-            background: var(--bg-sidebar);
-            border-right: 1px solid var(--border);
-            padding: 1.5rem 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
+            background: var(--bg-sidebar); border-right: 1px solid var(--border);
+            padding: 1.5rem 1rem; display: flex; flex-direction: column; gap: 0.4rem;
         }
-
         .admin-sidebar-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-bottom: 0.8rem;
-            padding-left: 0.6rem;
-            font-weight: 700;
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--text-muted); margin-bottom: 0.8rem;
+            padding-left: 0.6rem; font-weight: 700;
         }
-
         .admin-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
-            color: var(--text-muted);
-            background: none;
-            border: none;
-            width: 100%;
-            text-align: left;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
+            display: flex; align-items: center; gap: 0.8rem;
+            padding: 0.75rem 1rem; border-radius: 6px;
+            color: var(--text-muted); background: none; border: none;
+            width: 100%; text-align: left; font-size: 0.95rem;
+            font-weight: 600; cursor: pointer; transition: all 0.2s;
         }
-
         .admin-nav-item:hover, .admin-nav-item.active {
-            background: rgba(255, 122, 26, 0.1);
-            color: var(--blurple);
+            background: rgba(255, 122, 26, 0.1); color: var(--blurple);
         }
+        .admin-content { padding: 2rem; overflow-y: auto; max-height: 75vh; }
+        .admin-section { display: none; }
+        .admin-section.active { display: block; }
 
-        .admin-content {
-            padding: 2rem;
-            overflow-y: auto;
-            max-height: 75vh;
-        }
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9rem; }
+        .admin-table th, .admin-table td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--border); text-align: left; }
+        .admin-table th { background-color: var(--bg-sidebar); font-weight: 600; color: var(--text-muted); }
 
-        .admin-section {
-            display: none;
-        }
-
-        .admin-section.active {
-            display: block;
-        }
-
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .admin-table th, .admin-table td {
-            padding: 0.9rem 1rem;
-            border-bottom: 1px solid var(--border);
-            text-align: left;
-        }
-
-        .admin-table th {
-            background-color: var(--bg-sidebar);
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        /* Horaires Style */
         .schedule-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--bg-sidebar);
-            border: 1px solid var(--border);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 0.8rem;
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--bg-sidebar); border: 1px solid var(--border);
+            padding: 1rem; border-radius: 8px; margin-bottom: 0.8rem;
         }
-
-        .schedule-row label {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .schedule-times {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
+        .schedule-row label { display: flex; align-items: center; gap: 0.8rem; font-weight: 600; cursor: pointer; }
+        .schedule-times { display: flex; align-items: center; gap: 0.8rem; }
         .schedule-times select {
-            background: var(--bg-main);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 0.5rem;
-            border-radius: 4px;
+            background: var(--bg-main); border: 1px solid var(--border);
+            color: var(--text-main); padding: 0.5rem; border-radius: 4px;
         }
 
-        /* Formulaire de base */
         .form-box {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2rem;
-            max-width: 600px;
-            margin: 0 auto;
-            box-shadow: var(--shadow);
+            background-color: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 8px; padding: 2rem; max-width: 600px;
+            margin: 0 auto; box-shadow: var(--shadow);
         }
-
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: 600; }
         .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            background-color: var(--bg-sidebar);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 0.8rem;
-            border-radius: 6px;
-            font-size: 1rem;
+            width: 100%; background-color: var(--bg-sidebar);
+            border: 1px solid var(--border); color: var(--text-main);
+            padding: 0.8rem; border-radius: 6px; font-size: 1rem;
         }
-
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
+        .form-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; }
 
         .detail-box {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: var(--shadow);
+            background-color: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 8px; padding: 2rem; max-width: 800px;
+            margin: 0 auto; box-shadow: var(--shadow);
         }
-
         .detail-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 0.75rem;
-            margin: 1.5rem 0;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem; margin: 1.5rem 0;
         }
-
         .detail-gallery img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            border-radius: 6px;
-            border: 1px solid var(--border);
+            width: 100%; height: 160px; object-fit: cover;
+            border-radius: 6px; border: 1px solid var(--border);
         }
 
         footer {
-            background-color: var(--bg-sidebar);
-            border-top: 1px solid var(--border);
-            margin-top: auto;
-            padding: 3rem 1.5rem 1.5rem 1.5rem;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
+            background-color: var(--bg-sidebar); border-top: 1px solid var(--border);
+            margin-top: auto; padding: 3rem 1.5rem 1.5rem 1.5rem;
+            text-align: center; color: var(--text-muted); font-size: 0.85rem;
         }
 
-        /* Modale */
         .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px); z-index: 1000;
+            align-items: center; justify-content: center;
         }
-
-        .modal.open {
-            display: flex;
-        }
-
+        .modal.open { display: flex; }
         .modal-content {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            border: 1px solid var(--border);
-            text-align: center;
-            box-shadow: var(--shadow);
+            background: var(--bg-card); border-radius: 12px; padding: 2rem;
+            max-width: 500px; width: 90%; border: 1px solid var(--border);
+            text-align: center; box-shadow: var(--shadow);
+        }
+        .modal-icon { font-size: 3rem; margin-bottom: 0.8rem; }
+        .modal-content h3 { font-size: 1.4rem; margin-bottom: 0.8rem; }
+        .modal-content p { color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5; }
+        .modal-actions { display: flex; justify-content: center; gap: 1rem; }
+
+        .inline-form-row { display: flex; gap: 1rem; margin-bottom: 1rem; }
+        .inline-form-row input, .inline-form-row select {
+            flex: 1; background-color: var(--bg-sidebar);
+            border: 1px solid var(--border); color: var(--text-main);
+            padding: 0.7rem; border-radius: 6px;
         }
 
-        .modal-icon {
-            font-size: 3rem;
-            margin-bottom: 0.8rem;
+        .toggle-switch { position: relative; display: inline-block; width: 52px; height: 28px; vertical-align: middle; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider {
+            position: absolute; cursor: pointer; inset: 0;
+            background-color: var(--border); border-radius: 28px; transition: 0.2s;
         }
+        .toggle-slider:before {
+            content: ""; position: absolute; height: 20px; width: 20px;
+            left: 4px; bottom: 4px; background-color: white;
+            border-radius: 50%; transition: 0.2s;
+        }
+        .toggle-switch input:checked + .toggle-slider { background-color: var(--green); }
+        .toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
 
-        .modal-content h3 {
-            font-size: 1.4rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .modal-content p {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
+        .status-pill { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; font-size: 0.9rem; }
 
         @media (max-width: 800px) {
             .admin-layout { grid-template-columns: 1fr; }
             .admin-sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+            .inline-form-row { flex-direction: column; }
         }
     </style>
 </head>
 <body>
+
+    <div class="maintenance-banner" id="maintenance-banner">
+        <span id="text-maintenance-banner">🚧 Le site est actuellement en maintenance — le dépôt de nouvelles annonces est temporairement désactivé.</span>
+    </div>
 
     <header>
         <div class="logo" id="logo-btn">
@@ -646,8 +398,8 @@
         <!-- ACCUEIL -->
         <section id="page-accueil" class="page active">
             <div class="hero">
-                <h1>🛒 Xparia <span>Market</span></h1>
-                <p>Trouvez votre prochain serveur Discord.</p>
+                <h1 id="text-hero-title">🛒 Xparia <span>Market</span></h1>
+                <p id="text-hero-subtitle">Trouvez votre prochain serveur Discord.</p>
                 <div class="hero-actions">
                     <button id="hero-search-btn" class="btn-secondary">🔎 Rechercher</button>
                     <button id="hero-depot-btn">📢 Déposer une annonce</button>
@@ -660,7 +412,7 @@
                     <div class="stat-label">serveurs publiés</div>
                 </div>
                 <div>
-                    <div class="stat-value" id="stat-membres">15</div>
+                    <div class="stat-value" id="stat-membres">0</div>
                     <div class="stat-label">membres concernés</div>
                 </div>
                 <div>
@@ -686,145 +438,200 @@
                 </select>
             </div>
 
-            <h2 class="section-heading">🔥 Serveurs récemment publiés</h2>
+            <h2 class="section-heading" id="text-listings-heading">🔥 Serveurs récemment publiés</h2>
             <div class="grid" id="annonces-grid"></div>
         </section>
 
-        <!-- PANEL ADMIN EXCLUSIF & WHITELIST -->
+        <!-- PANEL ADMIN -->
         <section id="page-admin" class="page">
             <div class="admin-layout">
-                <!-- Sidebar du Panel Admin inspirée de votre image -->
                 <div class="admin-sidebar">
                     <div class="admin-sidebar-title">Administration</div>
-                    <button class="admin-nav-item active" onclick="switchAdminTab('tickets', this)">🎟️ Tickets</button>
+                    <button class="admin-nav-item active" onclick="switchAdminTab('verifications', this)">✅ Vérifications & Annonces</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('textes', this)">📝 Texte Général</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('tickets', this)">🎟️ Tickets</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('horaires', this)">⏰ Horaires</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('fermetures', this)">🚫 Fermetures</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('fermetures', this)">🚫 Maintenance</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('salons', this)">#️⃣ Salons & Webhooks</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('bot', this)">🤖 Bot Discord</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('salons', this)">#️⃣ Salons</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('options', this)">⚙️ Options</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('permissions', this)">🛡️ Permissions (Whitelist)</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('partenaires', this)">🤝 Partenaires</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('bannissements', this)">⛔ Bannissements</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('restrictions', this)">🔒 Restrictions</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('verifications', this)">✅ Vérifications & Annonces</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('bannissements', this)">⛔ Bannissements</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('partenaires', this)">🤝 Partenaires</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('logs', this)">📜 Logs</button>
                     <button class="btn-secondary" style="margin-top:auto;" onclick="switchPage('accueil')">Retour au site</button>
                 </div>
 
-                <!-- Contenu dynamique du Panel Admin -->
                 <div class="admin-content">
-                    <!-- Onglet TICKETS -->
-                    <div id="admin-tab-tickets" class="admin-section active">
-                        <h2 class="section-heading">Gestion des Tickets</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1rem;">Suivi des ouvertures de tickets et mises en relation de la communauté.</p>
-                        <div id="admin-tickets-info" style="background:var(--bg-sidebar); padding:1rem; border-radius:8px; border:1px solid var(--border);">
-                            <p>Aucun ticket actif pour le moment.</p>
-                        </div>
+                    <div id="admin-tab-verifications" class="admin-section active">
+                        <h2 class="section-heading">Vérifications & Modération des Annonces</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Validez les annonces en attente ou supprimez n'importe quelle annonce du site instantanément.</p>
+
+                        <h3 style="font-size:1.1rem; color:var(--blurple); margin-bottom:0.5rem;">📢 En attente de validation</h3>
+                        <table class="admin-table" style="margin-bottom:2rem;">
+                            <thead><tr><th>Serveur</th><th>Propriétaire</th><th>Actions</th></tr></thead>
+                            <tbody id="admin-pending-annonces"></tbody>
+                        </table>
+
+                        <h3 style="font-size:1.1rem; color:var(--blurple); margin-bottom:0.5rem;">🗑️ Toutes les annonces publiées</h3>
+                        <table class="admin-table">
+                            <thead><tr><th>Serveur</th><th>ID Serveur</th><th>Propriétaire</th><th>Action</th></tr></thead>
+                            <tbody id="admin-all-annonces"></tbody>
+                        </table>
                     </div>
 
-                    <!-- Onglet HORAIRES (inspiré de votre capture d'écran) -->
+                    <div id="admin-tab-textes" class="admin-section">
+                        <h2 class="section-heading">Texte Général du site</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Modifie directement les textes affichés sur le site, sans toucher au code. Visible immédiatement par tous les visiteurs.</p>
+
+                        <div class="form-group">
+                            <label>Titre principal (page d'accueil)</label>
+                            <input type="text" id="txt-hero-title" placeholder="🛒 Xparia Market">
+                        </div>
+                        <div class="form-group">
+                            <label>Sous-titre (sous le titre)</label>
+                            <input type="text" id="txt-hero-subtitle" placeholder="Trouvez votre prochain serveur Discord.">
+                        </div>
+                        <div class="form-group">
+                            <label>Titre au-dessus de la liste des annonces</label>
+                            <input type="text" id="txt-listings-heading" placeholder="🔥 Serveurs récemment publiés">
+                        </div>
+                        <div class="form-group">
+                            <label>Bandeau affiché en mode maintenance</label>
+                            <input type="text" id="txt-maintenance-banner" placeholder="🚧 Le site est en maintenance...">
+                        </div>
+                        <div class="form-group">
+                            <label>Texte du pied de page (footer)</label>
+                            <input type="text" id="txt-footer" placeholder="© 2026 Xparia Market...">
+                        </div>
+                        <button onclick="sauvegarderTextes()">💾 Sauvegarder les textes</button>
+                    </div>
+
+                    <div id="admin-tab-tickets" class="admin-section">
+                        <h2 class="section-heading">Gestion des Tickets</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Configuration et historique des mises en relation ouvertes par les utilisateurs (salon Discord créé automatiquement).</p>
+
+                        <div class="form-group">
+                            <label>Nom de la catégorie Discord utilisée pour les tickets</label>
+                            <input type="text" id="ticket-category-name" placeholder="ticket site">
+                        </div>
+                        <div class="form-group">
+                            <label>Message d'accueil envoyé dans le salon créé</label>
+                            <textarea id="ticket-welcome-message" rows="4" placeholder="Utilise {demandeur}, {proprietaire} et {annonce} — ils seront remplacés automatiquement."></textarea>
+                        </div>
+                        <button onclick="sauvegarderTicketConfig()">💾 Sauvegarder</button>
+
+                        <h3 style="font-size:1.1rem; color:var(--blurple); margin: 2rem 0 0.5rem;">📜 Historique</h3>
+                        <table class="admin-table">
+                            <thead><tr><th>Annonce</th><th>Demandeur</th><th>Propriétaire</th><th>Date</th><th>Salon</th><th>Action</th></tr></thead>
+                            <tbody id="admin-tickets-list"><tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Aucun ticket pour le moment.</td></tr></tbody>
+                        </table>
+                    </div>
+
                     <div id="admin-tab-horaires" class="admin-section">
                         <h2 class="section-heading">Horaires d'ouverture de la plateforme</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Définissez les plages horaires où la soumission de nouvelles annonces est autorisée.</p>
-                        
-                        <div id="schedule-config-container">
-                            <!-- Généré dynamiquement pour chaque jour -->
-                        </div>
-                        <button class="btn" style="margin-top: 1rem;" onclick="sauvegarderHoraires()">💾 Sauvegarder les horaires</button>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">En dehors de ces plages, le dépôt de nouvelles annonces est automatiquement bloqué pour les visiteurs (les admins ne sont jamais bloqués).</p>
+                        <div id="schedule-config-container"></div>
+                        <button style="margin-top: 1rem;" onclick="sauvegarderHoraires()">💾 Sauvegarder les horaires</button>
                     </div>
 
-                    <!-- Onglet FERMETURES -->
                     <div id="admin-tab-fermetures" class="admin-section">
-                        <h2 class="section-heading">Fermeture Exceptionnelle</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1rem;">Bloquer temporairement les dépôts de pubs en cas de maintenance.</p>
-                        <button class="btn-danger" onclick="toggleMaintenance()">Activer/Désactiver la maintenance globale</button>
+                        <h2 class="section-heading">Mode Maintenance</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">Bloque le dépôt de nouvelles annonces pour tout le monde (sauf les admins) et affiche un bandeau d'avertissement sur tout le site.</p>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="maintenance-toggle" onchange="toggleMaintenance()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="status-pill" id="maintenance-status" style="margin-left:0.8rem;">Chargement...</span>
                     </div>
 
-                    <!-- Onglet BOT -->
+                    <div id="admin-tab-salons" class="admin-section">
+                        <h2 class="section-heading">Salons & Webhooks de notification</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Colle ici les URL de webhooks Discord (Paramètres du salon → Intégrations → Webhooks) pour recevoir des notifications automatiques.</p>
+                        <div class="form-group">
+                            <label>Webhook — Logs d'administration (validations, suppressions, bans...)</label>
+                            <input type="text" id="webhook-logs" placeholder="https://discord.com/api/webhooks/...">
+                        </div>
+                        <div class="form-group">
+                            <label>Webhook — Publication automatique des annonces validées</label>
+                            <input type="text" id="webhook-publish" placeholder="https://discord.com/api/webhooks/...">
+                        </div>
+                        <button onclick="sauvegarderSalons()">💾 Sauvegarder</button>
+                    </div>
+
                     <div id="admin-tab-bot" class="admin-section">
                         <h2 class="section-heading">Configuration du Bot Discord</h2>
-                        <p style="color: var(--text-muted);">Paramétrez l'intégration du Bot OAuth2 pour les vérifications automatiques.</p>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Informations de référence utilisées par le site et la fonction serveur (Cloudflare Worker). Le Token du bot ne se modifie pas ici pour des raisons de sécurité — il reste dans les variables d'environnement Cloudflare, jamais visible ici.</p>
+                        <div class="form-group">
+                            <label>Client ID de l'application Discord</label>
+                            <input type="text" id="bot-client-id" placeholder="1535232825656082503">
+                        </div>
+                        <div class="form-group">
+                            <label>Lien d'invitation du bot sur un serveur</label>
+                            <input type="text" id="bot-invite-link" placeholder="https://discord.com/oauth2/authorize?client_id=...&permissions=8&scope=bot">
+                        </div>
+                        <button onclick="sauvegarderBotConfig()">💾 Sauvegarder</button>
                     </div>
 
-                    <!-- Onglet SALONS -->
-                    <div id="admin-tab-salons" class="admin-section">
-                        <h2 class="section-heading">Salons de notification</h2>
-                        <p style="color: var(--text-muted);">Gestion des salons de logs et de publication.</p>
-                    </div>
-
-                    <!-- Onglet OPTIONS -->
-                    <div id="admin-tab-options" class="admin-section">
-                        <h2 class="section-heading">Options Générales</h2>
-                        <p style="color: var(--text-muted);">Paramètres généraux de l'application Cloudflare Workers.</p>
-                    </div>
-
-                    <!-- Onglet PERMISSIONS (WHITELIST ID) -->
                     <div id="admin-tab-permissions" class="admin-section">
                         <h2 class="section-heading">Permissions & Whitelist des Admins</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Ajoutez un ID Discord pour lui donner accès au panel et aux commandes de modération.</p>
-                        
-                        <div class="form-group" style="display:flex; gap:1rem;">
-                            <input type="text" id="new-whitelist-id" placeholder="Ex: 1464750597663100980" style="flex:1;">
-                            <button onclick="ajouterWhitelist()">Ajouter à la Whitelist</button>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Ajoutez un ID Discord pour lui donner accès au panel. Partagé entre tous les admins (pas juste ton navigateur).</p>
+                        <div class="inline-form-row">
+                            <input type="text" id="new-whitelist-id" placeholder="Ex: 1464750597663100980">
+                            <button onclick="ajouterWhitelist()">Ajouter</button>
                         </div>
-
                         <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>ID Discord Whitelisté</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
+                            <thead><tr><th>ID Discord Whitelisté</th><th>Action</th></tr></thead>
                             <tbody id="whitelist-table-body"></tbody>
                         </table>
                     </div>
 
-                    <!-- Onglet PARTENAIRES -->
-                    <div id="admin-tab-partenaires" class="admin-section">
-                        <h2 class="section-heading">Partenaires</h2>
-                        <p style="color: var(--text-muted);">Gestion des serveurs partenaires mis en avant.</p>
-                    </div>
-
-                    <!-- Onglet BANNISSEMENTS -->
-                    <div id="admin-tab-bannissements" class="admin-section">
-                        <h2 class="section-heading">Bannissements</h2>
-                        <p style="color: var(--text-muted);">Utilisateurs bannis définitivement de la plateforme.</p>
-                    </div>
-
-                    <!-- Onglet RESTRICTIONS -->
                     <div id="admin-tab-restrictions" class="admin-section">
                         <h2 class="section-heading">Restrictions des comptes</h2>
-                        <p style="color: var(--text-muted);">Comptes dont la publication de pubs est bloquée.</p>
-                        <div id="admin-restrictions-list"></div>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Ces comptes restent connectés au site mais ne peuvent plus publier de nouvelle annonce.</p>
+                        <div class="inline-form-row">
+                            <input type="text" id="new-restriction-id" placeholder="ID Discord à restreindre">
+                            <button onclick="ajouterRestriction()">Restreindre</button>
+                        </div>
+                        <table class="admin-table">
+                            <thead><tr><th>ID Discord Restreint</th><th>Action</th></tr></thead>
+                            <tbody id="restrictions-table-body"></tbody>
+                        </table>
                     </div>
 
-                    <!-- Onglet VERIFICATIONS & SUPPRESSION TOTALE ANNONCES -->
-                    <div id="admin-tab-verifications" class="admin-section">
-                        <h2 class="section-heading">Vérifications & Modération des Annonces</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Validez les annonces en attente ou supprimez n'importe quelle annonce du site instantanément.</p>
-                        
-                        <h3 style="font-size:1.1rem; color:var(--blurple); margin-bottom:0.5rem;">📢 En attente de validation</h3>
-                        <table class="admin-table" style="margin-bottom:2rem;">
-                            <thead>
-                                <tr>
-                                    <th>Serveur</th>
-                                    <th>Propriétaire</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-pending-annonces"></tbody>
-                        </table>
-
-                        <h3 style="font-size:1.1rem; color:var(--blurple); margin-bottom:0.5rem;">🗑️ Toutes les annonces publiées (Suppression libre admin)</h3>
+                    <div id="admin-tab-bannissements" class="admin-section">
+                        <h2 class="section-heading">Bannissements</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Un compte banni est immédiatement déconnecté et ne peut plus se reconnecter au site.</p>
+                        <div class="inline-form-row">
+                            <input type="text" id="new-ban-id" placeholder="ID Discord à bannir">
+                            <button class="btn-danger" onclick="ajouterBan()">Bannir</button>
+                        </div>
                         <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Serveur</th>
-                                    <th>ID Serveur</th>
-                                    <th>Propriétaire</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-all-annonces"></tbody>
+                            <thead><tr><th>ID Discord Banni</th><th>Action</th></tr></thead>
+                            <tbody id="bans-table-body"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="admin-tab-partenaires" class="admin-section">
+                        <h2 class="section-heading">Partenaires</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Serveurs partenaires mis en avant.</p>
+                        <div class="inline-form-row">
+                            <input type="text" id="new-partner-nom" placeholder="Nom du serveur">
+                            <input type="text" id="new-partner-lien" placeholder="Lien d'invitation Discord">
+                            <button onclick="ajouterPartenaire()">Ajouter</button>
+                        </div>
+                        <table class="admin-table">
+                            <thead><tr><th>Nom</th><th>Lien</th><th>Action</th></tr></thead>
+                            <tbody id="partners-table-body"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="admin-tab-logs" class="admin-section">
+                        <h2 class="section-heading">Logs d'administration</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Historique de toutes les actions effectuées depuis le panel admin (les 100 plus récentes).</p>
+                        <table class="admin-table">
+                            <thead><tr><th>Date</th><th>Action</th><th>Détail</th><th>Par</th></tr></thead>
+                            <tbody id="logs-table-body"><tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune action enregistrée pour le moment.</td></tr></tbody>
                         </table>
                     </div>
                 </div>
@@ -894,10 +701,9 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Xparia Market. Non affilié à Discord Inc.</p>
+        <p id="text-footer">&copy; 2026 Xparia Market. Non affilié à Discord Inc.</p>
     </footer>
 
-    <!-- POPUP MODALE -->
     <div class="modal" id="custom-popup">
         <div class="modal-content">
             <div class="modal-icon" id="popup-icon">✨</div>
@@ -911,7 +717,11 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, updateDoc, getDoc, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+        import {
+            getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot,
+            query, orderBy, serverTimestamp, updateDoc, setDoc,
+            arrayUnion, arrayRemove, limit
+        } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCzBJv367JwnK8Jr0-tw9hkNo86kQY20Ow",
@@ -926,18 +736,39 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const annoncesRef = collection(db, 'annonces');
+        const ticketsRef = collection(db, 'tickets');
+        const partenairesRef = collection(db, 'partenaires');
+        const logsRef = collection(db, 'logs');
+        const configModRef = doc(db, 'config', 'moderation');
+        const configParamRef = doc(db, 'config', 'parametres');
+        const configTextesRef = doc(db, 'config', 'textes');
 
-        // ID PRINCIPAL + WHITELIST DYNAMIQUE
         const MASTER_ADMIN_ID = "1464750597663100980";
-        let whitelistAdmins = JSON.parse(localStorage.getItem('whitelistAdmins') || JSON.stringify([MASTER_ADMIN_ID]));
-        let restrictedUsers = JSON.parse(localStorage.getItem('restrictedUsers') || "[]");
-
         const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&response_type=token&redirect_uri=https%3A%2F%2Fxparia-market.xparia-discord.workers.dev%2F&scope=identify+connections+guilds";
 
         let currentUser = localStorage.getItem('currentUser') || null;
         let currentUserId = localStorage.getItem('currentUserId') || null;
-        let accessToken = localStorage.getItem('discordToken') || null;
         let annonces = [];
+        let tickets = [];
+        let partenaires = [];
+
+        let whitelistAdmins = [MASTER_ADMIN_ID];
+        let restrictedUsers = [];
+        let bannedUsers = [];
+        let maintenanceMode = false;
+
+        const JOURS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+        let horaires = JOURS.map(() => ({ active: true, start: "09:00", end: "23:00" }));
+        let webhookLogs = "";
+        let webhookPublish = "";
+        let botClientId = "";
+        let botInviteLink = "";
+        let ticketCategoryName = "ticket site";
+        let ticketWelcomeMessage = "";
+
+        function isAdmin(userId) {
+            return !!userId && whitelistAdmins.includes(userId);
+        }
 
         function showPopup({ title = "Information", message = "", icon = "ℹ️", onConfirm = null }) {
             const modal = document.getElementById('custom-popup');
@@ -956,6 +787,24 @@
             });
         }
 
+        function envoyerWebhook(url, embedTitle, description, color = 16744192) {
+            if (!url) return;
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ embeds: [{ title: embedTitle, description, color, timestamp: new Date().toISOString() }] })
+            }).catch(err => console.error('Erreur webhook:', err));
+        }
+
+        function ajouterLog(titre, detail) {
+            addDoc(logsRef, {
+                titre,
+                detail: detail || '',
+                auteur: currentUser || 'Système',
+                date: serverTimestamp()
+            }).catch(err => console.error('Erreur log:', err));
+        }
+
         window.switchPage = function(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(`page-${pageId}`).classList.add('active');
@@ -966,9 +815,7 @@
             document.querySelectorAll('.admin-section').forEach(sec => sec.classList.remove('active'));
             document.querySelectorAll('.admin-nav-item').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`admin-tab-${tabId}`).classList.add('active');
-            if(btnElement) btnElement.classList.add('active');
-            if(tabId === 'verifications') chargerPanelAdmin();
-            if(tabId === 'permissions') chargerWhitelistTable();
+            if (btnElement) btnElement.classList.add('active');
         };
 
         window.allerAuDepot = function() {
@@ -981,12 +828,22 @@
                 });
                 return;
             }
-
-            if (restrictedUsers.includes(currentUserId)) {
-                showPopup({ title: "Profil non vérifié / Restreint", message: "Votre profil n'est pas vérifié ou a été restreint par l'administration. Impossible de poster une pub.", icon: "⛔" });
+            if (bannedUsers.includes(currentUserId)) {
+                showPopup({ title: "Compte banni", message: "Votre compte a été banni de la plateforme.", icon: "⛔" });
                 return;
             }
-
+            if (restrictedUsers.includes(currentUserId)) {
+                showPopup({ title: "Profil restreint", message: "Votre profil a été restreint par l'administration. Impossible de poster une pub.", icon: "⛔" });
+                return;
+            }
+            if (maintenanceMode && !isAdmin(currentUserId)) {
+                showPopup({ title: "Maintenance en cours", message: "Le dépôt de nouvelles annonces est temporairement désactivé pour maintenance.", icon: "🚧" });
+                return;
+            }
+            if (!isAdmin(currentUserId) && !estDansLesHoraires()) {
+                showPopup({ title: "En dehors des horaires", message: "Le dépôt de nouvelles annonces n'est autorisé que pendant les horaires d'ouverture définis par l'équipe.", icon: "⏰" });
+                return;
+            }
             switchPage('depot');
         };
 
@@ -994,14 +851,20 @@
             localStorage.clear();
             currentUser = null;
             currentUserId = null;
-            accessToken = null;
             updateNavbar();
             switchPage('accueil');
-            showPopup({ title: "Déconnexion", message: "Déconnecté avec succès.", icon: "🚪" });
         };
 
-        function isAdmin(userId) {
-            return userId && whitelistAdmins.includes(userId);
+        function estDansLesHoraires() {
+            const now = new Date();
+            let jsDay = now.getDay();
+            const idx = jsDay === 0 ? 6 : jsDay - 1;
+            const jour = horaires[idx];
+            if (!jour || !jour.active) return false;
+            const nowMinutes = now.getHours() * 60 + now.getMinutes();
+            const [sh, sm] = jour.start.split(':').map(Number);
+            const [eh, em] = jour.end.split(':').map(Number);
+            return nowMinutes >= (sh * 60 + sm) && nowMinutes <= (eh * 60 + em);
         }
 
         function updateNavbar() {
@@ -1017,49 +880,56 @@
                         </button>
                         <div class="user-dropdown" id="user-dropdown">
                             <div class="user-dropdown-header">Connecté en tant qu'<strong>${currentUser}</strong></div>
-                            ${userIsAdmin ? `<a href="#" onclick="switchPage('admin'); document.getElementById('user-menu').classList.remove('open');" style="color:var(--blurple); font-weight:bold;">⚙️ Panel Admin</a>` : ''}
-                            <button type="button" class="dropdown-item danger" onclick="logoutDiscord()">🚪 Déconnexion</button>
+                            ${userIsAdmin ? `<a href="#" id="goto-admin-link" style="color:var(--blurple); font-weight:bold;">⚙️ Panel Admin</a>` : ''}
+                            <button type="button" class="dropdown-item danger" id="logout-btn-nav">🚪 Déconnexion</button>
                         </div>
                     </div>
-                    <button onclick="allerAuDepot()">Déposer une annonce</button>
+                    <button id="depot-nav-btn">Déposer une annonce</button>
                 `;
                 document.getElementById('user-trigger-btn').addEventListener('click', (e) => {
                     e.stopPropagation();
                     document.getElementById('user-menu').classList.toggle('open');
                 });
+                document.getElementById('logout-btn-nav').addEventListener('click', window.logoutDiscord);
+                document.getElementById('depot-nav-btn').addEventListener('click', window.allerAuDepot);
+                const gotoAdmin = document.getElementById('goto-admin-link');
+                if (gotoAdmin) gotoAdmin.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('user-menu').classList.remove('open');
+                    switchPage('admin');
+                });
             } else {
                 nav.innerHTML = `
-                    <button class="btn-secondary" onclick="window.location.href='${DISCORD_AUTH_URL}'">Se connecter</button>
-                    <button onclick="allerAuDepot()">Déposer une annonce</button>
+                    <button class="btn-secondary" id="login-nav-btn">Se connecter</button>
+                    <button id="depot-nav-btn">Déposer une annonce</button>
                 `;
+                document.getElementById('login-nav-btn').addEventListener('click', () => window.location.href = DISCORD_AUTH_URL);
+                document.getElementById('depot-nav-btn').addEventListener('click', window.allerAuDepot);
             }
         }
 
-        // Gestionnaire des Horaires (inspiré de votre maquette)
+        document.addEventListener('click', () => {
+            const menu = document.getElementById('user-menu');
+            if (menu) menu.classList.remove('open');
+        });
+
         function initScheduleUI() {
             const container = document.getElementById('schedule-config-container');
-            const jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
-            let html = '';
-            jours.forEach((jour, index) => {
-                html += `
-                    <div class="schedule-row">
-                        <label>
-                            <input type="checkbox" id="sch-active-${index}" checked> ${jour}
-                        </label>
-                        <div class="schedule-times">
-                            <select id="sch-start-${index}">${generateTimeOptions("09:00")}</select>
-                            <span>à</span>
-                            <select id="sch-end-${index}">${generateTimeOptions("18:00")}</select>
-                        </div>
+            container.innerHTML = JOURS.map((jour, index) => `
+                <div class="schedule-row">
+                    <label><input type="checkbox" id="sch-active-${index}" ${horaires[index].active ? 'checked' : ''}> ${jour}</label>
+                    <div class="schedule-times">
+                        <select id="sch-start-${index}">${generateTimeOptions(horaires[index].start)}</select>
+                        <span>à</span>
+                        <select id="sch-end-${index}">${generateTimeOptions(horaires[index].end)}</select>
                     </div>
-                `;
-            });
-            container.innerHTML = html;
+                </div>
+            `).join('');
         }
 
         function generateTimeOptions(selectedTime) {
             let options = '';
-            for(let h=0; h<24; h++) {
+            for (let h = 0; h < 24; h++) {
                 let hourStr = h < 10 ? '0' + h : h;
                 ['00', '30'].forEach(m => {
                     let time = `${hourStr}:${m}`;
@@ -1069,49 +939,190 @@
             return options;
         }
 
-        window.sauvegarderHoraires = function() {
+        window.sauvegarderHoraires = async function() {
+            horaires = JOURS.map((_, index) => ({
+                active: document.getElementById(`sch-active-${index}`).checked,
+                start: document.getElementById(`sch-start-${index}`).value,
+                end: document.getElementById(`sch-end-${index}`).value
+            }));
+            await setDoc(configParamRef, { horaires }, { merge: true });
             showPopup({ title: "Horaires enregistrés", message: "Les plages horaires d'ouverture ont été mises à jour avec succès !", icon: "⏰" });
+            ajouterLog("⏰ Horaires modifiés", '');
         };
 
-        window.ajouterWhitelist = function() {
+        window.toggleMaintenance = async function() {
+            const checked = document.getElementById('maintenance-toggle').checked;
+            await setDoc(configModRef, { maintenanceMode: checked }, { merge: true });
+            envoyerWebhook(webhookLogs, checked ? "🚧 Maintenance activée" : "✅ Maintenance désactivée", `Par ${currentUser || 'un administrateur'}`, checked ? 14431557 : 2333747);
+            ajouterLog(checked ? "🚧 Maintenance activée" : "✅ Maintenance désactivée", '');
+        };
+
+        function appliquerBanniereMaintenance() {
+            document.getElementById('maintenance-banner').classList.toggle('show', maintenanceMode);
+            const toggle = document.getElementById('maintenance-toggle');
+            const status = document.getElementById('maintenance-status');
+            if (toggle) toggle.checked = maintenanceMode;
+            if (status) status.innerHTML = maintenanceMode ? '🔴 Maintenance active' : '🟢 Site normal';
+        }
+
+        window.sauvegarderSalons = async function() {
+            webhookLogs = document.getElementById('webhook-logs').value.trim();
+            webhookPublish = document.getElementById('webhook-publish').value.trim();
+            await setDoc(configParamRef, { webhookLogs, webhookPublish }, { merge: true });
+            showPopup({ title: "Enregistré", message: "Les webhooks ont été sauvegardés.", icon: "#️⃣" });
+            ajouterLog("#️⃣ Webhooks modifiés", '');
+        };
+
+        window.sauvegarderBotConfig = async function() {
+            botClientId = document.getElementById('bot-client-id').value.trim();
+            botInviteLink = document.getElementById('bot-invite-link').value.trim();
+            await setDoc(configParamRef, { botClientId, botInviteLink }, { merge: true });
+            showPopup({ title: "Enregistré", message: "Configuration du bot mise à jour.", icon: "🤖" });
+            ajouterLog("🤖 Configuration du bot modifiée", '');
+        };
+
+        window.sauvegarderTicketConfig = async function() {
+            ticketCategoryName = document.getElementById('ticket-category-name').value.trim() || "ticket site";
+            ticketWelcomeMessage = document.getElementById('ticket-welcome-message').value.trim();
+            await setDoc(configParamRef, { ticketCategoryName, ticketWelcomeMessage }, { merge: true });
+            showPopup({ title: "Enregistré", message: "Configuration des tickets mise à jour.", icon: "🎟️" });
+            ajouterLog("🎟️ Configuration des tickets modifiée", '');
+        };
+
+        window.sauvegarderTextes = async function() {
+            const textes = {
+                heroTitle: document.getElementById('txt-hero-title').value.trim(),
+                heroSubtitle: document.getElementById('txt-hero-subtitle').value.trim(),
+                listingsHeading: document.getElementById('txt-listings-heading').value.trim(),
+                maintenanceBanner: document.getElementById('txt-maintenance-banner').value.trim(),
+                footer: document.getElementById('txt-footer').value.trim()
+            };
+            await setDoc(configTextesRef, textes, { merge: true });
+            showPopup({ title: "Enregistré", message: "Les textes du site ont été mis à jour.", icon: "📝" });
+            ajouterLog("📝 Textes du site modifiés", '');
+        };
+
+        window.ajouterWhitelist = async function() {
             const inputId = document.getElementById('new-whitelist-id').value.trim();
-            if(inputId && !whitelistAdmins.includes(inputId)) {
-                whitelistAdmins.push(inputId);
-                localStorage.setItem('whitelistAdmins', JSON.stringify(whitelistAdmins));
-                document.getElementById('new-whitelist-id').value = '';
-                chargerWhitelistTable();
-                showPopup({ title: "Ajouté", message: `L'ID ${inputId} a été ajouté à la Whitelist avec succès.`, icon: "✅" });
-            }
+            if (!inputId) return;
+            await setDoc(configModRef, { whitelist: arrayUnion(inputId) }, { merge: true });
+            document.getElementById('new-whitelist-id').value = '';
+            showPopup({ title: "Ajouté", message: `L'ID ${inputId} a été ajouté à la Whitelist.`, icon: "✅" });
+            ajouterLog("🛡️ Admin ajouté à la whitelist", inputId);
         };
 
-        window.retirerWhitelist = function(id) {
-            if(id === MASTER_ADMIN_ID) {
+        window.retirerWhitelist = async function(id) {
+            if (id === MASTER_ADMIN_ID) {
                 showPopup({ title: "Action interdite", message: "Impossible de retirer le maître administrateur principal.", icon: "🚫" });
                 return;
             }
-            whitelistAdmins = whitelistAdmins.filter(item => item !== id);
-            localStorage.setItem('whitelistAdmins', JSON.stringify(whitelistAdmins));
-            chargerWhitelistTable();
+            await setDoc(configModRef, { whitelist: arrayRemove(id) }, { merge: true });
+            ajouterLog("🛡️ Admin retiré de la whitelist", id);
         };
 
         function chargerWhitelistTable() {
             const tbody = document.getElementById('whitelist-table-body');
             tbody.innerHTML = whitelistAdmins.map(id => `
                 <tr>
-                    <td><code>${id}</code> ${id === MASTER_ADMIN_ID ? '(Maître Admin)' : ''}</td>
+                    <td><code>${id}</code> ${id === MASTER_ADMIN_ID ? ' (Maître Admin)' : ''}</td>
                     <td>${id !== MASTER_ADMIN_ID ? `<button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="retirerWhitelist('${id}')">Retirer</button>` : ''}</td>
                 </tr>
             `).join('');
         }
 
-        function chargerPanelAdmin() {
-            if (!isAdmin(currentUserId)) return;
+        window.ajouterRestriction = async function() {
+            const inputId = document.getElementById('new-restriction-id').value.trim();
+            if (!inputId) return;
+            if (whitelistAdmins.includes(inputId)) {
+                showPopup({ title: "Action impossible", message: "Impossible de restreindre un administrateur.", icon: "🚫" });
+                return;
+            }
+            await setDoc(configModRef, { restrictions: arrayUnion(inputId) }, { merge: true });
+            document.getElementById('new-restriction-id').value = '';
+            ajouterLog("🔒 Compte restreint", inputId);
+        };
 
-            // Annonces en attente
+        window.retirerRestriction = async function(id) {
+            await setDoc(configModRef, { restrictions: arrayRemove(id) }, { merge: true });
+            ajouterLog("🔒 Restriction levée", id);
+        };
+
+        function chargerRestrictionsTable() {
+            const tbody = document.getElementById('restrictions-table-body');
+            tbody.innerHTML = restrictedUsers.length === 0
+                ? `<tr><td colspan="2" style="text-align:center; color:var(--text-muted);">Aucun compte restreint.</td></tr>`
+                : restrictedUsers.map(id => `
+                    <tr>
+                        <td><code>${id}</code></td>
+                        <td><button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="retirerRestriction('${id}')">Lever la restriction</button></td>
+                    </tr>
+                `).join('');
+        }
+
+        window.ajouterBan = async function() {
+            const inputId = document.getElementById('new-ban-id').value.trim();
+            if (!inputId) return;
+            if (whitelistAdmins.includes(inputId)) {
+                showPopup({ title: "Action impossible", message: "Impossible de bannir un administrateur.", icon: "🚫" });
+                return;
+            }
+            await setDoc(configModRef, { bannis: arrayUnion(inputId) }, { merge: true });
+            document.getElementById('new-ban-id').value = '';
+            envoyerWebhook(webhookLogs, "⛔ Nouveau bannissement", `ID banni : ${inputId}\nPar : ${currentUser || 'admin'}`, 14362664);
+            ajouterLog("⛔ Compte banni", inputId);
+        };
+
+        window.retirerBan = async function(id) {
+            await setDoc(configModRef, { bannis: arrayRemove(id) }, { merge: true });
+            ajouterLog("⛔ Compte débanni", id);
+        };
+
+        function chargerBansTable() {
+            const tbody = document.getElementById('bans-table-body');
+            tbody.innerHTML = bannedUsers.length === 0
+                ? `<tr><td colspan="2" style="text-align:center; color:var(--text-muted);">Aucun compte banni.</td></tr>`
+                : bannedUsers.map(id => `
+                    <tr>
+                        <td><code>${id}</code></td>
+                        <td><button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="retirerBan('${id}')">Débannir</button></td>
+                    </tr>
+                `).join('');
+        }
+
+        window.ajouterPartenaire = async function() {
+            const nom = document.getElementById('new-partner-nom').value.trim();
+            const lien = document.getElementById('new-partner-lien').value.trim();
+            if (!nom || !lien) return;
+            await addDoc(partenairesRef, { nom, lien, dateAjout: serverTimestamp() });
+            document.getElementById('new-partner-nom').value = '';
+            document.getElementById('new-partner-lien').value = '';
+            ajouterLog("🤝 Partenaire ajouté", nom);
+        };
+
+        window.retirerPartenaire = async function(id) {
+            await deleteDoc(doc(db, 'partenaires', id));
+            ajouterLog("🤝 Partenaire retiré", id);
+        };
+
+        function chargerPartenairesTable() {
+            const tbody = document.getElementById('partners-table-body');
+            tbody.innerHTML = partenaires.length === 0
+                ? `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Aucun partenaire pour le moment.</td></tr>`
+                : partenaires.map(p => `
+                    <tr>
+                        <td>${p.nom}</td>
+                        <td><a href="${p.lien}" target="_blank" style="color:var(--blurple);">${p.lien}</a></td>
+                        <td><button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="retirerPartenaire('${p.id}')">Retirer</button></td>
+                    </tr>
+                `).join('');
+        }
+
+        function chargerPanelAdmin() {
             const pendingTbody = document.getElementById('admin-pending-annonces');
             const pendingList = annonces.filter(a => a.statut === 'en_attente');
-            pendingTbody.innerHTML = pendingList.length === 0 ? `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Aucune annonce en attente.</td></tr>` :
-                pendingList.map(a => `
+            pendingTbody.innerHTML = pendingList.length === 0
+                ? `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Aucune annonce en attente.</td></tr>`
+                : pendingList.map(a => `
                     <tr>
                         <td><strong>${a.nom}</strong></td>
                         <td>${a.proprietaire}</td>
@@ -1122,46 +1133,105 @@
                     </tr>
                 `).join('');
 
-            // TOUTES LES ANNONCES (Suppression libre admin)
             const allTbody = document.getElementById('admin-all-annonces');
-            allTbody.innerHTML = annonces.length === 0 ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune annonce sur le site.</td></tr>` :
-                annonces.map(a => `
+            allTbody.innerHTML = annonces.length === 0
+                ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune annonce sur le site.</td></tr>`
+                : annonces.map(a => `
                     <tr>
                         <td><strong>${a.nom}</strong></td>
                         <td><code>${a.serverId || 'N/A'}</code></td>
                         <td>${a.proprietaire}</td>
-                        <td>
-                            <button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="supprimerAnnonceAdmin('${a.id}')">🗑️ Supprimer</button>
-                        </td>
+                        <td><button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="supprimerAnnonceAdmin('${a.id}')">🗑️ Supprimer</button></td>
                     </tr>
                 `).join('');
         }
 
         window.validerAnnonce = async function(id) {
+            const annonce = annonces.find(a => a.id === id);
             await updateDoc(doc(db, 'annonces', id), { statut: 'valide' });
-            chargerPanelAdmin();
+            if (annonce) {
+                envoyerWebhook(webhookPublish, "✅ Nouvelle annonce publiée", `**${annonce.nom}**\n${annonce.description}\n\nPar : ${annonce.proprietaire}`, 2333747);
+                envoyerWebhook(webhookLogs, "✅ Annonce validée", `${annonce.nom} — validée par ${currentUser || 'admin'}`, 2333747);
+                ajouterLog("✅ Annonce validée", annonce.nom);
+            }
         };
 
         window.supprimerAnnonceAdmin = async function(id) {
+            const annonce = annonces.find(a => a.id === id);
             await deleteDoc(doc(db, 'annonces', id));
-            chargerPanelAdmin();
+            if (annonce) {
+                envoyerWebhook(webhookLogs, "🗑️ Annonce supprimée", `${annonce.nom} — supprimée par ${currentUser || 'admin'}`, 14362664);
+                ajouterLog("🗑️ Annonce supprimée", annonce.nom);
+            }
         };
 
         function ecouterAnnonces() {
             const q = query(annoncesRef, orderBy('dateCreation', 'desc'));
             onSnapshot(q, (snapshot) => {
-                annonces = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                annonces = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
                 afficherAnnonces(annonces);
                 mettreAJourStats();
+                chargerPanelAdmin();
             });
         }
+
+        function ecouterTickets() {
+            const q = query(ticketsRef, orderBy('dateCreation', 'desc'));
+            onSnapshot(q, (snapshot) => {
+                tickets = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                afficherTicketsAdmin();
+                document.getElementById('stat-tickets').textContent = tickets.length;
+            });
+        }
+
+        function ecouterPartenaires() {
+            onSnapshot(partenairesRef, (snapshot) => {
+                partenaires = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                chargerPartenairesTable();
+            });
+        }
+
+        function afficherTicketsAdmin() {
+            const tbody = document.getElementById('admin-tickets-list');
+            if (!tbody) return;
+            tbody.innerHTML = tickets.length === 0
+                ? `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Aucun ticket pour le moment.</td></tr>`
+                : tickets.map(t => `
+                    <tr>
+                        <td>${t.annonceNom || '—'}</td>
+                        <td>${t.demandeurUsername || '—'}</td>
+                        <td>${t.proprietaireUsername || '—'}</td>
+                        <td>${t.dateCreation && t.dateCreation.toDate ? t.dateCreation.toDate().toLocaleString('fr-FR') : '—'}</td>
+                        <td>${t.channelUrl ? `<a href="${t.channelUrl}" target="_blank" style="color:var(--blurple);">Ouvrir</a>` : '—'}</td>
+                        <td>${t.ferme ? '<span style="color:var(--text-muted);">Fermé</span>' : `<button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="fermerTicket('${t.id}', '${t.channelId || ''}')">Fermer</button>`}</td>
+                    </tr>
+                `).join('');
+        }
+
+        window.fermerTicket = async function(ticketId, channelId) {
+            try {
+                if (channelId) {
+                    await fetch('/api/close-ticket', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ channelId })
+                    });
+                }
+                await updateDoc(doc(db, 'tickets', ticketId), { ferme: true });
+                showPopup({ title: "Ticket fermé", message: "Le salon Discord a été supprimé et le ticket marqué comme fermé.", icon: "✅" });
+                ajouterLog("🎟️ Ticket fermé", ticketId);
+            } catch (err) {
+                showPopup({ title: "Erreur", message: "Impossible de fermer ce ticket.", icon: "❌" });
+            }
+        };
 
         function afficherAnnonces(liste) {
             const grid = document.getElementById('annonces-grid');
             const visibles = liste.filter(a => a.statut === 'valide' || isAdmin(currentUserId));
-            
-            grid.innerHTML = visibles.length === 0 ? `<p style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:3rem;">Aucune annonce disponible.</p>` :
-                visibles.map(a => `
+
+            grid.innerHTML = visibles.length === 0
+                ? `<p style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:3rem;">Aucune annonce disponible.</p>`
+                : visibles.map(a => `
                     <div class="card" onclick="voirDetail('${a.id}')">
                         <div class="card-header">
                             <div class="card-title">${a.nom}</div>
@@ -1175,29 +1245,93 @@
 
         window.voirDetail = function(id) {
             const art = annonces.find(a => a.id === id);
-            if(!art) return;
+            if (!art) return;
             document.getElementById('detail-nom').innerText = art.nom;
             document.getElementById('detail-badge').innerText = art.type;
             document.getElementById('detail-stats').innerHTML = `<span>👥 ${art.membres} membres</span>`;
             document.getElementById('detail-description').innerText = art.description;
-            document.getElementById('detail-contact-btn').onclick = () => showPopup({ title: "Contact", message: `Contactez le propriétaire directement sur Discord : <strong>${art.proprietaire}</strong>`, icon: "💬" });
+            document.getElementById('detail-contact-btn').onclick = () => ouvrirTicket(art);
             switchPage('detail');
         };
+
+        async function ouvrirTicket(annonce) {
+            if (!currentUser || !currentUserId) {
+                showPopup({
+                    title: "Connexion requise",
+                    message: "Connecte-toi avec Discord pour contacter le propriétaire.",
+                    icon: "🔒",
+                    onConfirm: () => window.location.href = DISCORD_AUTH_URL
+                });
+                return;
+            }
+            if (bannedUsers.includes(currentUserId)) {
+                showPopup({ title: "Compte banni", message: "Votre compte a été banni de la plateforme.", icon: "⛔" });
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/create-ticket', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        annonceNom: annonce.nom,
+                        proprietaireUsername: annonce.proprietaire,
+                        proprietaireId: annonce.proprietaireId || null,
+                        demandeurUsername: currentUser,
+                        demandeurId: currentUserId,
+                        categoryName: ticketCategoryName,
+                        welcomeMessage: ticketWelcomeMessage || null
+                    })
+                });
+                const result = await res.json();
+
+                if (res.ok && result.success) {
+                    await addDoc(ticketsRef, {
+                        annonceId: annonce.id,
+                        annonceNom: annonce.nom,
+                        proprietaireUsername: annonce.proprietaire,
+                        proprietaireId: annonce.proprietaireId || null,
+                        demandeurUsername: currentUser,
+                        demandeurId: currentUserId,
+                        channelUrl: result.channelUrl,
+                        channelId: result.channelId,
+                        dateCreation: serverTimestamp()
+                    });
+                    showPopup({
+                        title: "Ticket ouvert !",
+                        message: "🎫 Un salon a été créé sur Discord pour discuter avec le propriétaire.",
+                        icon: "💬",
+                        onConfirm: () => window.open(result.channelUrl, '_blank')
+                    });
+                } else {
+                    showPopup({ title: "Erreur", message: result.error || "Erreur inconnue lors de l'ouverture du ticket.", icon: "❌" });
+                }
+            } catch (err) {
+                showPopup({ title: "Erreur réseau", message: "Impossible de contacter le serveur pour ouvrir le ticket.", icon: "🌐" });
+            }
+        }
 
         function mettreAJourStats() {
             const valides = annonces.filter(a => a.statut === 'valide');
             document.getElementById('stat-annonces').textContent = valides.length;
+            const totalMembres = valides.reduce((sum, a) => sum + (parseInt(a.membres) || 0), 0);
+            document.getElementById('stat-membres').textContent = totalMembres.toLocaleString('fr-FR');
         }
 
         document.getElementById('annonce-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if(restrictedUsers.includes(currentUserId)) {
-                showPopup({ title: "Erreur", message: "Profil non vérifié ou restreint.", icon: "⛔" });
+            if (bannedUsers.includes(currentUserId)) {
+                showPopup({ title: "Compte banni", message: "Impossible de publier.", icon: "⛔" });
                 return;
             }
+            if (restrictedUsers.includes(currentUserId)) {
+                showPopup({ title: "Erreur", message: "Profil restreint.", icon: "⛔" });
+                return;
+            }
+            const nomServeur = document.getElementById('server-name').value;
             await addDoc(annoncesRef, {
                 serverId: document.getElementById('server-id').value,
-                nom: document.getElementById('server-name').value,
+                nom: nomServeur,
                 membres: parseInt(document.getElementById('server-members').value),
                 categorie: document.getElementById('server-category').value,
                 type: document.getElementById('server-type').value,
@@ -1208,32 +1342,162 @@
                 dateCreation: serverTimestamp()
             });
             document.getElementById('annonce-form').reset();
+            envoyerWebhook(webhookLogs, "📢 Nouvelle annonce en attente", `${nomServeur} — par ${currentUser}`, 16776960);
             showPopup({ title: "Succès", message: "Annonce soumise pour validation !", icon: "⏳", onConfirm: () => switchPage('accueil') });
         });
 
-        // Connexion Discord Callback check
-        const hash = new URLSearchParams(window.location.hash.substring(1));
-        const token = hash.get('access_token');
-        if(token) {
-            accessToken = token;
-            localStorage.setItem('discordToken', token);
-            fetch('https://discord.com/api/users/@me', { headers: { Authorization: `Bearer ${token}` } })
-                .then(res => res.json())
-                .then(data => {
-                    if(data.username) {
-                        currentUser = data.username;
-                        currentUserId = data.id;
-                        localStorage.setItem('currentUser', currentUser);
-                        localStorage.setItem('currentUserId', currentUserId);
-                        updateNavbar();
-                        window.history.replaceState({}, document.title, window.location.pathname);
-                    }
-                });
+        document.getElementById('hero-search-btn').addEventListener('click', () => {
+            document.getElementById('search-container').scrollIntoView({ behavior: 'smooth' });
+        });
+        document.getElementById('hero-depot-btn').addEventListener('click', window.allerAuDepot);
+        document.getElementById('detail-back-btn').addEventListener('click', () => switchPage('accueil'));
+        document.getElementById('logo-btn').addEventListener('click', () => switchPage('accueil'));
+
+        document.getElementById('search-bar').addEventListener('input', filtrer);
+        document.getElementById('filter-category').addEventListener('change', filtrer);
+        document.getElementById('filter-type').addEventListener('change', filtrer);
+        function filtrer() {
+            const kw = document.getElementById('search-bar').value.toLowerCase();
+            const cat = document.getElementById('filter-category').value;
+            const type = document.getElementById('filter-type').value;
+            const filtered = annonces.filter(a =>
+                (!kw || a.nom.toLowerCase().includes(kw) || a.description.toLowerCase().includes(kw)) &&
+                (!cat || a.categorie === cat) &&
+                (!type || a.type === type)
+            );
+            afficherAnnonces(filtered);
         }
 
-        initScheduleUI();
-        updateNavbar();
-        ecouterAnnonces();
+        async function checkDiscordCallback() {
+            const hashParams = new URLSearchParams(window.location.hash.substring(1));
+            const tok = hashParams.get('access_token');
+            if (!tok) return;
+
+            try {
+                const res = await fetch('https://discord.com/api/users/@me', { headers: { Authorization: `Bearer ${tok}` } });
+                const data = await res.json();
+                if (data.username) {
+                    if (bannedUsers.includes(data.id)) {
+                        showPopup({ title: "Compte banni", message: "Ce compte Discord a été banni de la plateforme.", icon: "⛔" });
+                        history.replaceState(null, '', window.location.pathname);
+                        return;
+                    }
+                    currentUser = data.username;
+                    currentUserId = data.id;
+                    localStorage.setItem('currentUser', currentUser);
+                    localStorage.setItem('currentUserId', currentUserId);
+                    updateNavbar();
+                }
+            } catch (err) {
+                console.error('Erreur connexion Discord:', err);
+            }
+            history.replaceState(null, '', window.location.pathname);
+        }
+
+        function ecouterConfig() {
+            onSnapshot(configModRef, (snap) => {
+                const data = snap.exists() ? snap.data() : {};
+                whitelistAdmins = Array.from(new Set([MASTER_ADMIN_ID, ...(data.whitelist || [])]));
+                restrictedUsers = data.restrictions || [];
+                bannedUsers = data.bannis || [];
+                maintenanceMode = !!data.maintenanceMode;
+
+                chargerWhitelistTable();
+                chargerRestrictionsTable();
+                chargerBansTable();
+                appliquerBanniereMaintenance();
+                updateNavbar();
+                afficherAnnonces(annonces);
+
+                if (currentUserId && bannedUsers.includes(currentUserId)) {
+                    showPopup({ title: "Compte banni", message: "Votre accès a été révoqué par un administrateur.", icon: "⛔" });
+                    window.logoutDiscord();
+                }
+            });
+
+            onSnapshot(configParamRef, (snap) => {
+                const data = snap.exists() ? snap.data() : {};
+                if (data.horaires) horaires = data.horaires;
+                webhookLogs = data.webhookLogs || "";
+                webhookPublish = data.webhookPublish || "";
+                botClientId = data.botClientId || "";
+                botInviteLink = data.botInviteLink || "";
+                ticketCategoryName = data.ticketCategoryName || "ticket site";
+                ticketWelcomeMessage = data.ticketWelcomeMessage || "";
+
+                initScheduleUI();
+                const logsInput = document.getElementById('webhook-logs');
+                const pubInput = document.getElementById('webhook-publish');
+                const clientInput = document.getElementById('bot-client-id');
+                const inviteInput = document.getElementById('bot-invite-link');
+                const catInput = document.getElementById('ticket-category-name');
+                const msgInput = document.getElementById('ticket-welcome-message');
+                if (logsInput) logsInput.value = webhookLogs;
+                if (pubInput) pubInput.value = webhookPublish;
+                if (clientInput) clientInput.value = botClientId;
+                if (inviteInput) inviteInput.value = botInviteLink;
+                if (catInput) catInput.value = ticketCategoryName;
+                if (msgInput) msgInput.value = ticketWelcomeMessage;
+            });
+        }
+
+        function ecouterTextes() {
+            onSnapshot(configTextesRef, (snap) => {
+                const data = snap.exists() ? snap.data() : {};
+
+                const heroTitleEl = document.getElementById('text-hero-title');
+                const heroSubtitleEl = document.getElementById('text-hero-subtitle');
+                const listingsHeadingEl = document.getElementById('text-listings-heading');
+                const maintenanceBannerEl = document.getElementById('text-maintenance-banner');
+                const footerEl = document.getElementById('text-footer');
+
+                if (data.heroTitle && heroTitleEl) heroTitleEl.innerHTML = data.heroTitle;
+                if (data.heroSubtitle && heroSubtitleEl) heroSubtitleEl.textContent = data.heroSubtitle;
+                if (data.listingsHeading && listingsHeadingEl) listingsHeadingEl.textContent = data.listingsHeading;
+                if (data.maintenanceBanner && maintenanceBannerEl) maintenanceBannerEl.textContent = data.maintenanceBanner;
+                if (data.footer && footerEl) footerEl.innerHTML = data.footer;
+
+                const titleInput = document.getElementById('txt-hero-title');
+                const subInput = document.getElementById('txt-hero-subtitle');
+                const listInput = document.getElementById('txt-listings-heading');
+                const banInput = document.getElementById('txt-maintenance-banner');
+                const footInput = document.getElementById('txt-footer');
+                if (titleInput) titleInput.value = data.heroTitle || heroTitleEl?.textContent || '';
+                if (subInput) subInput.value = data.heroSubtitle || heroSubtitleEl?.textContent || '';
+                if (listInput) listInput.value = data.listingsHeading || listingsHeadingEl?.textContent || '';
+                if (banInput) banInput.value = data.maintenanceBanner || maintenanceBannerEl?.textContent || '';
+                if (footInput) footInput.value = data.footer || footerEl?.textContent || '';
+            });
+        }
+
+        function ecouterLogs() {
+            const q = query(logsRef, orderBy('date', 'desc'), limit(100));
+            onSnapshot(q, (snapshot) => {
+                const logs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                const tbody = document.getElementById('logs-table-body');
+                if (!tbody) return;
+                tbody.innerHTML = logs.length === 0
+                    ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune action enregistrée pour le moment.</td></tr>`
+                    : logs.map(l => `
+                        <tr>
+                            <td>${l.date && l.date.toDate ? l.date.toDate().toLocaleString('fr-FR') : '—'}</td>
+                            <td>${l.titre || '—'}</td>
+                            <td>${l.detail || ''}</td>
+                            <td>${l.auteur || '—'}</td>
+                        </tr>
+                    `).join('');
+            });
+        }
+
+        checkDiscordCallback().then(() => {
+            ecouterConfig();
+            ecouterTextes();
+            ecouterLogs();
+            ecouterAnnonces();
+            ecouterTickets();
+            ecouterPartenaires();
+            updateNavbar();
+        });
     </script>
 </body>
 </html>
