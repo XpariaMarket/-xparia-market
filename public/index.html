@@ -101,33 +101,6 @@
         .btn-danger { background-color: var(--red); }
         .btn-danger:hover { background-color: var(--red-hover); }
 
-        /* Styles spécifiques pour le bouton Discord dans la Hero */
-        .btn-discord {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background-color: #5865F2;
-            color: #ffffff;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background-color 0.2s ease, transform 0.1s ease;
-            box-shadow: var(--shadow);
-            font-size: 0.9rem;
-        }
-
-        .btn-discord:hover {
-            background-color: #4752C4;
-            transform: translateY(-2px);
-        }
-
-        .discord-logo {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-        }
-
         .user-menu { position: relative; }
 
         .user-trigger {
@@ -210,7 +183,7 @@
         .hero p { color: var(--text-muted); font-size: 1.15rem; }
 
         .hero-actions {
-            display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;
+            display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;
         }
 
         .stats-bar {
@@ -345,6 +318,14 @@
             border-radius: 8px; padding: 2rem; max-width: 800px;
             margin: 0 auto; box-shadow: var(--shadow);
         }
+        .detail-gallery {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem; margin: 1.5rem 0;
+        }
+        .detail-gallery img {
+            width: 100%; height: 160px; object-fit: cover;
+            border-radius: 6px; border: 1px solid var(--border);
+        }
 
         footer {
             background-color: var(--bg-sidebar); border-top: 1px solid var(--border);
@@ -410,9 +391,7 @@
             <img src="logo.png" alt="" style="height:32px;width:32px;border-radius:8px;">
             Xparia<span> Market</span>
         </div>
-        <nav id="nav-actions">
-            <button class="btn-secondary" onclick="switchPage('partenariats')">🤝 Partenariats</button>
-        </nav>
+        <nav id="nav-actions"></nav>
     </header>
 
     <div class="container">
@@ -424,12 +403,6 @@
                 <div class="hero-actions">
                     <button id="hero-search-btn" class="btn-secondary">🔎 Rechercher</button>
                     <button id="hero-depot-btn">📢 Déposer une annonce</button>
-                    <button class="btn-secondary" onclick="switchPage('partenariats')">🤝 Nos Partenaires</button>
-                    <!-- Bouton Discord avec logo intégré dans la section hero -->
-                    <a href="VOTRE_LIEN_DISCORD_ICI" target="_blank" class="btn-discord">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxeYMRnUcW1Jw0Kf7evpnM3sVdt0Rzo6upLv1MORYo-g&s" alt="Logo Discord" class="discord-logo">
-                        Notre serveur Discord
-                    </a>
                 </div>
             </div>
 
@@ -469,19 +442,6 @@
             <div class="grid" id="annonces-grid"></div>
         </section>
 
-        <!-- PAGE PARTENARIATS (FRONTEND) -->
-        <section id="page-partenariats" class="page">
-            <div style="max-width: 1000px; margin: 0 auto;">
-                <button class="btn-secondary" onclick="switchPage('accueil')" style="margin-bottom: 1.5rem;">← Retour à l'accueil</button>
-                <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--blurple);">🤝 Nos Partenaires</h1>
-                <p style="color: var(--text-muted); margin-bottom: 2rem;">Découvrez la liste de tous les serveurs partenaires de la communauté Xparia Market.</p>
-                
-                <div class="grid" id="public-partners-grid">
-                    <!-- Injection dynamique des partenariats -->
-                </div>
-            </div>
-        </section>
-
         <!-- PANEL ADMIN -->
         <section id="page-admin" class="page">
             <div class="admin-layout">
@@ -490,6 +450,7 @@
                     <button class="admin-nav-item active" onclick="switchAdminTab('verifications', this)">✅ Vérifications & Annonces</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('textes', this)">📝 Texte Général</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('tickets', this)">🎟️ Tickets</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('horaires', this)">⏰ Horaires</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('fermetures', this)">🚫 Maintenance</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('salons', this)">#️⃣ Salons & Webhooks</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('bot', this)">🤖 Bot Discord</button>
@@ -560,16 +521,18 @@
                         </div>
                         <button onclick="sauvegarderTicketConfig()">💾 Sauvegarder</button>
 
-                        <h3 style="font-size:1.1rem; color:var(--blurple); margin: 2rem 0 0.5rem;">⏰ Horaires d'ouverture des tickets</h3>
-                        <p style="color: var(--text-muted); margin-bottom: 1rem; font-size:0.9rem;">En dehors de ces plages, le bouton "Contacter" est bloqué pour les visiteurs (les admins ne sont jamais bloqués).</p>
-                        <div id="schedule-config-container"></div>
-                        <button style="margin-top: 1rem;" onclick="sauvegarderHoraires()">💾 Sauvegarder les horaires</button>
-
                         <h3 style="font-size:1.1rem; color:var(--blurple); margin: 2rem 0 0.5rem;">📜 Historique</h3>
                         <table class="admin-table">
                             <thead><tr><th>Annonce</th><th>Demandeur</th><th>Propriétaire</th><th>Date</th><th>Salon</th><th>Action</th></tr></thead>
                             <tbody id="admin-tickets-list"><tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Aucun ticket pour le moment.</td></tr></tbody>
                         </table>
+                    </div>
+
+                    <div id="admin-tab-horaires" class="admin-section">
+                        <h2 class="section-heading">Horaires d'ouverture de la plateforme</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">En dehors de ces plages, le dépôt de nouvelles annonces est automatiquement bloqué pour les visiteurs (les admins ne sont jamais bloqués).</p>
+                        <div id="schedule-config-container"></div>
+                        <button style="margin-top: 1rem;" onclick="sauvegarderHoraires()">💾 Sauvegarder les horaires</button>
                     </div>
 
                     <div id="admin-tab-fermetures" class="admin-section">
@@ -612,6 +575,7 @@
                         <h3 style="font-size:1.1rem; color:var(--blurple); margin: 2.5rem 0 0.5rem;">🎫 Panneau de tickets Discord</h3>
                         <p style="color: var(--text-muted); margin-bottom: 1rem; font-size:0.9rem;">
                             Publie un message avec un bouton "Ouvrir un ticket" dans un salon Discord — cliquer dessus crée directement un salon de support, sans passer par le site.
+                            <br>⚠️ Nécessite d'avoir configuré la <code>Interactions Endpoint URL</code> sur le portail développeur Discord (voir les instructions données par Claude). Seuls les admins de l'onglet "🛡️ Permissions" peuvent publier un panneau — rien à configurer ailleurs.
                         </p>
                         <div class="form-group">
                             <label>ID du salon où publier le panneau</label>
@@ -630,7 +594,7 @@
 
                     <div id="admin-tab-permissions" class="admin-section">
                         <h2 class="section-heading">Permissions & Whitelist des Admins</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Ajoutez un ID Discord pour lui donner accès au panel. Partagé entre tous les admins.</p>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Ajoutez un ID Discord pour lui donner accès au panel. Partagé entre tous les admins (pas juste ton navigateur).</p>
                         <div class="inline-form-row">
                             <input type="text" id="new-whitelist-id" placeholder="Ex: 1464750597663100980">
                             <button onclick="ajouterWhitelist()">Ajouter</button>
@@ -667,36 +631,23 @@
                         </table>
                     </div>
 
-                    <!-- GESTION DES PARTENAIRES (PANEL ADMIN) -->
                     <div id="admin-tab-partenaires" class="admin-section">
-                        <h2 class="section-heading">Gestion des Partenariats</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Ajoutez ou supprimez les serveurs partenaires affichés sur le site.</p>
-                        
-                        <div class="form-box" style="margin: 0 0 2rem 0; max-width: 100%;">
-                            <div class="form-group">
-                                <label>Nom du serveur</label>
-                                <input type="text" id="new-partner-nom" placeholder="Le nom exact de la communauté à promouvoir.">
-                            </div>
-                            <div class="form-group">
-                                <label>Lien du serveur</label>
-                                <input type="text" id="new-partner-lien" placeholder="L'invitation Discord valide.">
-                            </div>
-                            <div class="form-group">
-                                <label>Description / Publicité</label>
-                                <textarea id="new-partner-ad" rows="3" placeholder="Le texte promotionnel rédigé par le membre."></textarea>
-                            </div>
-                            <button onclick="ajouterPartenaire()">➕ Ajouter le partenariat</button>
+                        <h2 class="section-heading">Partenaires</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Serveurs partenaires mis en avant.</p>
+                        <div class="inline-form-row">
+                            <input type="text" id="new-partner-nom" placeholder="Nom du serveur">
+                            <input type="text" id="new-partner-lien" placeholder="Lien d'invitation Discord">
+                            <button onclick="ajouterPartenaire()">Ajouter</button>
                         </div>
-
                         <table class="admin-table">
-                            <thead><tr><th>Nom du serveur</th><th>Lien Discord</th><th>Description</th><th>Action</th></tr></thead>
+                            <thead><tr><th>Nom</th><th>Lien</th><th>Action</th></tr></thead>
                             <tbody id="partners-table-body"></tbody>
                         </table>
                     </div>
 
                     <div id="admin-tab-logs" class="admin-section">
                         <h2 class="section-heading">Logs d'administration</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Historique de toutes les actions effectuées depuis le panel admin.</p>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Historique de toutes les actions effectuées depuis le panel admin (les 100 plus récentes).</p>
                         <table class="admin-table">
                             <thead><tr><th>Date</th><th>Action</th><th>Détail</th><th>Par</th></tr></thead>
                             <tbody id="logs-table-body"><tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune action enregistrée pour le moment.</td></tr></tbody>
@@ -715,6 +666,7 @@
                     <span class="badge" id="detail-badge"></span>
                 </div>
                 <div class="card-stats" id="detail-stats" style="margin-bottom: 1.5rem;"></div>
+                <div id="detail-gallery" class="detail-gallery"></div>
                 <p id="detail-description" style="line-height: 1.6; margin-bottom: 1.5rem; white-space: pre-wrap; color:var(--text-muted);"></p>
                 <button id="detail-contact-btn">💬 Contacter le propriétaire</button>
             </div>
@@ -724,11 +676,6 @@
         <section id="page-depot" class="page">
             <div class="form-box">
                 <h2>Publier une annonce de cession</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5;">
-                    ⚠️ Pour mettre une annonce, il est obligatoire d'inviter le bot sur votre serveur afin qu'il puisse vérifier que la personne qui met l'annonce en est bien le propriétaire[cite: 1].
-                    <br><br>
-                    <a href="https://discord.com/oauth2/authorize?client_id=1535232825656082503" target="_blank" class="btn-link" style="margin-top: 0.3rem;">🤖 Inviter le bot sur votre serveur</a>
-                </p>
                 <form id="annonce-form">
                     <div class="form-group">
                         <label for="server-id">ID de votre serveur Discord *</label>
@@ -763,14 +710,6 @@
                         <label for="server-reason">Description</label>
                         <textarea id="server-reason" required placeholder="Expliquez votre projet..."></textarea>
                     </div>
-                    
-                    <div class="form-group" style="display: flex; align-items: center; gap: 0.8rem; background: var(--bg-sidebar); padding: 1rem; border-radius: 6px; border: 1px solid var(--border);">
-                        <input type="checkbox" id="bot-invited-check" required style="width: 20px; height: 20px; accent-color: var(--blurple); cursor: pointer;">
-                        <label for="bot-invited-check" style="margin-bottom: 0; font-weight: normal; cursor: pointer; font-size: 0.9rem;">
-                            J'ai bien invité le bot sur mon serveur pour valider que j'en suis le propriétaire[cite: 1].
-                        </label>
-                    </div>
-
                     <div class="form-actions">
                         <button type="button" class="btn-secondary" onclick="switchPage('accueil')">Annuler</button>
                         <button type="submit">Publier</button>
@@ -920,6 +859,10 @@
                 showPopup({ title: "Maintenance en cours", message: "Le dépôt de nouvelles annonces est temporairement désactivé pour maintenance.", icon: "🚧" });
                 return;
             }
+            if (!isAdmin(currentUserId) && !estDansLesHoraires()) {
+                showPopup({ title: "En dehors des horaires", message: "Le dépôt de nouvelles annonces n'est autorisé que pendant les horaires d'ouverture définis par l'équipe.", icon: "⏰" });
+                return;
+            }
             switchPage('depot');
         };
 
@@ -931,39 +874,16 @@
             switchPage('accueil');
         };
 
-        function estDansLesHorairesTickets() {
-            const planning = {
-                1: { start: [9, 0], end: [22, 0], open: true },
-                2: { start: [12, 0], end: [16, 0], open: true },
-                3: { start: [8, 0], end: [18, 0], open: true },
-                4: { start: [10, 30], end: [17, 30], open: true },
-                5: { start: [9, 0], end: [18, 0], open: true },
-                6: { open: false },
-                0: { start: [9, 0], end: [12, 0], open: true }
-            };
-
+        function estDansLesHoraires() {
             const now = new Date();
-            const options = { timeZone: 'Europe/Paris', hour: 'numeric', minute: 'numeric', weekday: 'numeric', hour12: false };
-            const formatter = new Intl.DateTimeFormat('fr-FR', options);
-            const parts = formatter.formatToParts(now);
-            
-            let currentDay = now.getDay();
-            let currentHour = 0;
-            let currentMinute = 0;
-
-            for (let p of parts) {
-                if (p.type === 'hour') currentHour = parseInt(p.value, 10);
-                if (p.type === 'minute') currentMinute = parseInt(p.value, 10);
-            }
-
-            const regleJour = planning[currentDay];
-            if (!regleJour || !regleJour.open) return false;
-
-            const nowMinutes = currentHour * 60 + currentMinute;
-            const startMinutes = regleJour.start[0] * 60 + regleJour.start[1];
-            const endMinutes = regleJour.end[0] * 60 + regleJour.end[1];
-
-            return nowMinutes >= startMinutes && nowMinutes <= endMinutes;
+            let jsDay = now.getDay();
+            const idx = jsDay === 0 ? 6 : jsDay - 1;
+            const jour = horaires[idx];
+            if (!jour || !jour.active) return false;
+            const nowMinutes = now.getHours() * 60 + now.getMinutes();
+            const [sh, sm] = jour.start.split(':').map(Number);
+            const [eh, em] = jour.end.split(':').map(Number);
+            return nowMinutes >= (sh * 60 + sm) && nowMinutes <= (eh * 60 + em);
         }
 
         function updateNavbar() {
@@ -972,7 +892,6 @@
 
             if (currentUser) {
                 nav.innerHTML = `
-                    <button class="btn-secondary" onclick="switchPage('partenariats')">🤝 Partenariats</button>
                     <div class="user-menu" id="user-menu">
                         <button class="user-trigger" id="user-trigger-btn">
                             <span class="user-avatar">${currentUser.charAt(0).toUpperCase()}</span>
@@ -1000,7 +919,6 @@
                 });
             } else {
                 nav.innerHTML = `
-                    <button class="btn-secondary" onclick="switchPage('partenariats')">🤝 Partenariats</button>
                     <button class="btn-secondary" id="login-nav-btn">Se connecter</button>
                     <button id="depot-nav-btn">Déposer une annonce</button>
                 `;
@@ -1218,61 +1136,32 @@
                 `).join('');
         }
 
-        // --- GESTION DES PARTENAIRES ---
         window.ajouterPartenaire = async function() {
             const nom = document.getElementById('new-partner-nom').value.trim();
             const lien = document.getElementById('new-partner-lien').value.trim();
-            const description = document.getElementById('new-partner-ad').value.trim();
-
-            if (!nom || !lien || !description) {
-                showPopup({ title: "Champs manquants", message: "Tous les champs (nom, lien, description) sont requis pour ajouter un partenariat.", icon: "⚠️" });
-                return;
-            }
-
-            await addDoc(partenairesRef, { nom, lien, description, dateAjout: serverTimestamp() });
+            if (!nom || !lien) return;
+            await addDoc(partenairesRef, { nom, lien, dateAjout: serverTimestamp() });
             document.getElementById('new-partner-nom').value = '';
             document.getElementById('new-partner-lien').value = '';
-            document.getElementById('new-partner-ad').value = '';
-            showPopup({ title: "Succès", message: "Le partenariat a été ajouté avec succès !", icon: "✅" });
             ajouterLog("🤝 Partenaire ajouté", nom);
         };
 
         window.retirerPartenaire = async function(id) {
             await deleteDoc(doc(db, 'partenaires', id));
-            showPopup({ title: "Supprimé", message: "Le partenariat a été retiré.", icon: "🗑️" });
             ajouterLog("🤝 Partenaire retiré", id);
         };
 
         function chargerPartenairesTable() {
             const tbody = document.getElementById('partners-table-body');
-            if (!tbody) return;
             tbody.innerHTML = partenaires.length === 0
-                ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucun partenaire pour le moment.</td></tr>`
+                ? `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Aucun partenaire pour le moment.</td></tr>`
                 : partenaires.map(p => `
                     <tr>
-                        <td><strong>${p.nom}</strong></td>
+                        <td>${p.nom}</td>
                         <td><a href="${p.lien}" target="_blank" style="color:var(--blurple);">${p.lien}</a></td>
-                        <td style="color:var(--text-muted); max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${p.description || '—'}</td>
                         <td><button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="retirerPartenaire('${p.id}')">Retirer</button></td>
                     </tr>
                 `).join('');
-
-            // Affichage public sur la page Partenariats du site
-            const publicGrid = document.getElementById('public-partners-grid');
-            if (publicGrid) {
-                publicGrid.innerHTML = partenaires.length === 0
-                    ? `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">Aucun serveur partenaire pour le moment.</p>`
-                    : partenaires.map(p => `
-                        <div class="card" style="cursor: default;">
-                            <div class="card-header">
-                                <div class="card-title">${p.nom}</div>
-                                <span class="badge" style="background-color: var(--blurple);">Partenaire</span>
-                            </div>
-                            <p class="card-body" style="-webkit-line-clamp: unset; max-height: none; overflow: visible;">${p.description}</p>
-                            <a href="${p.lien}" target="_blank" class="btn-link" style="margin-top: 1rem; text-align: center;">Rejoindre le serveur</a>
-                        </div>
-                    `).join('');
-            }
         }
 
         function chargerPanelAdmin() {
@@ -1424,23 +1313,6 @@
             }
             if (bannedUsers.includes(currentUserId)) {
                 showPopup({ title: "Compte banni", message: "Votre compte a été banni de la plateforme.", icon: "⛔" });
-                return;
-            }
-
-            if (!isAdmin(currentUserId) && !estDansLesHorairesTickets()) {
-                showPopup({
-                    title: "Support fermé",
-                    message: "Les Ticket sont actuellement fermés !<br><br>" +
-                             "<strong>Horaires d'ouverture (heure de France 🇫🇷) :</strong><br>" +
-                             "• Lundi : 09h00 → 22h00<br>" +
-                             "• Mardi : 12h00 → 16h00<br>" +
-                             "• Mercredi : 08h00 → 18h00<br>" +
-                             "• Jeudi : 10h30 → 17h30<br>" +
-                             "• Vendredi : 09h00 → 18h00<br>" +
-                             "• Samedi : Fermé<br>" +
-                             "• Dimanche : 09h00 → 12h00",
-                    icon: "🔒"
-                });
                 return;
             }
 
