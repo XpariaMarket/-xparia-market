@@ -101,6 +101,33 @@
         .btn-danger { background-color: var(--red); }
         .btn-danger:hover { background-color: var(--red-hover); }
 
+        /* Styles spécifiques pour le bouton Discord dans la Hero */
+        .btn-discord {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #5865F2;
+            color: #ffffff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: var(--shadow);
+            font-size: 0.9rem;
+        }
+
+        .btn-discord:hover {
+            background-color: #4752C4;
+            transform: translateY(-2px);
+        }
+
+        .discord-logo {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
         .user-menu { position: relative; }
 
         .user-trigger {
@@ -183,7 +210,7 @@
         .hero p { color: var(--text-muted); font-size: 1.15rem; }
 
         .hero-actions {
-            display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;
+            display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;
         }
 
         .stats-bar {
@@ -398,6 +425,11 @@
                     <button id="hero-search-btn" class="btn-secondary">🔎 Rechercher</button>
                     <button id="hero-depot-btn">📢 Déposer une annonce</button>
                     <button class="btn-secondary" onclick="switchPage('partenariats')">🤝 Nos Partenaires</button>
+                    <!-- Bouton Discord avec logo intégré dans la section hero -->
+                    <a href="VOTRE_LIEN_DISCORD_ICI" target="_blank" class="btn-discord">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxeYMRnUcW1Jw0Kf7evpnM3sVdt0Rzo6upLv1MORYo-g&s" alt="Logo Discord" class="discord-logo">
+                        Notre serveur Discord
+                    </a>
                 </div>
             </div>
 
