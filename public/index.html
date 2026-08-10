@@ -542,6 +542,16 @@
                     <div id="admin-tab-bot" class="admin-section">
                         <h2 class="section-heading">Configuration du Bot Discord</h2>
                         <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Informations de référence utilisées par le site et la fonction serveur (Cloudflare Worker). Le Token du bot ne se modifie pas ici pour des raisons de sécurité — il reste dans les variables d'environnement Cloudflare, jamais visible ici.</p>
+                        
+                        <!-- SECTION AJOUTÉE POUR INVITATION DU BOT -->
+                        <div style="background-color: var(--bg-sidebar); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin-bottom: 1.5rem;">
+                            <h3 style="font-size: 1rem; color: var(--blurple); margin-bottom: 0.5rem;">🤖 Inviter le bot sur votre serveur Discord</h3>
+                            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+                                Pour que le bot puisse créer les salons de tickets et interagir, vous devez l'inviter sur votre serveur communautaire principal.
+                            </p>
+                            <a href="https://discord.com/oauth2/authorize?client_id=1535232825656082503&permissions=8&scope=bot%20applications.commands" target="_blank" class="btn-link" style="background-color: var(--green);">📥 Inviter le bot sur Discord</a>
+                        </div>
+
                         <div class="form-group">
                             <label>Client ID de l'application Discord</label>
                             <input type="text" id="bot-client-id" placeholder="1535232825656082503">
@@ -555,7 +565,6 @@
                         <h3 style="font-size:1.1rem; color:var(--blurple); margin: 2.5rem 0 0.5rem;">🎫 Panneau de tickets Discord</h3>
                         <p style="color: var(--text-muted); margin-bottom: 1rem; font-size:0.9rem;">
                             Publie un message avec un bouton "Ouvrir un ticket" dans un salon Discord — cliquer dessus crée directement un salon de support, sans passer par le site.
-                            <br>⚠️ Nécessite d'avoir configuré la <code>Interactions Endpoint URL</code> sur le portail développeur Discord (voir les instructions données par Claude). Seuls les admins de l'onglet "🛡️ Permissions" peuvent publier un panneau — rien à configurer ailleurs.
                         </p>
                         <div class="form-group">
                             <label>ID du salon où publier le panneau</label>
