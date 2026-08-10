@@ -1,41 +1,71 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xparia Market — Donnez une seconde vie à votre serveur Discord.</title>
+    <title>Xparia Market — La référence ultime du marché des serveurs Discord</title>
 
-    <!-- Méta-balises SEO & Open Graph -->
-    <meta name="description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
+    <!-- Méta-balises SEO & Open Graph Avancées -->
+    <meta name="description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord en toute sécurité et gratuitement.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://xparia-market.xparia-discord.workers.dev/">
     <meta property="og:title" content="Xparia Market — Donnez une seconde vie à votre serveur Discord">
-    <meta property="og:description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
+    <meta property="og:description" content="Plateforme sécurisée, gratuite et sans vente de serveurs pour la cession et la reprise de communautés Discord.">
     <meta property="og:image" content="https://xparia-market.xparia-discord.workers.dev/logo.png">
-    <meta property="theme-color" content="#FF8A00">
+    <meta property="theme-color" content="#FF7A1A">
 
     <link rel="icon" type="image/png" href="logo.png">
     <style>
-        :root {
+        /* ==========================================================================
+           1. DESIGN SYSTEM & VARIABLES CSS (THEME CLAIR / SOMBRE)
+           ================================================================---------- */
+        :root[data-theme="dark"] {
             --bg-main: #121214;
             --bg-sidebar: #18181b;
             --bg-card: #1f1f23;
+            --bg-input: #27272a;
             --text-main: #f4f4f5;
             --text-muted: #a1a1aa;
             --blurple: #ff7a1a;
             --blurple-hover: #e5690d;
             --green: #248046;
+            --green-hover: #1b6535;
             --red: #da373c;
             --red-hover: #a92b2f;
             --border: #27272a;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --border-focus: #ff7a1a;
+            --shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+            --header-bg: rgba(31, 31, 35, 0.85);
         }
 
+        :root[data-theme="light"] {
+            --bg-main: #f4f4f5;
+            --bg-sidebar: #ffffff;
+            --bg-card: #ffffff;
+            --bg-input: #e4e4e7;
+            --text-main: #18181b;
+            --text-muted: #71717a;
+            --blurple: #ea580c;
+            --blurple-hover: #c2410c;
+            --green: #16a34a;
+            --green-hover: #15803d;
+            --red: #dc2626;
+            --red-hover: #b91c1c;
+            --border: #d4d4d8;
+            --border-focus: #ea580c;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --header-bg: rgba(255, 255, 255, 0.85);
+        }
+
+        /* ==========================================================================
+           2. RESET & STYLES GLOBAUX
+           ================================================================---------- */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
         }
 
         body {
@@ -44,50 +74,73 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* --- BANDEAU D'ALERTE (BAN / RESTRICTION) --- */
+        /* ==========================================================================
+           3. BANDEAU GLOBAL D'ALERTE & RESTRICTION
+           ================================================================---------- */
         .global-alert-banner {
-            background-color: var(--red);
+            background: linear-gradient(135deg, var(--red), #991b1b);
             color: white;
             padding: 1rem 2rem;
             text-align: center;
             font-weight: 600;
             font-size: 0.95rem;
-            box-shadow: 0 2px 10px rgba(218, 55, 60, 0.4);
+            box-shadow: 0 4px 15px rgba(218, 55, 60, 0.4);
             display: none;
             align-items: center;
             justify-content: center;
             gap: 0.8rem;
-            z-index: 50;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideDown 0.3s ease-out;
         }
 
         .global-alert-banner.active {
             display: flex;
         }
 
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* ==========================================================================
+           4. HEADER & NAVIGATION PRINCIPALE
+           ================================================================---------- */
         header {
-            background-color: var(--bg-card);
-            padding: 1rem 2rem;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 1rem 2.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border);
             box-shadow: var(--shadow);
-            position: relative;
-            z-index: 20;
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.6rem;
+            font-weight: 800;
             color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             cursor: pointer;
-            letter-spacing: 0.5px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo img {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 2px 8px rgba(255, 122, 26, 0.3);
         }
 
         .logo span {
@@ -96,47 +149,81 @@
 
         nav {
             display: flex;
-            gap: 1rem;
+            gap: 1.2rem;
             align-items: center;
         }
 
+        /* Boutons globaux */
         button, .btn-link {
             background-color: var(--blurple);
             color: white;
             border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
+            padding: 0.65rem 1.3rem;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
             font-size: 0.9rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
 
         button:hover, .btn-link:hover {
             background-color: var(--blurple-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 122, 26, 0.25);
+        }
+
+        button:active, .btn-link:active {
+            transform: translateY(0);
         }
 
         .btn-secondary {
             background-color: transparent;
-            border: 1px solid var(--text-muted);
+            border: 1px solid var(--border);
             color: var(--text-main);
+            box-shadow: none;
         }
 
         .btn-secondary:hover {
-            background-color: var(--border);
+            background-color: var(--bg-input);
+            border-color: var(--text-muted);
+            box-shadow: none;
         }
 
         .btn-danger {
             background-color: var(--red);
+            box-shadow: none;
         }
         .btn-danger:hover {
             background-color: var(--red-hover);
+            box-shadow: 0 4px 12px rgba(218, 55, 60, 0.25);
         }
 
+        .theme-toggle-btn {
+            background-color: var(--bg-input);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 0.6rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: none;
+        }
+        .theme-toggle-btn:hover {
+            background-color: var(--border);
+            transform: rotate(15deg);
+        }
+
+        /* Menu Utilisateur / Dropdown */
         .user-menu {
             position: relative;
         }
@@ -145,26 +232,28 @@
             background-color: var(--bg-sidebar);
             border: 1px solid var(--border);
             color: var(--text-main);
-            padding: 0.4rem 0.9rem 0.4rem 0.5rem;
-            border-radius: 20px;
+            padding: 0.4rem 1rem 0.4rem 0.5rem;
+            border-radius: 30px;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.7rem;
             font-weight: 600;
             font-size: 0.9rem;
             cursor: pointer;
-            transition: background 0.2s, border-color 0.2s;
+            box-shadow: none;
         }
 
         .user-trigger:hover {
             border-color: var(--blurple);
+            background-color: var(--bg-card);
+            transform: none;
         }
 
         .user-avatar {
-            width: 26px;
-            height: 26px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            background-color: var(--blurple);
+            background: linear-gradient(135deg, var(--blurple), #f97316);
             color: #fff;
             display: flex;
             align-items: center;
@@ -176,39 +265,47 @@
         .user-dropdown {
             display: none;
             position: absolute;
-            top: calc(100% + 8px);
+            top: calc(100% + 10px);
             right: 0;
             background-color: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: var(--shadow);
-            min-width: 220px;
+            min-width: 240px;
             overflow: hidden;
-            z-index: 30;
+            z-index: 60;
+            animation: fadeInDrop 0.2s ease-out;
         }
 
         .user-menu.open .user-dropdown {
             display: block;
         }
 
+        @keyframes fadeInDrop {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .user-dropdown-header {
-            padding: 0.9rem 1rem;
+            padding: 1rem;
             border-bottom: 1px solid var(--border);
             font-size: 0.85rem;
             color: var(--text-muted);
+            background-color: var(--bg-sidebar);
         }
 
         .user-dropdown-header strong {
             display: block;
             color: var(--text-main);
             font-size: 0.95rem;
+            margin-top: 2px;
         }
 
         .user-dropdown a, .user-dropdown button.dropdown-item {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            padding: 0.75rem 1rem;
+            gap: 0.8rem;
+            padding: 0.85rem 1.1rem;
             font-size: 0.9rem;
             color: var(--text-main);
             text-decoration: none;
@@ -217,37 +314,57 @@
             border: none;
             width: 100%;
             text-align: left;
+            box-shadow: none;
         }
 
         .user-dropdown a:hover, .user-dropdown button.dropdown-item:hover {
-            background-color: var(--bg-sidebar);
+            background-color: var(--bg-input);
+            transform: none;
+            box-shadow: none;
+            color: var(--blurple);
         }
 
+        .user-dropdown button.dropdown-item.danger:hover {
+            color: var(--red);
+        }
+
+        /* ==========================================================================
+           5. CONTENEUR & STRUCTURE DES PAGES
+           ================================================================---------- */
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             width: 100%;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
             flex: 1;
         }
 
         .page {
             display: none;
+            animation: fadeInPage 0.3s ease;
         }
 
         .page.active {
             display: block;
         }
 
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
         .hero {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 3.5rem;
+            padding: 2rem 1rem;
         }
 
         .hero h1 {
-            font-size: 2.8rem;
-            margin-bottom: 0.5rem;
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
             font-weight: 800;
+            letter-spacing: -1px;
         }
 
         .hero h1 span {
@@ -256,129 +373,179 @@
 
         .hero p {
             color: var(--text-muted);
-            font-size: 1.15rem;
+            font-size: 1.2rem;
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.5;
         }
 
         .hero-actions {
             display: flex;
             justify-content: center;
             gap: 1rem;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
         }
 
+        /* Stats Bar */
         .stats-bar {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
+            gap: 1.5rem;
             background-color: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 2.5rem;
+            border-radius: 14px;
+            padding: 2rem;
+            margin-bottom: 3rem;
             text-align: center;
             box-shadow: var(--shadow);
         }
 
+        .stats-bar .stat-item {
+            position: relative;
+        }
+
+        .stats-bar .stat-item:not(:last-child):after {
+            content: '';
+            position: absolute;
+            right: -0.75rem;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background-color: var(--border);
+        }
+
         .stats-bar .stat-value {
-            font-size: 1.6rem;
+            font-size: 2rem;
             font-weight: 800;
             color: var(--blurple);
+            margin-bottom: 0.3rem;
         }
 
         .stats-bar .stat-label {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
+            font-weight: 500;
         }
 
         .section-heading {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
         }
 
+        /* Search & Filters Container */
         .search-container {
             background-color: var(--bg-card);
             padding: 1.5rem;
-            border-radius: 8px;
+            border-radius: 14px;
             display: flex;
             gap: 1rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
             border: 1px solid var(--border);
             box-shadow: var(--shadow);
+            align-items: center;
         }
 
         .search-container input, .search-container select {
             background-color: var(--bg-sidebar);
             border: 1px solid var(--border);
             color: var(--text-main);
-            padding: 0.8rem;
-            border-radius: 6px;
-            flex: 1;
-            font-size: 1rem;
+            padding: 0.85rem 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
         }
 
+        .search-container input {
+            flex: 2;
+        }
+
+        .search-container select {
+            flex: 1;
+        }
+
+        .search-container input:focus, .search-container select:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(255, 122, 26, 0.15);
+        }
+
+        /* ==========================================================================
+           6. GRILLE & CARTES DE SERVEURS (ANNONCES)
+           ================================================================---------- */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
         }
 
         .card {
             background-color: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
+            border-radius: 14px;
+            padding: 1.8rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             box-shadow: var(--shadow);
             cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
             position: relative;
+            overflow: hidden;
         }
 
         .card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-4px);
             border-color: var(--blurple);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
+            gap: 1rem;
         }
 
         .card-title {
-            font-size: 1.25rem;
-            font-weight: bold;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-main);
+            word-break: break-word;
         }
 
         .badge {
             background-color: var(--green);
             color: white;
-            padding: 0.2rem 0.6rem;
-            border-radius: 12px;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
             font-size: 0.75rem;
+            font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
         .badge-pending {
-            background-color: #f59e0b;
+            background-color: #d97706;
         }
 
         .card-stats {
             display: flex;
-            gap: 1rem;
+            gap: 1.2rem;
             font-size: 0.9rem;
             color: var(--text-muted);
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
+            font-weight: 500;
         }
 
         .card-body {
             font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.4;
+            margin-bottom: 1.8rem;
+            line-height: 1.5;
             color: var(--text-muted);
             display: -webkit-box;
             -webkit-line-clamp: 3;
@@ -391,48 +558,50 @@
             justify-content: space-between;
             align-items: center;
             border-top: 1px solid var(--border);
-            padding-top: 0.8rem;
+            padding-top: 1rem;
             margin-top: auto;
         }
 
-        /* --- PANEL ADMIN AVANCÉ --- */
+        /* ==========================================================================
+           7. PANEL ADMIN AVANCÉ & MULTI-ONGLETS
+           ================================================================---------- */
         .admin-layout {
             display: grid;
-            grid-template-columns: 260px 1fr;
-            gap: 2rem;
+            grid-template-columns: 280px 1fr;
+            gap: 2.5rem;
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
             box-shadow: var(--shadow);
-            min-height: 600px;
+            min-height: 650px;
         }
 
         .admin-sidebar {
             background: var(--bg-sidebar);
             border-right: 1px solid var(--border);
-            padding: 1.5rem 1rem;
+            padding: 2rem 1.2rem;
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
+            gap: 0.5rem;
         }
 
         .admin-sidebar-title {
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
             color: var(--text-muted);
-            margin-bottom: 0.8rem;
-            padding-left: 0.6rem;
-            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-left: 0.8rem;
+            font-weight: 800;
         }
 
         .admin-nav-item {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
+            gap: 0.9rem;
+            padding: 0.85rem 1rem;
+            border-radius: 8px;
             color: var(--text-muted);
             background: none;
             border: none;
@@ -442,17 +611,20 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            box-shadow: none;
         }
 
         .admin-nav-item:hover, .admin-nav-item.active {
-            background: rgba(255, 122, 26, 0.1);
+            background: rgba(255, 122, 26, 0.12);
             color: var(--blurple);
+            transform: none;
+            box-shadow: none;
         }
 
         .admin-content {
-            padding: 2rem;
+            padding: 2.5rem;
             overflow-y: auto;
-            max-height: 75vh;
+            max-height: 80vh;
         }
 
         .admin-section {
@@ -461,46 +633,58 @@
 
         .admin-section.active {
             display: block;
+            animation: fadeInPage 0.2s ease;
         }
 
         .admin-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 1rem;
-            font-size: 0.9rem;
+            margin-top: 1.5rem;
+            font-size: 0.92rem;
         }
 
         .admin-table th, .admin-table td {
-            padding: 0.9rem 1rem;
+            padding: 1rem 1.2rem;
             border-bottom: 1px solid var(--border);
             text-align: left;
         }
 
         .admin-table th {
             background-color: var(--bg-sidebar);
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
+        .admin-table tr:hover td {
+            background-color: var(--bg-sidebar);
+        }
+
+        /* ==========================================================================
+           8. FORMULAIRES & BOÎTES DE DIALOGUE
+           ================================================================---------- */
         .form-box, .detail-box {
             background-color: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2rem;
-            max-width: 600px;
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 700px;
             margin: 0 auto;
             box-shadow: var(--shadow);
         }
 
         .form-group {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            margin-bottom: 0.6rem;
+            font-size: 0.92rem;
             font-weight: 600;
+            color: var(--text-main);
         }
 
         .form-group input, .form-group select, .form-group textarea {
@@ -508,29 +692,51 @@
             background-color: var(--bg-sidebar);
             border: 1px solid var(--border);
             color: var(--text-main);
-            padding: 0.8rem;
-            border-radius: 6px;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
             font-size: 1rem;
+            outline: none;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(255, 122, 26, 0.15);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
         }
 
         .form-actions {
             display: flex;
             justify-content: flex-end;
             gap: 1rem;
-            margin-top: 2rem;
+            margin-top: 2.5rem;
         }
 
+        /* ==========================================================================
+           9. FOOTER & MODALE GÉNÉRALE
+           ================================================================---------- */
         footer {
             background-color: var(--bg-sidebar);
             border-top: 1px solid var(--border);
             margin-top: auto;
-            padding: 3rem 1.5rem 1.5rem 1.5rem;
+            padding: 3.5rem 2rem 2rem 2rem;
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.88rem;
         }
 
-        /* Modale */
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -538,42 +744,55 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            animation: fadeInModal 0.2s ease;
         }
 
         .modal.open {
             display: flex;
         }
 
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         .modal-content {
             background: var(--bg-card);
-            border-radius: 12px;
-            padding: 2rem;
-            max-width: 500px;
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 480px;
             width: 90%;
             border: 1px solid var(--border);
             text-align: center;
             box-shadow: var(--shadow);
+            animation: scaleModal 0.2s ease;
+        }
+
+        @keyframes scaleModal {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
         .modal-icon {
-            font-size: 3rem;
-            margin-bottom: 0.8rem;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
         }
 
         .modal-content h3 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             margin-bottom: 0.8rem;
+            color: var(--text-main);
         }
 
         .modal-content p {
             color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
+            margin-bottom: 2rem;
+            line-height: 1.6;
         }
 
         .modal-actions {
@@ -582,7 +801,32 @@
             gap: 1rem;
         }
 
-        /* --- RESPONSIVE MOBILE --- */
+        /* ==========================================================================
+           10. RESPONSIVE DESIGN (MOBILE & TABLETTE)
+           ================================================================---------- */
+        @media (max-width: 900px) {
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+            .admin-sidebar {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                flex-direction: row;
+                overflow-x: auto;
+                padding: 1rem;
+            }
+            .admin-sidebar-title {
+                display: none;
+            }
+            .stats-bar {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .stats-bar .stat-item:not(:last-child):after {
+                display: none;
+            }
+        }
+
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -590,84 +834,72 @@
                 padding: 1rem;
                 text-align: center;
             }
-
             nav {
                 justify-content: center;
                 flex-wrap: wrap;
             }
-
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
-
-            .stats-bar {
-                grid-template-columns: 1fr;
-            }
-
             .search-container {
                 flex-direction: column;
             }
-
-            .grid, .admin-layout {
+            .grid {
                 grid-template-columns: 1fr;
-            }
-
-            .admin-sidebar {
-                border-right: none;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .admin-content {
-                padding: 1rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- BANDEAU ROUGE D'ALERTE DYNAMIQUE -->
+    <!-- BANDEAU GLOBAL D'ALERTE DYNAMIQUE (BAN / RESTRICTION) -->
     <div id="global-alert" class="global-alert-banner">
         <span id="global-alert-icon">⚠️</span>
-        <span id="global-alert-text">Message d'alerte...</span>
+        <span id="global-alert-text">Votre compte fait l'objet d'une restriction.</span>
     </div>
 
+    <!-- HEADER DE NAVIGATION -->
     <header>
         <div class="logo" id="logo-btn" onclick="switchPage('accueil')">
-            <img src="logo.png" alt="" style="height:32px;width:32px;border-radius:8px;">
+            <img src="logo.png" alt="Xparia Market Logo">
             Xparia<span> Market</span>
         </div>
-        <nav id="nav-actions"></nav>
+        <nav id="nav-actions">
+            <!-- Injecté dynamiquement par JS (Auth & Thème) -->
+        </nav>
     </header>
 
+    <!-- CONTENEUR PRINCIPAL -->
     <div class="container">
-        <!-- ACCUEIL -->
+        
+        <!-- ================= PAGE ACCUEIL ================= -->
         <section id="page-accueil" class="page active">
             <div class="hero">
                 <h1>🛒 Xparia <span>Market</span></h1>
-                <p>Trouvez votre prochain serveur Discord.</p>
+                <p>Trouvez votre prochaine communauté, cédez ou reprenez un serveur Discord en toute simplicité et sécurité.</p>
                 <div class="hero-actions">
-                    <button class="btn-secondary" onclick="document.getElementById('search-bar').focus();">🔎 Rechercher</button>
+                    <button class="btn-secondary" onclick="document.getElementById('search-bar').focus();">🔎 Explorer les offres</button>
                     <button onclick="allerAuDepot()">📢 Déposer une annonce</button>
                 </div>
             </div>
 
             <div class="stats-bar">
-                <div>
+                <div class="stat-item">
                     <div class="stat-value" id="stat-annonces">0</div>
                     <div class="stat-label">serveurs publiés</div>
                 </div>
-                <div>
-                    <div class="stat-value" id="stat-membres">15</div>
-                    <div class="stat-label">membres concernés</div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-membres">100%</div>
+                    <div class="stat-label">gratuit & sécurisé</div>
                 </div>
-                <div>
+                <div class="stat-item">
                     <div class="stat-value" id="stat-tickets">0</div>
                     <div class="stat-label">mises en relation</div>
                 </div>
             </div>
 
             <div class="search-container">
-                <input type="text" id="search-bar" placeholder="Rechercher par mot-clé..." oninput="filtrerAnnonces()">
+                <input type="text" id="search-bar" placeholder="Rechercher par mot-clé, nom de serveur..." oninput="filtrerAnnonces()">
                 <select id="filter-category" onchange="filtrerAnnonces()">
                     <option value="">Toutes les catégories</option>
                     <option value="gaming">Gaming</option>
@@ -687,29 +919,45 @@
             <div class="grid" id="annonces-grid"></div>
         </section>
 
-        <!-- PANEL ADMIN & GESTION AVANCÉE -->
+        <!-- ================= PAGE PANEL ADMIN ================= -->
         <section id="page-admin" class="page">
             <div class="admin-layout">
                 <div class="admin-sidebar">
                     <div class="admin-sidebar-title">Administration</div>
-                    <button class="admin-nav-item active" onclick="switchAdminTab('verifications', this)">✅ Vérifications & Annonces</button>
+                    <button class="admin-nav-item active" onclick="switchAdminTab('verifications', this)">✅ Modération & Annonces</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('signalements', this)">🚩 Signalements</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('restrictions', this)">🔒 Sanctions (Ban / Restrict)</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('logs', this)">📋 Logs de Modération</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('permissions', this)">🛡️ Permissions (Whitelist)</button>
-                    <button class="btn-secondary" style="margin-top:auto;" onclick="switchPage('accueil')">Retour au site</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('restrictions', this)">🔒 Sanctions & Bans</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('logs', this)">📋 Logs d'audit</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('permissions', this)">🛡️ Whitelist Admins</button>
+                    <button class="btn-secondary" style="margin-top:auto;" onclick="switchPage('accueil')">← Retour au site</button>
                 </div>
 
                 <div class="admin-content">
-                    <!-- Onglet SIGNALEMENTS -->
-                    <div id="admin-tab-signalements" class="admin-section">
-                        <h2 class="section-heading">Annonces Signalées</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Examinez les signalements émis par les membres de la communauté.</p>
+                    <!-- Onglet VERIFICATIONS -->
+                    <div id="admin-tab-verifications" class="admin-section active">
+                        <h2 class="section-heading">Validation des Annonces en Attente</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Examinez les propositions soumises par les membres avant leur publication publique.</p>
                         <table class="admin-table">
                             <thead>
                                 <tr>
                                     <th>Serveur</th>
-                                    <th>Raison du signalement</th>
+                                    <th>Propriétaire</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-pending-annonces"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Onglet SIGNALEMENTS -->
+                    <div id="admin-tab-signalements" class="admin-section">
+                        <h2 class="section-heading">Signalements Communautaires</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Traitement des annonces signalées par les utilisateurs pour non-respect des règles.</p>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Serveur</th>
+                                    <th>Motif</th>
                                     <th>Signalé par</th>
                                     <th>Actions</th>
                                 </tr>
@@ -718,16 +966,15 @@
                         </table>
                     </div>
 
-                    <!-- Onglet RESTRICTIONS & BANS -->
+                    <!-- Onglet RESTRICTIONS -->
                     <div id="admin-tab-restrictions" class="admin-section">
                         <h2 class="section-heading">Gestion des Sanctions (Bannissements & Restrictions)</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Appliquez une sanction avec un motif personnalisé visible directement par l'utilisateur.</p>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Appliquez ou levez une sanction ciblée par ID Discord.</p>
                         
-                        <div class="form-box" style="max-width:100%; margin-bottom:2rem;">
-                            <h3 style="font-size:1.1rem; margin-bottom:1rem;">Appliquer une sanction par ID Discord</h3>
+                        <div style="background:var(--bg-sidebar); border:1px solid var(--border); border-radius:12px; padding:1.5rem; margin-bottom:2rem;">
                             <div class="form-group">
                                 <label>ID Discord de l'utilisateur</label>
-                                <input type="text" id="target-user-id" placeholder="Ex: 123456789012345678">
+                                <input type="text" id="target-user-id" placeholder="Ex: 1464750597663100980">
                             </div>
                             <div class="form-group">
                                 <label>Type de sanction</label>
@@ -740,10 +987,10 @@
                                 <label>Motif de la sanction (affiché sur le bandeau)</label>
                                 <input type="text" id="sanction-reason" placeholder="Ex: Non-respect des règles de publication...">
                             </div>
-                            <button onclick="appliquerSanction()">Enregistrer et appliquer</button>
+                            <button onclick="appliquerSanction()">Enregistrer la sanction</button>
                         </div>
 
-                        <h3 style="font-size:1.1rem; color:var(--blurple); margin-bottom:0.5rem;">Utilisateurs sanctionnés enregistrés</h3>
+                        <h3 style="font-size:1.1rem; margin-bottom:1rem; font-weight:700;">Sanctions Actives</h3>
                         <table class="admin-table">
                             <thead>
                                 <tr>
@@ -757,17 +1004,17 @@
                         </table>
                     </div>
 
-                    <!-- Onglet LOGS DE MODÉRATION -->
+                    <!-- Onglet LOGS -->
                     <div id="admin-tab-logs" class="admin-section">
-                        <h2 class="section-heading">Historique & Traçabilité (Logs)</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Suivi de toutes les actions de modération effectuées sur la plateforme.</p>
+                        <h2 class="section-heading">Traçabilité & Historique de Modération</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Journal complet de toutes les actions administratives réalisées sur la plateforme.</p>
                         <table class="admin-table">
                             <thead>
                                 <tr>
                                     <th>Date & Heure</th>
-                                    <th>Modérateur (ID)</th>
+                                    <th>Modérateur</th>
                                     <th>Action</th>
-                                    <th>Cible / Détails</th>
+                                    <th>Détails</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-logs-table"></tbody>
@@ -776,85 +1023,110 @@
 
                     <!-- Onglet PERMISSIONS -->
                     <div id="admin-tab-permissions" class="admin-section">
-                        <h2 class="section-heading">Permissions & Whitelist des Admins</h2>
-                        <div class="form-group" style="display:flex; gap:1rem; flex-wrap: wrap;">
-                            <input type="text" id="new-whitelist-id" placeholder="Ex: 1464750597663100980" style="flex:1;">
-                            <button onclick="ajouterWhitelist()">Ajouter à la Whitelist</button>
+                        <h2 class="section-heading">Gestion de la Whitelist Administrateurs</h2>
+                        <div style="display:flex; gap:1rem; margin-bottom:1.5rem;">
+                            <input type="text" id="new-whitelist-id" placeholder="ID Discord du nouvel administrateur..." style="flex:1; background:var(--bg-sidebar); border:1px solid var(--border); padding:0.8rem; border-radius:8px; color:var(--text-main);">
+                            <button onclick="ajouterWhitelist()">Ajouter</button>
                         </div>
                         <table class="admin-table">
-                            <thead><tr><th>ID Discord</th><th>Action</th></tr></thead>
+                            <thead>
+                                <tr>
+                                    <th>ID Discord</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
                             <tbody id="whitelist-table-body"></tbody>
                         </table>
                     </div>
-
-                    <!-- Onglet VERIFICATIONS -->
-                    <div id="admin-tab-verifications" class="admin-section">
-                        <h2 class="section-heading">Modération des Annonces</h2>
-                        <table class="admin-table">
-                            <thead><tr><th>Serveur</th><th>Propriétaire</th><th>Actions</th></tr></thead>
-                            <tbody id="admin-pending-annonces"></tbody>
-                        </table>
-                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- DETAIL -->
+        <!-- ================= PAGE DETAIL ANNONCE ================= -->
         <section id="page-detail" class="page">
             <div class="detail-box">
-                <button class="btn-secondary" onclick="switchPage('accueil')" style="margin-bottom:1.5rem;">← Retour</button>
+                <button class="btn-secondary" onclick="switchPage('accueil')" style="margin-bottom:1.5rem;">← Retour aux offres</button>
                 <div class="card-header">
-                    <div class="card-title" id="detail-nom" style="font-size: 1.6rem;"></div>
+                    <div class="card-title" id="detail-nom" style="font-size: 1.8rem;"></div>
                     <span class="badge" id="detail-badge"></span>
                 </div>
-                <div class="card-stats" id="detail-stats" style="margin-bottom: 1.5rem;"></div>
-                <p id="detail-description" style="line-height: 1.6; margin-bottom: 1.5rem; color:var(--text-muted);"></p>
-                <button id="detail-contact-btn">💬 Contacter le propriétaire</button>
+                <div class="card-stats" id="detail-stats" style="margin-bottom: 1.5rem; font-size: 1rem;"></div>
+                <p id="detail-description" style="line-height: 1.7; margin-bottom: 2rem; color:var(--text-muted); font-size: 1.05rem;"></p>
+                <button id="detail-contact-btn" style="width:100%; justify-content:center; padding:0.9rem;">💬 Contacter le propriétaire</button>
             </div>
         </section>
 
-        <!-- DEPOT -->
+        <!-- ================= PAGE DEPOT ANNONCE ================= -->
         <section id="page-depot" class="page">
             <div class="form-box">
-                <h2>Publier une annonce de cession</h2>
+                <h2 style="font-size:1.8rem; margin-bottom:0.5rem;">Publier une annonce de cession</h2>
+                <p style="color:var(--text-muted); margin-bottom:2rem;">Remplissez les informations ci-dessous pour soumettre votre serveur à la communauté.</p>
                 <form id="annonce-form">
-                    <div class="form-group"><label>ID de votre serveur Discord *</label><input type="text" id="server-id" required></div>
-                    <div class="form-group"><label>Nom du serveur</label><input type="text" id="server-name" required></div>
-                    <div class="form-group"><label>Nombre de membres</label><input type="number" id="server-members" required min="1"></div>
                     <div class="form-group">
-                        <label>Catégorie</label>
+                        <label>ID de votre serveur Discord *</label>
+                        <input type="text" id="server-id" required placeholder="Ex: 123456789012345678">
+                    </div>
+                    <div class="form-group">
+                        <label>Nom du serveur *</label>
+                        <input type="text" id="server-name" required placeholder="Ex: Communauté Gaming FR">
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre de membres *</label>
+                        <input type="number" id="server-members" required min="1" placeholder="Ex: 250">
+                    </div>
+                    <div class="form-group">
+                        <label>Catégorie *</label>
                         <select id="server-category" required>
-                            <option value="gaming">Gaming</option><option value="communauté">Communauté</option><option value="rp">Roleplay (RP)</option><option value="dev">Dév & Technologie</option>
+                            <option value="gaming">Gaming</option>
+                            <option value="communauté">Communauté</option>
+                            <option value="rp">Roleplay (RP)</option>
+                            <option value="dev">Dév & Technologie</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Type de cession</label>
+                        <label>Type de cession *</label>
                         <select id="server-type" required>
-                            <option value="Don Gratuit">Don Gratuit</option><option value="Échange">Échange</option><option value="Reprise Bénévole">Reprise Bénévole</option>
+                            <option value="Don Gratuit">Don Gratuit</option>
+                            <option value="Échange">Échange</option>
+                            <option value="Reprise Bénévole">Reprise Bénévole</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>Description</label><textarea id="server-reason" required></textarea></div>
+                    <div class="form-group">
+                        <label>Description détaillée et critères de reprise *</label>
+                        <textarea id="server-reason" required placeholder="Décrivez l'historique du serveur, l'ambiance et vos attentes..."></textarea>
+                    </div>
                     <div class="form-actions">
                         <button type="button" class="btn-secondary" onclick="switchPage('accueil')">Annuler</button>
-                        <button type="submit">Publier</button>
+                        <button type="submit">Soumettre pour validation</button>
                     </div>
                 </form>
             </div>
         </section>
+
     </div>
 
-    <footer><p>&copy; 2026 Xparia Market. Non affilié à Discord Inc.</p></footer>
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2026 Xparia Market. Plateforme 100% gratuite et indépendante. Non affilié à Discord Inc.</p>
+        </div>
+    </footer>
 
-    <!-- POPUP MODALE -->
+    <!-- POPUP MODALE GÉNÉRALE -->
     <div class="modal" id="custom-popup">
         <div class="modal-content">
             <div class="modal-icon" id="popup-icon">✨</div>
             <h3 id="popup-title">Notification</h3>
             <p id="popup-message">Message...</p>
-            <div class="modal-actions"><button type="button" id="popup-confirm-btn">OK</button></div>
+            <div class="modal-actions">
+                <button type="button" id="popup-confirm-btn">Compris</button>
+            </div>
         </div>
     </div>
 
+    <!-- ==========================================================================
+       11. LOGIQUE FIREBASE & INTERACTION JAVASCRIPT
+       ================================================================---------- -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
         import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, updateDoc, getDoc, setDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
@@ -883,6 +1155,28 @@
         let currentUserId = localStorage.getItem('currentUserId') || null;
         let accessToken = localStorage.getItem('discordToken') || null;
         let annonces = [];
+
+        // Gestion du Thème Sombre / Clair
+        window.toggleTheme = function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButtonIcon(newTheme);
+        };
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButtonIcon(savedTheme);
+        }
+
+        function updateThemeButtonIcon(theme) {
+            const btn = document.getElementById('theme-toggle-btn');
+            if(btn) {
+                btn.innerHTML = theme === 'light' ? '🌙' : '☀️';
+            }
+        }
 
         function showPopup({ title = "Information", message = "", icon = "ℹ️", onConfirm = null }) {
             const modal = document.getElementById('custom-popup');
@@ -917,7 +1211,6 @@
             if(tabId === 'logs') chargerLogsTable();
         };
 
-        // --- ENREGISTREMENT DES LOGS ---
         async function enregistrerLog(action, details) {
             try {
                 await addDoc(logsRef, {
@@ -928,7 +1221,7 @@
                     date: serverTimestamp()
                 });
             } catch (e) {
-                console.error("Erreur enregistrement log", e);
+                console.error("Erreur log", e);
             }
         }
 
@@ -956,7 +1249,6 @@
             }
         }
 
-        // --- GESTION DES SIGNALEMENTS ---
         window.ouvrirModalSignalement = function(annonceId, annonceNom, event) {
             event.stopPropagation();
             if (!currentUser) {
@@ -1019,7 +1311,6 @@
             showPopup({ title: "Action effectuée", message: "L'annonce signalée a été supprimée.", icon: "🗑️" });
         };
 
-        // --- GESTION DES SANCTIONS & BANDEAUX D'ALERTE ---
         async function verifierSanctionsUtilisateur() {
             const banner = document.getElementById('global-alert');
             const bannerText = document.getElementById('global-alert-text');
@@ -1046,7 +1337,7 @@
                     }
                 }
             } catch (e) {
-                console.error("Erreur vérification sanctions", e);
+                console.error("Erreur sanctions", e);
             }
             banner.classList.remove('active');
         }
@@ -1074,9 +1365,9 @@
                 document.getElementById('target-user-id').value = '';
                 document.getElementById('sanction-reason').value = '';
                 chargerSanctionsTable();
-                showPopup({ title: "Sanction appliquée", message: `La sanction a été enregistrée pour l'utilisateur ${userId}.`, icon: "✅" });
+                showPopup({ title: "Sanction enregistrée", message: `La sanction a été appliquée pour l'utilisateur ${userId}.`, icon: "✅" });
             } catch (e) {
-                console.error("Erreur enregistrement sanction", e);
+                console.error("Erreur sanction", e);
             }
         };
 
@@ -1090,10 +1381,10 @@
                     await setDoc(docRef, { list: sanctionsMap });
                     enregistrerLog('SANCTION_LEVEE', `Cible: ${userId}`);
                     chargerSanctionsTable();
-                    showPopup({ title: "Sanction retirée", message: `L'utilisateur a été levé de sa sanction.`, icon: "✅" });
+                    showPopup({ title: "Sanction retirée", message: `La sanction a été levée pour l'utilisateur.`, icon: "✅" });
                 }
             } catch (e) {
-                console.error("Erreur suppression sanction", e);
+                console.error("Erreur levée sanction", e);
             }
         };
 
@@ -1109,7 +1400,7 @@
                         Object.entries(sanctionsMap).map(([id, data]) => `
                             <tr>
                                 <td><code>${id}</code></td>
-                                <td><span class="badge" style="background:${data.type === 'banni' ? 'var(--red)' : '#f59e0b'}">${data.type}</span></td>
+                                <td><span class="badge" style="background:${data.type === 'banni' ? 'var(--red)' : '#d97706'}">${data.type}</span></td>
                                 <td>${data.reason || 'Aucune raison'}</td>
                                 <td><button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="retirerSanction('${id}')">Lever</button></td>
                             </tr>
@@ -1122,18 +1413,17 @@
 
         window.allerAuDepot = async function() {
             if (!currentUser || !currentUserId) {
-                showPopup({ title: "Connexion requise", message: "Vous devez être connecté avec Discord pour poster une pub.", icon: "🔒", onConfirm: () => window.location.href = DISCORD_AUTH_URL });
+                showPopup({ title: "Connexion requise", message: "Vous devez être connecté avec Discord pour poster une annonce.", icon: "🔒", onConfirm: () => window.location.href = DISCORD_AUTH_URL });
                 return;
             }
 
-            // Vérification si l'utilisateur est banni ou restreint avant d'aller au dépôt
             try {
                 const docRef = doc(db, 'settings', 'sanctions');
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     const sanctionsMap = docSnap.data().list || {};
                     if (sanctionsMap[currentUserId]) {
-                        showPopup({ title: "Action impossible", message: "Votre compte fait l'objet d'une sanction (Banni ou Restreint). Vous ne pouvez pas publier.", icon: "⛔" });
+                        showPopup({ title: "Action impossible", message: "Votre compte fait l'objet d'une sanction active. Publication bloquée.", icon: "⛔" });
                         return;
                     }
                 }
@@ -1160,9 +1450,11 @@
         function updateNavbar() {
             const nav = document.getElementById('nav-actions');
             const userIsAdmin = isAdmin(currentUserId);
+            const currentTheme = localStorage.getItem('theme') || 'dark';
 
+            let userHtml = '';
             if (currentUser) {
-                nav.innerHTML = `
+                userHtml = `
                     <div class="user-menu" id="user-menu">
                         <button class="user-trigger" id="user-trigger-btn">
                             <span class="user-avatar">${currentUser.charAt(0).toUpperCase()}</span>
@@ -1174,17 +1466,25 @@
                             <button type="button" class="dropdown-item danger" onclick="logoutDiscord()">🚪 Déconnexion</button>
                         </div>
                     </div>
-                    <button onclick="allerAuDepot()">Déposer</button>
                 `;
-                document.getElementById('user-trigger-btn').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    document.getElementById('user-menu').classList.toggle('open');
-                });
             } else {
-                nav.innerHTML = `
-                    <button class="btn-secondary" onclick="window.location.href='${DISCORD_AUTH_URL}'">Se connecter</button>
-                    <button onclick="allerAuDepot()">Déposer</button>
-                `;
+                userHtml = `<button class="btn-secondary" onclick="window.location.href='${DISCORD_AUTH_URL}'">Se connecter</button>`;
+            }
+
+            nav.innerHTML = `
+                ${userHtml}
+                <button onclick="allerAuDepot()">Déposer</button>
+                <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()" title="Changer le thème">${currentTheme === 'light' ? '🌙' : '☀️'}</button>
+            `;
+
+            if (currentUser) {
+                const trigger = document.getElementById('user-trigger-btn');
+                if(trigger) {
+                    trigger.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        document.getElementById('user-menu').classList.toggle('open');
+                    });
+                }
             }
         }
 
@@ -1313,7 +1613,7 @@
             document.getElementById('detail-badge').innerText = art.type;
             document.getElementById('detail-stats').innerHTML = `<span>👥 ${art.membres} membres</span>`;
             document.getElementById('detail-description').innerText = art.description;
-            document.getElementById('detail-contact-btn').onclick = () => showPopup({ title: "Contact", message: `Contactez le propriétaire sur Discord : <strong>${art.proprietaire}</strong>`, icon: "💬" });
+            document.getElementById('detail-contact-btn').onclick = () => showPopup({ title: "Mise en relation", message: `Contactez le propriétaire directement sur Discord : <strong>${art.proprietaire}</strong>`, icon: "💬" });
             switchPage('detail');
         };
 
@@ -1322,14 +1622,11 @@
             document.getElementById('stat-annonces').textContent = valides.length;
         }
 
-        // --- FILTRE AUTOMATIQUE ANTI-SPAM ---
         function verifierAntiSpam(texte) {
             const motsInterdits = ['nitro free', 'discord.gift', 'hack', 'scam', 'phishing', 'free nitro', 'http://', 'https://'];
             const texteLower = texte.toLowerCase();
             for (let mot of motsInterdits) {
-                if (texteLower.includes(mot)) {
-                    return mot;
-                }
+                if (texteLower.includes(mot)) return mot;
             }
             return null;
         }
@@ -1341,7 +1638,6 @@
             const description = document.getElementById('server-reason').value;
             const texteGlobal = nomServeur + " " + description;
 
-            // Application du filtre anti-spam
             const motDetecte = verifierAntiSpam(texteGlobal);
             if (motDetecte && !isAdmin(currentUserId)) {
                 showPopup({ 
@@ -1368,6 +1664,7 @@
             showPopup({ title: "Succès", message: "Annonce soumise pour validation !", icon: "⏳", onConfirm: () => switchPage('accueil') });
         });
 
+        // Initialisation de l'authentification Discord OAuth2
         const hash = new URLSearchParams(window.location.hash.substring(1));
         const token = hash.get('access_token');
         if(token) {
@@ -1387,6 +1684,7 @@
                 });
         }
 
+        initTheme();
         chargerWhitelist();
         ecouterAnnonces();
     </script>
