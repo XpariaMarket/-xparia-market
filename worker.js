@@ -2,6 +2,7 @@ export default {
     async fetch(request, env, ctx) {
         const url = new URL(request.url);
 
+        // En-têtes CORS pour les appels API du frontend
         const corsHeaders = {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -65,7 +66,7 @@ export default {
             return handleCloseTicket(request, env);
         }
 
-        // 3. Fichiers statiques
+        // 3. Tout le reste (index.html, assets, etc.) est servi depuis /public
         return env.ASSETS.fetch(request);
     }
 };
@@ -137,7 +138,7 @@ async function handleCreateTicket(request, env) {
 
         const category = channels.find(c => c.type === 4 && c.name.toLowerCase() === CATEGORY_NAME);
         if (!category) {
-            return jsonResponse(500, { error: `Catégorie "${CATEGORY_NAME}" introuvable. Crée-la sur le serveur Discord.` });
+            return jsonResponse(500, { error: `Catégorie "${CATEGORY_NAME}" introuvable. Crée-la sur le serveur Discord (exactement ce nom, en minuscules).` });
         }
 
         const VIEW_AND_SEND = "3072";
@@ -168,7 +169,6 @@ async function handleCreateTicket(request, env) {
         const channel = await createRes.json();
         if (!createRes.ok) throw new Error(channel.message || "Erreur lors de la création du salon.");
 
-        // Exemple de message par défaut intégrant le formatage Markdown (# grand, **gras**, *italique*)
         const defaultMessage =
             `# Nouveau Ticket\n` +
             `👋 Bonjour <@${demandeurId}> !\n\n` +
