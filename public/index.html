@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,21 +31,6 @@
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
-        [data-theme="light"] {
-            --bg-main: #f4f4f5;
-            --bg-sidebar: #e4e4e7;
-            --bg-card: #ffffff;
-            --text-main: #18181b;
-            --text-muted: #71717a;
-            --blurple: #ff7a1a;
-            --blurple-hover: #e5690d;
-            --green: #16a34a;
-            --red: #dc2626;
-            --red-hover: #b91c1c;
-            --border: #d4d4d8;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -59,7 +44,6 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            transition: background 0.3s, color 0.3s;
         }
 
         /* --- BANDEAU D'ALERTE (BAN / RESTRICTION) --- */
@@ -148,7 +132,6 @@
 
         .btn-danger {
             background-color: var(--red);
-            color: white;
         }
         .btn-danger:hover {
             background-color: var(--red-hover);
@@ -384,16 +367,6 @@
             background-color: #f59e0b;
         }
 
-        .badge-trusted {
-            background: linear-gradient(135deg, #f59e0b, #ef4444);
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            margin-left: 5px;
-        }
-
         .card-stats {
             display: flex;
             gap: 1rem;
@@ -420,18 +393,6 @@
             border-top: 1px solid var(--border);
             padding-top: 0.8rem;
             margin-top: auto;
-        }
-
-        .fav-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2rem;
-            padding: 0.2rem;
-            transition: transform 0.2s;
-        }
-        .fav-btn:hover {
-            transform: scale(1.2);
         }
 
         /* --- PANEL ADMIN AVANCÉ --- */
@@ -675,9 +636,7 @@
             <img src="logo.png" alt="" style="height:32px;width:32px;border-radius:8px;">
             Xparia<span> Market</span>
         </div>
-        <nav id="nav-actions">
-            <!-- Bouton Mode Sombre/Clair intégré dynamiquement dans nav via JS ou affiché ici -->
-        </nav>
+        <nav id="nav-actions"></nav>
     </header>
 
     <div class="container">
@@ -722,7 +681,6 @@
                     <option value="Échange">Échange</option>
                     <option value="Reprise Bénévole">Reprise Bénévole</option>
                 </select>
-                <button class="btn-secondary" id="filter-fav-btn" onclick="toggleFavorisFilter()">❤️ Favoris</button>
             </div>
 
             <h2 class="section-heading">🔥 Serveurs récemment publiés</h2>
@@ -735,7 +693,7 @@
                 <div class="admin-sidebar">
                     <div class="admin-sidebar-title">Administration</div>
                     <button class="admin-nav-item active" onclick="switchAdminTab('verifications', this)">✅ Vérifications & Annonces</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('signalements', this)">🚩 Signalements & Gel</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('signalements', this)">🚩 Signalements</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('restrictions', this)">🔒 Sanctions (Ban / Restrict)</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('logs', this)">📋 Logs de Modération</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('permissions', this)">🛡️ Permissions (Whitelist)</button>
@@ -745,8 +703,8 @@
                 <div class="admin-content">
                     <!-- Onglet SIGNALEMENTS -->
                     <div id="admin-tab-signalements" class="admin-section">
-                        <h2 class="section-heading">Annonces Signalées & Gel de compte</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Examinez les signalements, supprimez les annonces ou gelez instantanément les comptes abusifs[cite: 4].</p>
+                        <h2 class="section-heading">Annonces Signalées</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Examinez les signalements émis par les membres de la communauté.</p>
                         <table class="admin-table">
                             <thead>
                                 <tr>
@@ -851,16 +809,7 @@
                 </div>
                 <div class="card-stats" id="detail-stats" style="margin-bottom: 1.5rem;"></div>
                 <p id="detail-description" style="line-height: 1.6; margin-bottom: 1.5rem; color:var(--text-muted);"></p>
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-                    <button id="detail-contact-btn">💬 Contacter le propriétaire</button>
-                    <button class="btn-secondary" onclick="genererOpenGraphCard()">🖼️ Générer carte Open Graph[cite: 4]</button>
-                    <button class="btn-secondary" onclick="copierLienSuivi()">🔗 Copier lien de suivi (clics)[cite: 4]</button>
-                </div>
-                <div id="admin-notes-section" style="margin-top:1.5rem; border-top:1px solid var(--border); padding-top:1rem; display:none;">
-                    <h4 style="font-size:1rem; margin-bottom:0.5rem; color:var(--blurple);">📝 Notes internes de modération[cite: 4]</h4>
-                    <textarea id="admin-internal-notes" placeholder="Notes invisibles pour l'équipe de modération..." style="width:100%; background:var(--bg-sidebar); border:1px solid var(--border); color:var(--text-main); padding:0.6rem; border-radius:6px; margin-bottom:0.5rem;"></textarea>
-                    <button onclick="sauvegarderNoteInterne()" style="padding:0.4rem 0.8rem; font-size:0.85rem;">Enregistrer la note</button>
-                </div>
+                <button id="detail-contact-btn">💬 Contacter le propriétaire</button>
             </div>
         </section>
 
@@ -870,7 +819,6 @@
                 <h2>Publier une annonce de cession</h2>
                 <form id="annonce-form">
                     <div class="form-group"><label>ID de votre serveur Discord *</label><input type="text" id="server-id" required></div>
-                    <div class="form-group"><label>Lien d'invitation Discord (Temps réel) *[cite: 4]</label><input type="text" id="server-invite" placeholder="https://discord.gg/..." required></div>
                     <div class="form-group"><label>Nom du serveur</label><input type="text" id="server-name" required></div>
                     <div class="form-group"><label>Nombre de membres</label><input type="number" id="server-members" required min="1"></div>
                     <div class="form-group">
@@ -935,20 +883,6 @@
         let currentUserId = localStorage.getItem('currentUserId') || null;
         let accessToken = localStorage.getItem('discordToken') || null;
         let annonces = [];
-        let currentDetailId = null;
-        let showOnlyFavs = false;
-
-        // --- GESTION DU MODE SOMBRE / CLAIR ---
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-
-        window.toggleTheme = function() {
-            const current = document.documentElement.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', next);
-            localStorage.setItem('theme', next);
-            updateNavbar();
-        };
 
         function showPopup({ title = "Information", message = "", icon = "ℹ️", onConfirm = null }) {
             const modal = document.getElementById('custom-popup');
@@ -1022,7 +956,7 @@
             }
         }
 
-        // --- GESTION DES SIGNALEMENTS & GEL DE COMPTE ---
+        // --- GESTION DES SIGNALEMENTS ---
         window.ouvrirModalSignalement = function(annonceId, annonceNom, event) {
             event.stopPropagation();
             if (!currentUser) {
@@ -1030,7 +964,7 @@
                 return;
             }
 
-            const raison = prompt(`Motif du signalement pour le serveur "${annonceNom}"[cite: 4]:`);
+            const raison = prompt(`Motif du signalement pour le serveur "${annonceNom}" :`);
             if (raison && raison.trim() !== '') {
                 addDoc(signalementsRef, {
                     annonceId: annonceId,
@@ -1059,9 +993,8 @@
                                 <td>${sig.raison}</td>
                                 <td>${sig.signalePar} (<code>${sig.signaleParId || 'N/A'}</code>)</td>
                                 <td>
-                                    <button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="supprimerSignalement('${d.id}', '${sig.annonceId}')">Supprimer</button>
+                                    <button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="supprimerSignalement('${d.id}', '${sig.annonceId}')">Supprimer l'annonce</button>
                                     <button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="ignorerSignalement('${d.id}')">Ignorer</button>
-                                    <button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem; background:#b91c1c;" onclick="gelerCompteUrgence('${sig.signaleParId}')">Gel d'urgence[cite: 4]</button>
                                 </td>
                             </tr>
                         `;
@@ -1084,22 +1017,6 @@
             enregistrerLog('SUPPRESSION_ANNONCE_SIGNALEE', `Annonce ID: ${annonceId}`);
             chargerSignalementsTable();
             showPopup({ title: "Action effectuée", message: "L'annonce signalée a été supprimée.", icon: "🗑️" });
-        };
-
-        window.gelerCompteUrgence = async function(targetUserId) {
-            if(!targetUserId) return;
-            try {
-                const docRef = doc(db, 'settings', 'sanctions');
-                const docSnap = await getDoc(docRef);
-                let sanctionsMap = docSnap.exists() ? (docSnap.data().list || {}) : {};
-                sanctionsMap[targetUserId] = { type: 'banni', reason: 'Gel d urgence par les modérateurs (Abus/Arnaque)' };
-                await setDoc(docRef, { list: sanctionsMap });
-                enregistrerLog('GEL_URGENCE_COMPTE', `Utilisateur gelé: ${targetUserId}`);
-                showPopup({ title: "Compte gelé", message: `Le compte ${targetUserId} a été gelé et banni d'urgence.`, icon: "❄️" });
-                chargerSignalementsTable();
-            } catch(e) {
-                console.error("Erreur gel d'urgence", e);
-            }
         };
 
         // --- GESTION DES SANCTIONS & BANDEAUX D'ALERTE ---
@@ -1209,6 +1126,7 @@
                 return;
             }
 
+            // Vérification si l'utilisateur est banni ou restreint avant d'aller au dépôt
             try {
                 const docRef = doc(db, 'settings', 'sanctions');
                 const docSnap = await getDoc(docRef);
@@ -1242,11 +1160,9 @@
         function updateNavbar() {
             const nav = document.getElementById('nav-actions');
             const userIsAdmin = isAdmin(currentUserId);
-            const currentTheme = document.documentElement.getAttribute('data-theme');
 
-            let userHtml = '';
             if (currentUser) {
-                userHtml = `
+                nav.innerHTML = `
                     <div class="user-menu" id="user-menu">
                         <button class="user-trigger" id="user-trigger-btn">
                             <span class="user-avatar">${currentUser.charAt(0).toUpperCase()}</span>
@@ -1260,26 +1176,15 @@
                     </div>
                     <button onclick="allerAuDepot()">Déposer</button>
                 `;
+                document.getElementById('user-trigger-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    document.getElementById('user-menu').classList.toggle('open');
+                });
             } else {
-                userHtml = `
+                nav.innerHTML = `
                     <button class="btn-secondary" onclick="window.location.href='${DISCORD_AUTH_URL}'">Se connecter</button>
                     <button onclick="allerAuDepot()">Déposer</button>
                 `;
-            }
-
-            nav.innerHTML = `
-                <button class="btn-secondary" onclick="toggleTheme()" title="Basculer le mode clair/sombre[cite: 4]" style="padding: 0.5rem 0.8rem;">${currentTheme === 'dark' ? '☀️' : '🌙'}</button>
-                ${userHtml}
-            `;
-
-            if (currentUser) {
-                const trig = document.getElementById('user-trigger-btn');
-                if(trig) {
-                    trig.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        document.getElementById('user-menu').classList.toggle('open');
-                    });
-                }
             }
         }
 
@@ -1367,37 +1272,16 @@
             });
         }
 
-        window.toggleFavorisFilter = function() {
-            showOnlyFavs = !showOnlyFavs;
-            const btn = document.getElementById('filter-fav-btn');
-            btn.style.borderColor = showOnlyFavs ? 'var(--blurple)' : 'var(--text-muted)';
-            filtrerAnnonces();
-        };
-
-        window.toggleFavoris = function(id, event) {
-            event.stopPropagation();
-            let favs = JSON.parse(localStorage.getItem('user_favorites') || '[]');
-            if (favs.includes(id)) {
-                favs = favs.filter(favId => favId !== id);
-            } else {
-                favs.push(id);
-            }
-            localStorage.setItem('user_favorites', JSON.stringify(favs));
-            filtrerAnnonces();
-        };
-
         window.filtrerAnnonces = function() {
             const keyword = document.getElementById('search-bar').value.toLowerCase();
             const category = document.getElementById('filter-category').value;
             const type = document.getElementById('filter-type').value;
-            const favs = JSON.parse(localStorage.getItem('user_favorites') || '[]');
 
             const filtered = annonces.filter(a => {
                 const matchKeyword = (a.nom && a.nom.toLowerCase().includes(keyword)) || (a.description && a.description.toLowerCase().includes(keyword));
                 const matchCategory = !category || a.categorie === category;
                 const matchType = !type || a.type === type;
-                const matchFav = !showOnlyFavs || favs.includes(a.id);
-                return matchKeyword && matchCategory && matchType && matchFav;
+                return matchKeyword && matchCategory && matchType;
             });
             afficherAnnonces(filtered);
         };
@@ -1405,35 +1289,24 @@
         function afficherAnnonces(liste) {
             const grid = document.getElementById('annonces-grid');
             const visibles = liste.filter(a => a.statut === 'valide' || isAdmin(currentUserId));
-            const favs = JSON.parse(localStorage.getItem('user_favorites') || '[]');
-
             grid.innerHTML = visibles.length === 0 ? `<p style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:3rem;">Aucune annonce disponible.</p>` :
-                visibles.map(a => {
-                    const isFav = favs.includes(a.id);
-                    // Badge Créateur de Confiance (attribué si l'utilisateur a déjà publié avec succès ou badge spécial)[cite: 4]
-                    const isTrustedCreator = a.membres > 500 || a.proprietaire === 'Admin';
-                    return `
-                        <div class="card" onclick="voirDetail('${a.id}')">
-                            <div class="card-header">
-                                <div class="card-title">${a.nom} ${isTrustedCreator ? '<span class="badge-trusted" title="Créateur de Confiance[cite: 4]">★ Confiance</span>' : ''}</div>
-                                <span class="badge ${a.statut === 'en_attente' ? 'badge-pending' : ''}">${a.statut === 'en_attente' ? 'En attente' : a.type}</span>
-                            </div>
-                            <div class="card-stats"><span>👥 ${a.membres} membres</span></div>
-                            <p class="card-body">${a.description}</p>
-                            <div class="card-actions-footer">
-                                <small style="color:var(--text-muted);">Par ${a.proprietaire || 'Anonyme'}</small>
-                                <div style="display:flex; gap:0.5rem; align-items:center;">
-                                    <button class="fav-btn" onclick="toggleFavoris('${a.id}', event)" title="Ajouter aux favoris[cite: 4]">${isFav ? '❤️' : '🤍'}</button>
-                                    <button class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem; border-color:var(--red); color:var(--red);" onclick="ouvrirModalSignalement('${a.id}', '${a.nom.replace(/'/g, "\\'")}', event)">🚩 Signaler</button>
-                                </div>
-                            </div>
+                visibles.map(a => `
+                    <div class="card" onclick="voirDetail('${a.id}')">
+                        <div class="card-header">
+                            <div class="card-title">${a.nom}</div>
+                            <span class="badge ${a.statut === 'en_attente' ? 'badge-pending' : ''}">${a.statut === 'en_attente' ? 'En attente' : a.type}</span>
                         </div>
-                    `;
-                }).join('');
+                        <div class="card-stats"><span>👥 ${a.membres} membres</span></div>
+                        <p class="card-body">${a.description}</p>
+                        <div class="card-actions-footer">
+                            <small style="color:var(--text-muted);">Par ${a.proprietaire || 'Anonyme'}</small>
+                            <button class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem; border-color:var(--red); color:var(--red);" onclick="ouvrirModalSignalement('${a.id}', '${a.nom.replace(/'/g, "\\'")}', event)">🚩 Signaler</button>
+                        </div>
+                    </div>
+                `).join('');
         }
 
-        window.voirDetail = async function(id) {
-            currentDetailId = id;
+        window.voirDetail = function(id) {
             const art = annonces.find(a => a.id === id);
             if(!art) return;
             document.getElementById('detail-nom').innerText = art.nom;
@@ -1441,49 +1314,7 @@
             document.getElementById('detail-stats').innerHTML = `<span>👥 ${art.membres} membres</span>`;
             document.getElementById('detail-description').innerText = art.description;
             document.getElementById('detail-contact-btn').onclick = () => showPopup({ title: "Contact", message: `Contactez le propriétaire sur Discord : <strong>${art.proprietaire}</strong>`, icon: "💬" });
-            
-            // Affichage notes internes si admin[cite: 4]
-            const notesSection = document.getElementById('admin-notes-section');
-            if (isAdmin(currentUserId)) {
-                notesSection.style.display = 'block';
-                document.getElementById('admin-internal-notes').value = art.internalNote || '';
-            } else {
-                notesSection.style.display = 'none';
-            }
-
             switchPage('detail');
-        };
-
-        window.sauvegarderNoteInterne = async function() {
-            if (!currentDetailId || !isAdmin(currentUserId)) return;
-            const note = document.getElementById('admin-internal-notes').value;
-            try {
-                await updateDoc(doc(db, 'annonces', currentDetailId), { internalNote: note });
-                enregistrerLog('NOTE_INTERNE_AJOUTEE', `Annonce ID: ${currentDetailId}`);
-                showPopup({ title: "Enregistré", message: "Note interne de modération mise à jour[cite: 4].", icon: "📝" });
-            } catch(e) {
-                console.error(e);
-            }
-        };
-
-        window.genererOpenGraphCard = function() {
-            const art = annonces.find(a => a.id === currentDetailId);
-            if(!art) return;
-            showPopup({
-                title: "Générateur Open Graph[cite: 4]",
-                message: `Lien de la carte de prévisualisation stylisée généré :<br><code style="word-break:break-all;">https://xparia-market.workers.dev/og/${art.id}.png</code><br><br>Parfait pour le partage sur les réseaux !`,
-                icon: "🖼️"
-            });
-        };
-
-        window.copierLienSuivi = function() {
-            const trackLink = `https://xparia-market.workers.dev/ref/${currentDetailId}?t=${Date.now()}`;
-            navigator.clipboard.writeText(trackLink);
-            showPopup({
-                title: "Lien de suivi généré[cite: 4]",
-                message: `Lien unique copié dans le presse-papier :<br><code style="word-break:break-all; font-size:0.8rem;">${trackLink}</code>`,
-                icon: "🔗"
-            });
         };
 
         function mettreAJourStats() {
@@ -1491,7 +1322,7 @@
             document.getElementById('stat-annonces').textContent = valides.length;
         }
 
-        // --- FILTRE AUTOMATIQUE ANTI-SPAM ET VALIDATION INVITATION TEMPS RÉEL ---
+        // --- FILTRE AUTOMATIQUE ANTI-SPAM ---
         function verifierAntiSpam(texte) {
             const motsInterdits = ['nitro free', 'discord.gift', 'hack', 'scam', 'phishing', 'free nitro', 'http://', 'https://'];
             const texteLower = texte.toLowerCase();
@@ -1506,22 +1337,11 @@
         document.getElementById('annonce-form').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const inviteLink = document.getElementById('server-invite').value.trim();
-            // Test de lien d'invitation Discord en temps réel[cite: 4]
-            const inviteRegex = /(discord\.(gg|com\/invite)\/[a-zA-Z0-9_-]+)/i;
-            if (!inviteRegex.test(inviteLink)) {
-                showPopup({
-                    title: "Invitation invalide[cite: 4]",
-                    message: "Le lien d'invitation Discord fourni n'est pas valide ou actif. Veuillez vérifier le format.",
-                    icon: "❌"
-                });
-                return;
-            }
-
             const nomServeur = document.getElementById('server-name').value;
             const description = document.getElementById('server-reason').value;
             const texteGlobal = nomServeur + " " + description;
 
+            // Application du filtre anti-spam
             const motDetecte = verifierAntiSpam(texteGlobal);
             if (motDetecte && !isAdmin(currentUserId)) {
                 showPopup({ 
@@ -1534,7 +1354,6 @@
 
             await addDoc(annoncesRef, {
                 serverId: document.getElementById('server-id').value,
-                inviteLink: inviteLink,
                 nom: nomServeur,
                 membres: parseInt(document.getElementById('server-members').value),
                 categorie: document.getElementById('server-category').value,
@@ -1543,7 +1362,6 @@
                 proprietaire: currentUser,
                 proprietaireId: currentUserId,
                 statut: 'en_attente',
-                internalNote: '',
                 dateCreation: serverTimestamp()
             });
             document.getElementById('annonce-form').reset();
