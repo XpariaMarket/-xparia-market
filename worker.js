@@ -1,15 +1,63 @@
-// Worker unique Xparia Market : sert le site (fichiers statiques dans /public)
-// ET gère la route /api/create-ticket (création du salon Discord).
-//
-// Le token du bot reste ici, côté serveur (variable d'environnement Cloudflare)
-// — jamais envoyé au navigateur.
-
-// (le nom de la catégorie vient maintenant de la variable d'environnement TICKET_CATEGORY_NAME)
-
 export default {
     async fetch(request, env, ctx) {
         const url = new URL(request.url);
 
+        // En-têtes CORS pour les appels API du frontend
+        const corsHeaders = {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+        };
+
+        if (request.method === "OPTIONS") {
+            return new Response(null, { headers: corsHeaders });
+        }
+
+        // 1. Route pour gérer le callback Discord OAuth2
+        if (url.pathname === "/api/auth/discord/callback") {
+            const code = url.searchParams.get("code");
+            
+            if (!code) {
+                return Response.redirect(`${url.origin}/?error=no_code`, 302);
+            }
+
+            try {
+                const tokenResponse = await fetch("https://discord.com/api/oauth2/token", {
+                    method: "POST",
+                    body: new URLSearchParams({
+                        client_id: env.DISCORD_CLIENT_ID,
+                        client_secret: env.DISCORD_CLIENT_SECRET,
+                        grant_type: "authorization_code",
+                        code: code,
+                        redirect_uri: env.DISCORD_REDIRECT_URI,
+                    }),
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                });
+
+                const tokenData = await tokenResponse.json();
+
+                if (!tokenData.access_token) {
+                    throw new Error("Échec de l'obtention du token Discord");
+                }
+
+                const userResponse = await fetch("https://discord.com/api/users/@me", {
+                    headers: {
+                        authorization: `Bearer ${tokenData.access_token}`,
+                    },
+                });
+
+                const userData = await userResponse.json();
+
+                return Response.redirect(`${url.origin}/?user=${encodeURIComponent(userData.username)}&id=${userData.id}`, 302);
+
+            } catch (error) {
+                return new Response(`Erreur d'authentification : ${error.message}`, { status: 500, headers: corsHeaders });
+            }
+        }
+
+        // 2. Routes de création et fermeture de tickets
         if (url.pathname === '/api/create-ticket' && request.method === 'POST') {
             return handleCreateTicket(request, env);
         }
@@ -18,7 +66,7 @@ export default {
             return handleCloseTicket(request, env);
         }
 
-        // Tout le reste (index.html, logo.jpg, etc.) est servi depuis /public
+        // 3. Tout le reste (index.html, assets, etc.) est servi depuis /public
         return env.ASSETS.fetch(request);
     }
 };
