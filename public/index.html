@@ -183,7 +183,7 @@
         .hero p { color: var(--text-muted); font-size: 1.15rem; }
 
         .hero-actions {
-            display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;
+            display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;
         }
 
         .stats-bar {
@@ -391,6 +391,8 @@
                 <div class="hero-actions">
                     <button id="hero-search-btn" class="btn-secondary">🔎 Rechercher</button>
                     <button id="hero-depot-btn">📢 Déposer une annonce</button>
+                    <!-- BOUTON NOTRE SERVEUR RÉINTÉGRÉ ICI -->
+                    <a href="https://discord.gg/xparia" target="_blank" class="btn-link" style="background-color: #5865F2;">💬 Notre serveur</a>
                 </div>
             </div>
 
@@ -543,7 +545,6 @@
                         <h2 class="section-heading">Configuration du Bot Discord</h2>
                         <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Informations de référence utilisées par le site et la fonction serveur (Cloudflare Worker). Le Token du bot ne se modifie pas ici pour des raisons de sécurité — il reste dans les variables d'environnement Cloudflare, jamais visible ici.</p>
                         
-                        <!-- SECTION AJOUTÉE POUR INVITATION DU BOT -->
                         <div style="background-color: var(--bg-sidebar); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin-bottom: 1.5rem;">
                             <h3 style="font-size: 1rem; color: var(--blurple); margin-bottom: 0.5rem;">🤖 Inviter le bot sur votre serveur Discord</h3>
                             <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
