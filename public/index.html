@@ -334,7 +334,6 @@
             box-shadow: var(--shadow);
             cursor: pointer;
             transition: transform 0.2s, border-color 0.2s;
-            position: relative;
         }
 
         .card:hover {
@@ -384,15 +383,6 @@
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
-        }
-
-        .card-actions-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid var(--border);
-            padding-top: 0.8rem;
-            margin-top: auto;
         }
 
         /* --- PANEL ADMIN AVANCÉ --- */
@@ -687,39 +677,20 @@
             <div class="grid" id="annonces-grid"></div>
         </section>
 
-        <!-- PANEL ADMIN & GESTION AVANCÉE -->
+        <!-- PANEL ADMIN & GESTION BAN / RESTRICTION -->
         <section id="page-admin" class="page">
             <div class="admin-layout">
                 <div class="admin-sidebar">
                     <div class="admin-sidebar-title">Administration</div>
                     <button class="admin-nav-item active" onclick="switchAdminTab('verifications', this)">✅ Vérifications & Annonces</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('signalements', this)">🚩 Signalements</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('restrictions', this)">🔒 Sanctions (Ban / Restrict)</button>
-                    <button class="admin-nav-item" onclick="switchAdminTab('logs', this)">📋 Logs de Modération</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('permissions', this)">🛡️ Permissions (Whitelist)</button>
                     <button class="btn-secondary" style="margin-top:auto;" onclick="switchPage('accueil')">Retour au site</button>
                 </div>
 
                 <div class="admin-content">
-                    <!-- Onglet SIGNALEMENTS -->
-                    <div id="admin-tab-signalements" class="admin-section">
-                        <h2 class="section-heading">Annonces Signalées</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Examinez les signalements émis par les membres de la communauté.</p>
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Serveur</th>
-                                    <th>Raison du signalement</th>
-                                    <th>Signalé par</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-signalements-table"></tbody>
-                        </table>
-                    </div>
-
                     <!-- Onglet RESTRICTIONS & BANS -->
-                    <div id="admin-tab-restrictions" class="admin-section">
+                    <div id="admin-tab-restrictions" class="admin-section active">
                         <h2 class="section-heading">Gestion des Sanctions (Bannissements & Restrictions)</h2>
                         <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Appliquez une sanction avec un motif personnalisé visible directement par l'utilisateur.</p>
                         
@@ -754,23 +725,6 @@
                                 </tr>
                             </thead>
                             <tbody id="admin-sanctions-table"></tbody>
-                        </table>
-                    </div>
-
-                    <!-- Onglet LOGS DE MODÉRATION -->
-                    <div id="admin-tab-logs" class="admin-section">
-                        <h2 class="section-heading">Historique & Traçabilité (Logs)</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Suivi de toutes les actions de modération effectuées sur la plateforme.</p>
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Date & Heure</th>
-                                    <th>Modérateur (ID)</th>
-                                    <th>Action</th>
-                                    <th>Cible / Détails</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-logs-table"></tbody>
                         </table>
                     </div>
 
@@ -857,7 +811,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, updateDoc, getDoc, setDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, updateDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCzBJv367JwnK8Jr0-tw9hkNo86kQY20Ow",
@@ -872,8 +826,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const annoncesRef = collection(db, 'annonces');
-        const signalementsRef = collection(db, 'signalements');
-        const logsRef = collection(db, 'logs');
 
         const MASTER_ADMIN_ID = "1464750597663100980";
         let whitelistAdmins = [MASTER_ADMIN_ID];
@@ -913,110 +865,6 @@
             if(tabId === 'verifications') chargerPanelAdmin();
             if(tabId === 'permissions') chargerWhitelistTable();
             if(tabId === 'restrictions') chargerSanctionsTable();
-            if(tabId === 'signalements') chargerSignalementsTable();
-            if(tabId === 'logs') chargerLogsTable();
-        };
-
-        // --- ENREGISTREMENT DES LOGS ---
-        async function enregistrerLog(action, details) {
-            try {
-                await addDoc(logsRef, {
-                    moderateurId: currentUserId || 'Inconnu',
-                    moderateurNom: currentUser || 'Anonyme',
-                    action: action,
-                    details: details,
-                    date: serverTimestamp()
-                });
-            } catch (e) {
-                console.error("Erreur enregistrement log", e);
-            }
-        }
-
-        async function chargerLogsTable() {
-            const tbody = document.getElementById('admin-logs-table');
-            if(!tbody) return;
-            try {
-                const q = query(logsRef, orderBy('date', 'desc'));
-                const snapshot = await getDocs(q);
-                tbody.innerHTML = snapshot.empty ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucun log enregistré.</td></tr>` :
-                    snapshot.docs.map(doc => {
-                        const data = doc.data();
-                        const dateStr = data.date ? new Date(data.date.seconds * 1000).toLocaleString() : 'Récemment';
-                        return `
-                            <tr>
-                                <td><small>${dateStr}</small></td>
-                                <td><code>${data.moderateurId}</code> (${data.moderateurNom})</td>
-                                <td><span class="badge" style="background:var(--blurple);">${data.action}</span></td>
-                                <td>${data.details}</td>
-                            </tr>
-                        `;
-                    }).join('');
-            } catch (e) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Erreur de chargement.</td></tr>`;
-            }
-        }
-
-        // --- GESTION DES SIGNALEMENTS ---
-        window.ouvrirModalSignalement = function(annonceId, annonceNom, event) {
-            event.stopPropagation();
-            if (!currentUser) {
-                showPopup({ title: "Connexion requise", message: "Connectez-vous pour signaler une annonce.", icon: "🔒", onConfirm: () => window.location.href = DISCORD_AUTH_URL });
-                return;
-            }
-
-            const raison = prompt(`Motif du signalement pour le serveur "${annonceNom}" :`);
-            if (raison && raison.trim() !== '') {
-                addDoc(signalementsRef, {
-                    annonceId: annonceId,
-                    annonceNom: annonceNom,
-                    raison: raison.trim(),
-                    signalePar: currentUser,
-                    signaleParId: currentUserId,
-                    date: serverTimestamp()
-                }).then(() => {
-                    showPopup({ title: "Signalement pris en compte", message: "Merci, les modérateurs vont examiner cette annonce.", icon: "✅" });
-                });
-            }
-        };
-
-        async function chargerSignalementsTable() {
-            const tbody = document.getElementById('admin-signalements-table');
-            if(!tbody) return;
-            try {
-                const snapshot = await getDocs(signalementsRef);
-                tbody.innerHTML = snapshot.empty ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucun signalement en attente.</td></tr>` :
-                    snapshot.docs.map(d => {
-                        const sig = d.data();
-                        return `
-                            <tr>
-                                <td><strong>${sig.annonceNom || 'Serveur'}</strong></td>
-                                <td>${sig.raison}</td>
-                                <td>${sig.signalePar} (<code>${sig.signaleParId || 'N/A'}</code>)</td>
-                                <td>
-                                    <button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="supprimerSignalement('${d.id}', '${sig.annonceId}')">Supprimer l'annonce</button>
-                                    <button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="ignorerSignalement('${d.id}')">Ignorer</button>
-                                </td>
-                            </tr>
-                        `;
-                    }).join('');
-            } catch (e) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Erreur de chargement.</td></tr>`;
-            }
-        }
-
-        window.ignorerSignalement = async function(sigId) {
-            await deleteDoc(doc(db, 'signalements', sigId));
-            chargerSignalementsTable();
-        };
-
-        window.supprimerSignalement = async function(sigId, annonceId) {
-            if (annonceId) {
-                await deleteDoc(doc(db, 'annonces', annonceId));
-            }
-            await deleteDoc(doc(db, 'signalements', sigId));
-            enregistrerLog('SUPPRESSION_ANNONCE_SIGNALEE', `Annonce ID: ${annonceId}`);
-            chargerSignalementsTable();
-            showPopup({ title: "Action effectuée", message: "L'annonce signalée a été supprimée.", icon: "🗑️" });
         };
 
         // --- GESTION DES SANCTIONS & BANDEAUX D'ALERTE ---
@@ -1069,8 +917,6 @@
                 sanctionsMap[userId] = { type, reason };
                 await setDoc(docRef, { list: sanctionsMap });
 
-                enregistrerLog('SANCTION_APPLIQUEE', `Type: ${type} | Cible: ${userId} | Motif: ${reason}`);
-
                 document.getElementById('target-user-id').value = '';
                 document.getElementById('sanction-reason').value = '';
                 chargerSanctionsTable();
@@ -1088,7 +934,6 @@
                     let sanctionsMap = docSnap.data().list || {};
                     delete sanctionsMap[userId];
                     await setDoc(docRef, { list: sanctionsMap });
-                    enregistrerLog('SANCTION_LEVEE', `Cible: ${userId}`);
                     chargerSanctionsTable();
                     showPopup({ title: "Sanction retirée", message: `L'utilisateur a été levé de sa sanction.`, icon: "✅" });
                 }
@@ -1208,7 +1053,6 @@
             if(inputId && !whitelistAdmins.includes(inputId)) {
                 whitelistAdmins.push(inputId);
                 await setDoc(doc(db, 'settings', 'whitelist'), { ids: whitelistAdmins });
-                enregistrerLog('AJOUT_WHITELIST', `ID: ${inputId}`);
                 document.getElementById('new-whitelist-id').value = '';
                 chargerWhitelistTable();
                 showPopup({ title: "Ajouté", message: `ID ${inputId} ajouté à la Whitelist.`, icon: "✅" });
@@ -1219,7 +1063,6 @@
             if(id === MASTER_ADMIN_ID) return;
             whitelistAdmins = whitelistAdmins.filter(item => item !== id);
             await setDoc(doc(db, 'settings', 'whitelist'), { ids: whitelistAdmins });
-            enregistrerLog('RETRAIT_WHITELIST', `ID: ${id}`);
             chargerWhitelistTable();
         };
 
@@ -1253,13 +1096,11 @@
 
         window.validerAnnonce = async function(id) {
             await updateDoc(doc(db, 'annonces', id), { statut: 'valide' });
-            enregistrerLog('VALIDATION_ANNONCE', `Annonce ID: ${id}`);
             chargerPanelAdmin();
         };
 
         window.supprimerAnnonceAdmin = async function(id) {
             await deleteDoc(doc(db, 'annonces', id));
-            enregistrerLog('REFUS_ANNONCE', `Annonce ID: ${id}`);
             chargerPanelAdmin();
         };
 
@@ -1298,10 +1139,6 @@
                         </div>
                         <div class="card-stats"><span>👥 ${a.membres} membres</span></div>
                         <p class="card-body">${a.description}</p>
-                        <div class="card-actions-footer">
-                            <small style="color:var(--text-muted);">Par ${a.proprietaire || 'Anonyme'}</small>
-                            <button class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem; border-color:var(--red); color:var(--red);" onclick="ouvrirModalSignalement('${a.id}', '${a.nom.replace(/'/g, "\\'")}', event)">🚩 Signaler</button>
-                        </div>
                     </div>
                 `).join('');
         }
@@ -1322,43 +1159,15 @@
             document.getElementById('stat-annonces').textContent = valides.length;
         }
 
-        // --- FILTRE AUTOMATIQUE ANTI-SPAM ---
-        function verifierAntiSpam(texte) {
-            const motsInterdits = ['nitro free', 'discord.gift', 'hack', 'scam', 'phishing', 'free nitro', 'http://', 'https://'];
-            const texteLower = texte.toLowerCase();
-            for (let mot of motsInterdits) {
-                if (texteLower.includes(mot)) {
-                    return mot;
-                }
-            }
-            return null;
-        }
-
         document.getElementById('annonce-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-
-            const nomServeur = document.getElementById('server-name').value;
-            const description = document.getElementById('server-reason').value;
-            const texteGlobal = nomServeur + " " + description;
-
-            // Application du filtre anti-spam
-            const motDetecte = verifierAntiSpam(texteGlobal);
-            if (motDetecte && !isAdmin(currentUserId)) {
-                showPopup({ 
-                    title: "Publication bloquée (Anti-Spam)", 
-                    message: `Votre annonce contient un terme ou un lien non autorisé (détecté : <strong>${motDetecte}</strong>). Publication rejetée.`, 
-                    icon: "🛡️" 
-                });
-                return;
-            }
-
             await addDoc(annoncesRef, {
                 serverId: document.getElementById('server-id').value,
-                nom: nomServeur,
+                nom: document.getElementById('server-name').value,
                 membres: parseInt(document.getElementById('server-members').value),
                 categorie: document.getElementById('server-category').value,
                 type: document.getElementById('server-type').value,
-                description: description,
+                description: document.getElementById('server-reason').value,
                 proprietaire: currentUser,
                 proprietaireId: currentUserId,
                 statut: 'en_attente',
