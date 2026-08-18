@@ -101,6 +101,33 @@
         .btn-danger { background-color: var(--red); }
         .btn-danger:hover { background-color: var(--red-hover); }
 
+        /* Styles spécifiques pour le bouton Discord dans la Hero */
+        .btn-discord {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #5865F2;
+            color: #ffffff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: var(--shadow);
+            font-size: 0.9rem;
+        }
+
+        .btn-discord:hover {
+            background-color: #4752C4;
+            transform: translateY(-2px);
+        }
+
+        .discord-logo {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
         .user-menu { position: relative; }
 
         .user-trigger {
@@ -287,6 +314,18 @@
         .admin-table th, .admin-table td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--border); text-align: left; }
         .admin-table th { background-color: var(--bg-sidebar); font-weight: 600; color: var(--text-muted); }
 
+        .schedule-row {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--bg-sidebar); border: 1px solid var(--border);
+            padding: 1rem; border-radius: 8px; margin-bottom: 0.8rem;
+        }
+        .schedule-row label { display: flex; align-items: center; gap: 0.8rem; font-weight: 600; cursor: pointer; }
+        .schedule-times { display: flex; align-items: center; gap: 0.8rem; }
+        .schedule-times select {
+            background: var(--bg-main); border: 1px solid var(--border);
+            color: var(--text-main); padding: 0.5rem; border-radius: 4px;
+        }
+
         .form-box {
             background-color: var(--bg-card); border: 1px solid var(--border);
             border-radius: 8px; padding: 2rem; max-width: 600px;
@@ -305,14 +344,6 @@
             background-color: var(--bg-card); border: 1px solid var(--border);
             border-radius: 8px; padding: 2rem; max-width: 800px;
             margin: 0 auto; box-shadow: var(--shadow);
-        }
-        .detail-gallery {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 0.75rem; margin: 1.5rem 0;
-        }
-        .detail-gallery img {
-            width: 100%; height: 160px; object-fit: cover;
-            border-radius: 6px; border: 1px solid var(--border);
         }
 
         footer {
@@ -366,6 +397,68 @@
             .admin-sidebar { border-right: none; border-bottom: 1px solid var(--border); }
             .inline-form-row { flex-direction: column; }
         }
+
+        /* ---------- MODE CLAIR ---------- */
+        body.light-mode {
+            --bg-main: #f4f4f6;
+            --bg-sidebar: #ffffff;
+            --bg-card: #ffffff;
+            --text-main: #18181b;
+            --text-muted: #52525b;
+            --border: #e4e4e7;
+            --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .theme-toggle {
+            background: var(--bg-sidebar);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            padding: 0;
+            font-size: 1.1rem;
+        }
+        .theme-toggle:hover { background: var(--border); }
+
+        /* ---------- FAVORIS ---------- */
+        .card { position: relative; }
+        .fav-heart {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 0.2rem;
+            line-height: 1;
+            filter: grayscale(1) opacity(0.5);
+        }
+        .fav-heart.active { filter: none; }
+        .fav-heart:hover { background: none; transform: scale(1.15); }
+
+        /* ---------- BADGE CONFIANCE ---------- */
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(255, 122, 26, 0.15);
+            color: var(--blurple);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.15rem 0.5rem;
+            border-radius: 10px;
+            margin-left: 0.4rem;
+        }
+
+        /* ---------- SIGNALEMENT ---------- */
+        .report-link {
+            background: none; border: none; color: var(--text-muted);
+            text-decoration: underline; font-size: 0.85rem; cursor: pointer;
+            padding: 0; font-weight: 400;
+        }
+        .report-link:hover { color: var(--red); background: none; }
+
+        .share-card-preview { max-width: 100%; border-radius: 8px; margin: 1rem 0; border: 1px solid var(--border); }
     </style>
 </head>
 <body>
@@ -379,7 +472,13 @@
             <img src="logo.png" alt="" style="height:32px;width:32px;border-radius:8px;">
             Xparia<span> Market</span>
         </div>
-        <nav id="nav-actions"></nav>
+        <div style="display:flex; align-items:center; gap:1rem;">
+            <button class="theme-toggle" id="theme-toggle-btn" title="Changer de thème">🌙</button>
+            <nav id="nav-actions">
+                <button class="btn-secondary" onclick="switchPage('favoris')">❤️ Favoris</button>
+                <button class="btn-secondary" onclick="switchPage('partenariats')">🤝 Partenariats</button>
+            </nav>
+        </div>
     </header>
 
     <div class="container">
@@ -391,8 +490,12 @@
                 <div class="hero-actions">
                     <button id="hero-search-btn" class="btn-secondary">🔎 Rechercher</button>
                     <button id="hero-depot-btn">📢 Déposer une annonce</button>
-                    <!-- BOUTON NOTRE SERVEUR RÉINTÉGRÉ ICI -->
-                    <a href="https://discord.gg/UzdTnSMjrB" target="_blank" class="btn-link" style="background-color: #5865F2;">💬 Notre serveur</a>
+                    <button class="btn-secondary" onclick="switchPage('partenariats')">🤝 Nos Partenaires</button>
+                    <!-- Bouton Discord avec logo intégré dans la section hero -->
+                    <a href="VOTRE_LIEN_DISCORD_ICI" target="_blank" class="btn-discord">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxeYMRnUcW1Jw0Kf7evpnM3sVdt0Rzo6upLv1MORYo-g&s" alt="Logo Discord" class="discord-logo">
+                        Notre serveur Discord
+                    </a>
                 </div>
             </div>
 
@@ -430,6 +533,78 @@
 
             <h2 class="section-heading" id="text-listings-heading">🔥 Serveurs récemment publiés</h2>
             <div class="grid" id="annonces-grid"></div>
+        </section>
+
+        <!-- PAGE PARTENARIATS (FRONTEND) -->
+        <section id="page-partenariats" class="page">
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <button class="btn-secondary" onclick="switchPage('accueil')" style="margin-bottom: 1.5rem;">← Retour à l'accueil</button>
+                <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--blurple);">🤝 Nos Partenaires</h1>
+                <p style="color: var(--text-muted); margin-bottom: 2rem;">Découvrez la liste de tous les serveurs partenaires de la communauté Xparia Market.</p>
+                
+                <div class="grid" id="public-partners-grid">
+                    <!-- Injection dynamique des partenariats -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE MA BOUTIQUE / PROFIL VENDEUR -->
+        <section id="page-boutique" class="page">
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <button class="btn-secondary" onclick="switchPage('accueil')" style="margin-bottom: 1.5rem;">← Retour à l'accueil</button>
+
+                <div class="form-box" style="max-width: 100%; margin-bottom: 2rem; display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
+                    <div class="user-avatar" style="width:70px; height:70px; font-size:1.8rem;" id="boutique-avatar">?</div>
+                    <div style="flex:1; min-width:220px;">
+                        <h1 style="font-size:1.8rem;" id="boutique-nom">—</h1>
+                        <div id="boutique-badges" style="margin-top:0.4rem;"></div>
+                        <div id="boutique-reputation" style="margin-top:0.6rem; color: var(--text-muted);"></div>
+                    </div>
+                    <button class="btn-secondary" id="boutique-review-btn">⭐ Laisser un avis</button>
+                </div>
+
+                <h2 class="section-heading">📦 Annonces actives</h2>
+                <div class="grid" id="boutique-annonces-grid" style="margin-bottom: 2.5rem;"></div>
+
+                <h2 class="section-heading">⭐ Avis reçus (<span id="boutique-avis-count">0</span>)</h2>
+                <div id="boutique-avis-list"></div>
+            </div>
+        </section>
+
+        <!-- MODALE AVIS -->
+        <div class="modal" id="review-modal">
+            <div class="modal-content" style="text-align:left;">
+                <div class="modal-icon" style="text-align:center;">⭐</div>
+                <h3 style="text-align:center;">Laisser un avis</h3>
+                <div class="form-group">
+                    <label>Note</label>
+                    <select id="review-note">
+                        <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                        <option value="4">⭐⭐⭐⭐ Très bien</option>
+                        <option value="3">⭐⭐⭐ Correct</option>
+                        <option value="2">⭐⭐ Décevant</option>
+                        <option value="1">⭐ Mauvais</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Commentaire (optionnel)</label>
+                    <textarea id="review-comment" rows="3"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="review-cancel-btn">Annuler</button>
+                    <button type="button" id="review-submit-btn">Envoyer l'avis</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE FAVORIS (FRONTEND) -->
+        <section id="page-favoris" class="page">
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <button class="btn-secondary" onclick="switchPage('accueil')" style="margin-bottom: 1.5rem;">← Retour à l'accueil</button>
+                <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--blurple);">❤️ Mes Favoris</h1>
+                <p style="color: var(--text-muted); margin-bottom: 2rem;">Enregistrés uniquement dans ce navigateur — retrouve ici les annonces que tu as mises de côté.</p>
+                <div class="grid" id="favoris-grid"></div>
+            </div>
         </section>
 
         <!-- PANEL ADMIN -->
@@ -510,6 +685,11 @@
                         </div>
                         <button onclick="sauvegarderTicketConfig()">💾 Sauvegarder</button>
 
+                        <h3 style="font-size:1.1rem; color:var(--blurple); margin: 2rem 0 0.5rem;">⏰ Horaires d'ouverture des tickets</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem; font-size:0.9rem;">En dehors de ces plages, le bouton "Contacter" est bloqué pour les visiteurs (les admins ne sont jamais bloqués).</p>
+                        <div id="schedule-config-container"></div>
+                        <button style="margin-top: 1rem;" onclick="sauvegarderHoraires()">💾 Sauvegarder les horaires</button>
+
                         <h3 style="font-size:1.1rem; color:var(--blurple); margin: 2rem 0 0.5rem;">📜 Historique</h3>
                         <table class="admin-table">
                             <thead><tr><th>Annonce</th><th>Demandeur</th><th>Propriétaire</th><th>Date</th><th>Salon</th><th>Action</th></tr></thead>
@@ -544,15 +724,6 @@
                     <div id="admin-tab-bot" class="admin-section">
                         <h2 class="section-heading">Configuration du Bot Discord</h2>
                         <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Informations de référence utilisées par le site et la fonction serveur (Cloudflare Worker). Le Token du bot ne se modifie pas ici pour des raisons de sécurité — il reste dans les variables d'environnement Cloudflare, jamais visible ici.</p>
-                        
-                        <div style="background-color: var(--bg-sidebar); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin-bottom: 1.5rem;">
-                            <h3 style="font-size: 1rem; color: var(--blurple); margin-bottom: 0.5rem;">🤖 Inviter le bot sur votre serveur Discord</h3>
-                            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
-                                Pour que le bot puisse créer les salons de tickets et interagir, vous devez l'inviter sur votre serveur communautaire principal.
-                            </p>
-                            <a href="https://discord.com/oauth2/authorize?client_id=1535232825656082503&permissions=8&scope=bot%20applications.commands" target="_blank" class="btn-link" style="background-color: var(--green);">📥 Inviter le bot sur Discord</a>
-                        </div>
-
                         <div class="form-group">
                             <label>Client ID de l'application Discord</label>
                             <input type="text" id="bot-client-id" placeholder="1535232825656082503">
@@ -584,7 +755,7 @@
 
                     <div id="admin-tab-permissions" class="admin-section">
                         <h2 class="section-heading">Permissions & Whitelist des Admins</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Ajoutez un ID Discord pour lui donner accès au panel. Partagé entre tous les admins (pas juste ton navigateur).</p>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Ajoutez un ID Discord pour lui donner accès au panel. Partagé entre tous les admins.</p>
                         <div class="inline-form-row">
                             <input type="text" id="new-whitelist-id" placeholder="Ex: 1464750597663100980">
                             <button onclick="ajouterWhitelist()">Ajouter</button>
@@ -621,23 +792,36 @@
                         </table>
                     </div>
 
+                    <!-- GESTION DES PARTENAIRES (PANEL ADMIN) -->
                     <div id="admin-tab-partenaires" class="admin-section">
-                        <h2 class="section-heading">Partenaires</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Serveurs partenaires mis en avant.</p>
-                        <div class="inline-form-row">
-                            <input type="text" id="new-partner-nom" placeholder="Nom du serveur">
-                            <input type="text" id="new-partner-lien" placeholder="Lien d'invitation Discord">
-                            <button onclick="ajouterPartenaire()">Ajouter</button>
+                        <h2 class="section-heading">Gestion des Partenariats</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Ajoutez ou supprimez les serveurs partenaires affichés sur le site.</p>
+                        
+                        <div class="form-box" style="margin: 0 0 2rem 0; max-width: 100%;">
+                            <div class="form-group">
+                                <label>Nom du serveur</label>
+                                <input type="text" id="new-partner-nom" placeholder="Le nom exact de la communauté à promouvoir.">
+                            </div>
+                            <div class="form-group">
+                                <label>Lien du serveur</label>
+                                <input type="text" id="new-partner-lien" placeholder="L'invitation Discord valide.">
+                            </div>
+                            <div class="form-group">
+                                <label>Description / Publicité</label>
+                                <textarea id="new-partner-ad" rows="3" placeholder="Le texte promotionnel rédigé par le membre."></textarea>
+                            </div>
+                            <button onclick="ajouterPartenaire()">➕ Ajouter le partenariat</button>
                         </div>
+
                         <table class="admin-table">
-                            <thead><tr><th>Nom</th><th>Lien</th><th>Action</th></tr></thead>
+                            <thead><tr><th>Nom du serveur</th><th>Lien Discord</th><th>Description</th><th>Action</th></tr></thead>
                             <tbody id="partners-table-body"></tbody>
                         </table>
                     </div>
 
                     <div id="admin-tab-logs" class="admin-section">
                         <h2 class="section-heading">Logs d'administration</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Historique de toutes les actions effectuées depuis le panel admin (les 100 plus récentes).</p>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Historique de toutes les actions effectuées depuis le panel admin.</p>
                         <table class="admin-table">
                             <thead><tr><th>Date</th><th>Action</th><th>Détail</th><th>Par</th></tr></thead>
                             <tbody id="logs-table-body"><tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune action enregistrée pour le moment.</td></tr></tbody>
@@ -656,16 +840,45 @@
                     <span class="badge" id="detail-badge"></span>
                 </div>
                 <div class="card-stats" id="detail-stats" style="margin-bottom: 1.5rem;"></div>
-                <div id="detail-gallery" class="detail-gallery"></div>
                 <p id="detail-description" style="line-height: 1.6; margin-bottom: 1.5rem; white-space: pre-wrap; color:var(--text-muted);"></p>
-                <button id="detail-contact-btn">💬 Contacter le propriétaire</button>
+                <div style="display:flex; gap:0.8rem; flex-wrap:wrap; margin-bottom:1rem;">
+                    <button id="detail-contact-btn">💬 Contacter le propriétaire</button>
+                    <button class="btn-secondary" id="detail-share-btn">📤 Image de partage</button>
+                    <button class="btn-secondary" id="detail-copy-link-btn">🔗 Copier le lien</button>
+                </div>
+                <canvas id="share-card-canvas" width="1000" height="520" style="display:none;"></canvas>
+                <img id="share-card-preview-img" class="share-card-preview" style="display:none;">
+                <div style="margin-top:1.5rem;">
+                    <button class="report-link" id="detail-report-btn">🚩 Signaler cette annonce</button>
+                </div>
             </div>
         </section>
+
+        <!-- MODALE SIGNALEMENT -->
+        <div class="modal" id="report-modal">
+            <div class="modal-content" style="text-align:left;">
+                <div class="modal-icon" style="text-align:center;">🚩</div>
+                <h3 style="text-align:center;">Signaler cette annonce</h3>
+                <div class="form-group">
+                    <label>Explique le problème (arnaque, lien externe, faux serveur...)</label>
+                    <textarea id="report-reason" rows="4"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="report-cancel-btn">Annuler</button>
+                    <button type="button" class="btn-danger" id="report-submit-btn">Envoyer le signalement</button>
+                </div>
+            </div>
+        </div>
 
         <!-- DEPOT -->
         <section id="page-depot" class="page">
             <div class="form-box">
                 <h2>Publier une annonce de cession</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5;">
+                    ⚠️ Pour mettre une annonce, il est obligatoire d'inviter le bot sur votre serveur afin qu'il puisse vérifier que la personne qui met l'annonce en est bien le propriétaire[cite: 1].
+                    <br><br>
+                    <a href="https://discord.com/oauth2/authorize?client_id=1535232825656082503" target="_blank" class="btn-link" style="margin-top: 0.3rem;">🤖 Inviter le bot sur votre serveur</a>
+                </p>
                 <form id="annonce-form">
                     <div class="form-group">
                         <label for="server-id">ID de votre serveur Discord *</label>
@@ -700,6 +913,14 @@
                         <label for="server-reason">Description</label>
                         <textarea id="server-reason" required placeholder="Expliquez votre projet..."></textarea>
                     </div>
+                    
+                    <div class="form-group" style="display: flex; align-items: center; gap: 0.8rem; background: var(--bg-sidebar); padding: 1rem; border-radius: 6px; border: 1px solid var(--border);">
+                        <input type="checkbox" id="bot-invited-check" required style="width: 20px; height: 20px; accent-color: var(--blurple); cursor: pointer;">
+                        <label for="bot-invited-check" style="margin-bottom: 0; font-weight: normal; cursor: pointer; font-size: 0.9rem;">
+                            J'ai bien invité le bot sur mon serveur pour valider que j'en suis le propriétaire.
+                        </label>
+                    </div>
+
                     <div class="form-actions">
                         <button type="button" class="btn-secondary" onclick="switchPage('accueil')">Annuler</button>
                         <button type="submit">Publier</button>
@@ -729,7 +950,7 @@
         import {
             getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot,
             query, orderBy, serverTimestamp, updateDoc, setDoc,
-            arrayUnion, arrayRemove, limit
+            arrayUnion, arrayRemove, limit, increment, where, getDocs
         } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -748,6 +969,9 @@
         const ticketsRef = collection(db, 'tickets');
         const partenairesRef = collection(db, 'partenaires');
         const logsRef = collection(db, 'logs');
+        const trustedCreatorsRef = collection(db, 'trustedCreators');
+        const signalementsRef = collection(db, 'signalements');
+        const avisRef = collection(db, 'avis');
         const configModRef = doc(db, 'config', 'moderation');
         const configParamRef = doc(db, 'config', 'parametres');
         const configTextesRef = doc(db, 'config', 'textes');
@@ -760,12 +984,16 @@
         let annonces = [];
         let tickets = [];
         let partenaires = [];
+        let trustedCreatorsSet = new Set();
+        let signalements = [];
 
         let whitelistAdmins = [MASTER_ADMIN_ID];
         let restrictedUsers = [];
         let bannedUsers = [];
         let maintenanceMode = false;
 
+        const JOURS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+        let horaires = JOURS.map(() => ({ active: true, start: "09:00", end: "23:00" }));
         let webhookLogs = "";
         let webhookPublish = "";
         let botClientId = "";
@@ -816,6 +1044,7 @@
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(`page-${pageId}`).classList.add('active');
             window.scrollTo(0, 0);
+            if (pageId === 'favoris') afficherFavoris();
         };
 
         window.switchAdminTab = function(tabId, btnElement) {
@@ -858,12 +1087,36 @@
             switchPage('accueil');
         };
 
+        function estDansLesHorairesTickets() {
+            const now = new Date();
+            const options = { timeZone: 'Europe/Paris', hour: 'numeric', minute: 'numeric', weekday: 'short', hour12: false };
+            const parts = new Intl.DateTimeFormat('fr-FR', options).formatToParts(now);
+
+            let currentHour = 0, currentMinute = 0, jsDay = now.getDay();
+            for (const p of parts) {
+                if (p.type === 'hour') currentHour = parseInt(p.value, 10);
+                if (p.type === 'minute') currentMinute = parseInt(p.value, 10);
+            }
+
+            const idx = jsDay === 0 ? 6 : jsDay - 1; // Lundi=0 ... Dimanche=6, aligné avec le tableau JOURS
+            const jour = horaires[idx];
+            if (!jour || !jour.active) return false;
+
+            const nowMinutes = currentHour * 60 + currentMinute;
+            const [sh, sm] = jour.start.split(':').map(Number);
+            const [eh, em] = jour.end.split(':').map(Number);
+            return nowMinutes >= (sh * 60 + sm) && nowMinutes <= (eh * 60 + em);
+        }
+
         function updateNavbar() {
             const nav = document.getElementById('nav-actions');
             const userIsAdmin = isAdmin(currentUserId);
 
             if (currentUser) {
                 nav.innerHTML = `
+                    <button class="btn-secondary" onclick="switchPage('favoris')">❤️ Favoris</button>
+                    <button class="btn-secondary" onclick="switchPage('partenariats')">🤝 Partenariats</button>
+                    <button class="btn-secondary" onclick="voirBoutique('${currentUserId}', '${currentUser}')">🧑‍💼 Ma Boutique</button>
                     <div class="user-menu" id="user-menu">
                         <button class="user-trigger" id="user-trigger-btn">
                             <span class="user-avatar">${currentUser.charAt(0).toUpperCase()}</span>
@@ -891,6 +1144,8 @@
                 });
             } else {
                 nav.innerHTML = `
+                    <button class="btn-secondary" onclick="switchPage('favoris')">❤️ Favoris</button>
+                    <button class="btn-secondary" onclick="switchPage('partenariats')">🤝 Partenariats</button>
                     <button class="btn-secondary" id="login-nav-btn">Se connecter</button>
                     <button id="depot-nav-btn">Déposer une annonce</button>
                 `;
@@ -903,6 +1158,43 @@
             const menu = document.getElementById('user-menu');
             if (menu) menu.classList.remove('open');
         });
+
+        function initScheduleUI() {
+            const container = document.getElementById('schedule-config-container');
+            container.innerHTML = JOURS.map((jour, index) => `
+                <div class="schedule-row">
+                    <label><input type="checkbox" id="sch-active-${index}" ${horaires[index].active ? 'checked' : ''}> ${jour}</label>
+                    <div class="schedule-times">
+                        <select id="sch-start-${index}">${generateTimeOptions(horaires[index].start)}</select>
+                        <span>à</span>
+                        <select id="sch-end-${index}">${generateTimeOptions(horaires[index].end)}</select>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateTimeOptions(selectedTime) {
+            let options = '';
+            for (let h = 0; h < 24; h++) {
+                let hourStr = h < 10 ? '0' + h : h;
+                ['00', '30'].forEach(m => {
+                    let time = `${hourStr}:${m}`;
+                    options += `<option value="${time}" ${time === selectedTime ? 'selected' : ''}>${time}</option>`;
+                });
+            }
+            return options;
+        }
+
+        window.sauvegarderHoraires = async function() {
+            horaires = JOURS.map((_, index) => ({
+                active: document.getElementById(`sch-active-${index}`).checked,
+                start: document.getElementById(`sch-start-${index}`).value,
+                end: document.getElementById(`sch-end-${index}`).value
+            }));
+            await setDoc(configParamRef, { horaires }, { merge: true });
+            showPopup({ title: "Horaires enregistrés", message: "Les plages horaires d'ouverture ont été mises à jour avec succès !", icon: "⏰" });
+            ajouterLog("⏰ Horaires modifiés", '');
+        };
 
         window.toggleMaintenance = async function() {
             const checked = document.getElementById('maintenance-toggle').checked;
@@ -987,10 +1279,15 @@
         window.ajouterWhitelist = async function() {
             const inputId = document.getElementById('new-whitelist-id').value.trim();
             if (!inputId) return;
-            await setDoc(configModRef, { whitelist: arrayUnion(inputId) }, { merge: true });
-            document.getElementById('new-whitelist-id').value = '';
-            showPopup({ title: "Ajouté", message: `L'ID ${inputId} a été ajouté à la Whitelist.`, icon: "✅" });
-            ajouterLog("🛡️ Admin ajouté à la whitelist", inputId);
+            try {
+                await setDoc(configModRef, { whitelist: arrayUnion(inputId) }, { merge: true });
+                document.getElementById('new-whitelist-id').value = '';
+                showPopup({ title: "Ajouté", message: `L'ID ${inputId} a été ajouté à la Whitelist.`, icon: "✅" });
+                ajouterLog("🛡️ Admin ajouté à la whitelist", inputId);
+            } catch (err) {
+                console.error('Erreur ajout whitelist:', err);
+                showPopup({ title: "Erreur", message: `Impossible d'ajouter cet ID : ${err.message}`, icon: "❌" });
+            }
         };
 
         window.retirerWhitelist = async function(id) {
@@ -1071,32 +1368,61 @@
                 `).join('');
         }
 
+        // --- GESTION DES PARTENAIRES ---
         window.ajouterPartenaire = async function() {
             const nom = document.getElementById('new-partner-nom').value.trim();
             const lien = document.getElementById('new-partner-lien').value.trim();
-            if (!nom || !lien) return;
-            await addDoc(partenairesRef, { nom, lien, dateAjout: serverTimestamp() });
+            const description = document.getElementById('new-partner-ad').value.trim();
+
+            if (!nom || !lien || !description) {
+                showPopup({ title: "Champs manquants", message: "Tous les champs (nom, lien, description) sont requis pour ajouter un partenariat.", icon: "⚠️" });
+                return;
+            }
+
+            await addDoc(partenairesRef, { nom, lien, description, dateAjout: serverTimestamp() });
             document.getElementById('new-partner-nom').value = '';
             document.getElementById('new-partner-lien').value = '';
+            document.getElementById('new-partner-ad').value = '';
+            showPopup({ title: "Succès", message: "Le partenariat a été ajouté avec succès !", icon: "✅" });
             ajouterLog("🤝 Partenaire ajouté", nom);
         };
 
         window.retirerPartenaire = async function(id) {
             await deleteDoc(doc(db, 'partenaires', id));
+            showPopup({ title: "Supprimé", message: "Le partenariat a été retiré.", icon: "🗑️" });
             ajouterLog("🤝 Partenaire retiré", id);
         };
 
         function chargerPartenairesTable() {
             const tbody = document.getElementById('partners-table-body');
+            if (!tbody) return;
             tbody.innerHTML = partenaires.length === 0
-                ? `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Aucun partenaire pour le moment.</td></tr>`
+                ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucun partenaire pour le moment.</td></tr>`
                 : partenaires.map(p => `
                     <tr>
-                        <td>${p.nom}</td>
+                        <td><strong>${p.nom}</strong></td>
                         <td><a href="${p.lien}" target="_blank" style="color:var(--blurple);">${p.lien}</a></td>
+                        <td style="color:var(--text-muted); max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${p.description || '—'}</td>
                         <td><button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="retirerPartenaire('${p.id}')">Retirer</button></td>
                     </tr>
                 `).join('');
+
+            // Affichage public sur la page Partenariats du site
+            const publicGrid = document.getElementById('public-partners-grid');
+            if (publicGrid) {
+                publicGrid.innerHTML = partenaires.length === 0
+                    ? `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">Aucun serveur partenaire pour le moment.</p>`
+                    : partenaires.map(p => `
+                        <div class="card" style="cursor: default;">
+                            <div class="card-header">
+                                <div class="card-title">${p.nom}</div>
+                                <span class="badge" style="background-color: var(--blurple);">Partenaire</span>
+                            </div>
+                            <p class="card-body" style="-webkit-line-clamp: unset; max-height: none; overflow: visible;">${p.description}</p>
+                            <a href="${p.lien}" target="_blank" class="btn-link" style="margin-top: 1rem; text-align: center;">Rejoindre le serveur</a>
+                        </div>
+                    `).join('');
+            }
         }
 
         function chargerPanelAdmin() {
@@ -1120,10 +1446,13 @@
                 ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune annonce sur le site.</td></tr>`
                 : annonces.map(a => `
                     <tr>
-                        <td><strong>${a.nom}</strong></td>
+                        <td><strong>${a.nom}</strong> ${a.statut === 'transfere' ? '🏆' : ''}</td>
                         <td><code>${a.serverId || 'N/A'}</code></td>
                         <td>${a.proprietaire}</td>
-                        <td><button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="supprimerAnnonceAdmin('${a.id}')">🗑️ Supprimer</button></td>
+                        <td>
+                            ${a.statut === 'valide' ? `<button class="btn-link" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="marquerTransfertReussi('${a.id}', '${a.proprietaireId || ''}')">🏆 Marquer réussi</button>` : ''}
+                            <button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="supprimerAnnonceAdmin('${a.id}')">🗑️ Supprimer</button>
+                        </td>
                     </tr>
                 `).join('');
         }
@@ -1207,33 +1536,80 @@
             }
         };
 
+        function renderCardHTML(a) {
+            const estFavori = getFavoris().includes(a.id);
+            const badgeConfiance = (a.proprietaireId && trustedCreatorsSet.has(a.proprietaireId))
+                ? `<span class="trust-badge">🏆 Confiance</span>` : '';
+            return `
+                <div class="card" onclick="voirDetail('${a.id}')">
+                    <button class="fav-heart ${estFavori ? 'active' : ''}" onclick="toggleFavori('${a.id}', event)" title="Ajouter aux favoris">❤️</button>
+                    <div class="card-header">
+                        <div class="card-title">${a.nom}${badgeConfiance}</div>
+                        <span class="badge ${a.statut === 'en_attente' ? 'badge-pending' : ''}">${a.statut === 'en_attente' ? 'En attente' : a.type}</span>
+                    </div>
+                    <div class="card-stats"><span>👥 ${a.membres} membres</span><span>👁️ ${a.vues || 0} vues</span></div>
+                    <p class="card-body">${a.description}</p>
+                </div>
+            `;
+        }
+
         function afficherAnnonces(liste) {
             const grid = document.getElementById('annonces-grid');
-            const visibles = liste.filter(a => a.statut === 'valide' || isAdmin(currentUserId));
+            const visibles = liste.filter(a => a.statut === 'valide' || a.statut === 'transfere' || isAdmin(currentUserId));
 
             grid.innerHTML = visibles.length === 0
                 ? `<p style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:3rem;">Aucune annonce disponible.</p>`
-                : visibles.map(a => `
-                    <div class="card" onclick="voirDetail('${a.id}')">
-                        <div class="card-header">
-                            <div class="card-title">${a.nom}</div>
-                            <span class="badge ${a.statut === 'en_attente' ? 'badge-pending' : ''}">${a.statut === 'en_attente' ? 'En attente' : a.type}</span>
-                        </div>
-                        <div class="card-stats"><span>👥 ${a.membres} membres</span></div>
-                        <p class="card-body">${a.description}</p>
-                    </div>
-                `).join('');
+                : visibles.map(a => renderCardHTML(a)).join('');
+        }
+
+        // ---------- FAVORIS (sauvegarde locale, navigateur uniquement) ----------
+        function getFavoris() {
+            try { return JSON.parse(localStorage.getItem('xparia_favoris') || '[]'); }
+            catch (e) { return []; }
+        }
+
+        window.toggleFavori = function(id, event) {
+            if (event) event.stopPropagation();
+            let favs = getFavoris();
+            favs = favs.includes(id) ? favs.filter(f => f !== id) : [...favs, id];
+            localStorage.setItem('xparia_favoris', JSON.stringify(favs));
+            afficherAnnonces(annonces);
+            afficherFavoris();
+        };
+
+        function afficherFavoris() {
+            const grid = document.getElementById('favoris-grid');
+            if (!grid) return;
+            const favIds = getFavoris();
+            const favAnnonces = annonces.filter(a => favIds.includes(a.id));
+            grid.innerHTML = favAnnonces.length === 0
+                ? `<p style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:3rem;">Aucun favori pour l'instant — clique sur le ❤️ d'une annonce pour l'ajouter ici.</p>`
+                : favAnnonces.map(a => renderCardHTML(a)).join('');
         }
 
         window.voirDetail = function(id) {
             const art = annonces.find(a => a.id === id);
             if (!art) return;
-            document.getElementById('detail-nom').innerText = art.nom;
+            const badgeConfiance = (art.proprietaireId && trustedCreatorsSet.has(art.proprietaireId))
+                ? ` <span class="trust-badge">🏆 Créateur de confiance</span>` : '';
+            document.getElementById('detail-nom').innerHTML = art.nom + badgeConfiance;
             document.getElementById('detail-badge').innerText = art.type;
-            document.getElementById('detail-stats').innerHTML = `<span>👥 ${art.membres} membres</span>`;
+            const lienVendeur = art.proprietaireId
+                ? `<span style="cursor:pointer; text-decoration:underline;" onclick="voirBoutique('${art.proprietaireId}', '${(art.proprietaire || '').replace(/'/g, "\\'")}')">🧑‍💼 ${art.proprietaire}</span>`
+                : `<span>🧑‍💼 ${art.proprietaire || 'Inconnu'}</span>`;
+            document.getElementById('detail-stats').innerHTML = `<span>👥 ${art.membres} membres</span><span>👁️ ${art.vues || 0} vues</span>${lienVendeur}`;
             document.getElementById('detail-description').innerText = art.description;
             document.getElementById('detail-contact-btn').onclick = () => ouvrirTicket(art);
+
+            const reportBtn = document.getElementById('detail-report-btn');
+            if (reportBtn) reportBtn.onclick = () => ouvrirSignalement(art);
+            const shareBtn = document.getElementById('detail-share-btn');
+            if (shareBtn) shareBtn.onclick = () => genererCartePartage(art);
+            const copyLinkBtn = document.getElementById('detail-copy-link-btn');
+            if (copyLinkBtn) copyLinkBtn.onclick = () => copierLienSuivi(art);
+
             switchPage('detail');
+            updateDoc(doc(db, 'annonces', id), { vues: increment(1) }).catch(() => {});
         };
 
         async function ouvrirTicket(annonce) {
@@ -1248,6 +1624,23 @@
             }
             if (bannedUsers.includes(currentUserId)) {
                 showPopup({ title: "Compte banni", message: "Votre compte a été banni de la plateforme.", icon: "⛔" });
+                return;
+            }
+
+            if (!isAdmin(currentUserId) && !estDansLesHorairesTickets()) {
+                showPopup({
+                    title: "Support fermé",
+                    message: "Les Ticket sont actuellement fermés !<br><br>" +
+                             "<strong>Horaires d'ouverture (heure de France 🇫🇷) :</strong><br>" +
+                             "• Lundi : 09h00 → 22h00<br>" +
+                             "• Mardi : 12h00 → 16h00<br>" +
+                             "• Mercredi : 08h00 → 18h00<br>" +
+                             "• Jeudi : 10h30 → 17h30<br>" +
+                             "• Vendredi : 09h00 → 18h00<br>" +
+                             "• Samedi : Fermé<br>" +
+                             "• Dimanche : 09h00 → 12h00",
+                    icon: "🔒"
+                });
                 return;
             }
 
@@ -1290,6 +1683,275 @@
                 }
             } catch (err) {
                 showPopup({ title: "Erreur réseau", message: "Impossible de contacter le serveur pour ouvrir le ticket.", icon: "🌐" });
+            }
+        }
+
+        // ---------- SIGNALEMENT D'ABUS ----------
+        let annonceEnCoursDeSignalement = null;
+
+        function ouvrirSignalement(annonce) {
+            if (!currentUser || !currentUserId) {
+                showPopup({
+                    title: "Connexion requise",
+                    message: "Connecte-toi avec Discord pour signaler une annonce.",
+                    icon: "🔒",
+                    onConfirm: () => window.location.href = DISCORD_AUTH_URL
+                });
+                return;
+            }
+            annonceEnCoursDeSignalement = annonce;
+            document.getElementById('report-reason').value = '';
+            document.getElementById('report-modal').classList.add('open');
+        }
+
+        document.getElementById('report-cancel-btn').addEventListener('click', () => {
+            document.getElementById('report-modal').classList.remove('open');
+        });
+
+        document.getElementById('report-submit-btn').addEventListener('click', async () => {
+            const raison = document.getElementById('report-reason').value.trim();
+            if (!raison || !annonceEnCoursDeSignalement) return;
+            const art = annonceEnCoursDeSignalement;
+            await addDoc(signalementsRef, {
+                annonceId: art.id,
+                annonceNom: art.nom,
+                proprietaireId: art.proprietaireId || null,
+                proprietaireUsername: art.proprietaire || '',
+                raison,
+                signaleurId: currentUserId,
+                signaleurUsername: currentUser,
+                date: serverTimestamp(),
+                traite: false
+            });
+            envoyerWebhook(webhookLogs, "🚩 Nouveau signalement", `Annonce : ${art.nom}\nRaison : ${raison}\nSignalé par : ${currentUser}`, 15158332);
+            document.getElementById('report-modal').classList.remove('open');
+            showPopup({ title: "Signalement envoyé", message: "Merci, l'équipe va examiner cette annonce.", icon: "✅" });
+        });
+
+        // ---------- CARTE DE PARTAGE (Open Graph maison, générée en canvas) ----------
+        function genererCartePartage(annonce) {
+            const canvas = document.getElementById('share-card-canvas');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width, h = canvas.height;
+
+            const grad = ctx.createLinearGradient(0, 0, w, h);
+            grad.addColorStop(0, '#1f1f23');
+            grad.addColorStop(1, '#3a2410');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+
+            ctx.fillStyle = '#ff7a1a';
+            ctx.font = 'bold 34px Segoe UI, sans-serif';
+            ctx.fillText('🛒 XPARIA MARKET', 60, 80);
+
+            ctx.fillStyle = '#f4f4f5';
+            ctx.font = 'bold 54px Segoe UI, sans-serif';
+            wrapText(ctx, annonce.nom, 60, 200, w - 120, 60);
+
+            ctx.fillStyle = '#a1a1aa';
+            ctx.font = '28px Segoe UI, sans-serif';
+            ctx.fillText(`👥 ${annonce.membres} membres  •  ${annonce.type}`, 60, 300);
+
+            ctx.fillStyle = '#d4d4d8';
+            ctx.font = '24px Segoe UI, sans-serif';
+            wrapText(ctx, annonce.description.slice(0, 160), 60, 360, w - 120, 34);
+
+            ctx.strokeStyle = '#ff7a1a';
+            ctx.lineWidth = 6;
+            ctx.strokeRect(20, 20, w - 40, h - 40);
+
+            const dataUrl = canvas.toDataURL('image/png');
+            const img = document.getElementById('share-card-preview-img');
+            img.src = dataUrl;
+            img.style.display = 'block';
+
+            const a = document.createElement('a');
+            a.href = dataUrl;
+            a.download = `xparia-${annonce.nom.replace(/[^a-z0-9]/gi, '-').toLowerCase()}.png`;
+            a.click();
+        }
+
+        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            let curY = y;
+            for (let n = 0; n < words.length; n++) {
+                const testLine = line + words[n] + ' ';
+                if (ctx.measureText(testLine).width > maxWidth && n > 0) {
+                    ctx.fillText(line, x, curY);
+                    line = words[n] + ' ';
+                    curY += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line, x, curY);
+        }
+
+        // ---------- LIEN DE SUIVI (partage + clics) ----------
+        function copierLienSuivi(annonce) {
+            const lien = `${window.location.origin}${window.location.pathname}?ref=share&id=${annonce.id}`;
+            navigator.clipboard.writeText(lien).then(() => {
+                showPopup({ title: "Lien copié !", message: "Chaque personne qui clique dessus sera comptée dans les statistiques de partage de cette annonce.", icon: "🔗" });
+            }).catch(() => {
+                showPopup({ title: "Lien de suivi", message: lien, icon: "🔗" });
+            });
+        }
+
+        // ---------- ANCIENNETÉ DU COMPTE DISCORD (dérivée de l'ID, sans appel API) ----------
+        function dateDepuisSnowflake(discordId) {
+            try {
+                const DISCORD_EPOCH = 1420070400000n;
+                const ms = (BigInt(discordId) >> 22n) + DISCORD_EPOCH;
+                return new Date(Number(ms));
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function badgeAncienneteCompte(discordId) {
+            const dateCreation = dateDepuisSnowflake(discordId);
+            if (!dateCreation) return '';
+            const joursEcoules = Math.floor((Date.now() - dateCreation.getTime()) / 86400000);
+            const dateTexte = dateCreation.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
+            if (joursEcoules > 30) {
+                return `<span class="trust-badge">🛡️ Compte établi (depuis ${dateTexte})</span>`;
+            }
+            return `<span class="trust-badge" style="background: rgba(218,55,60,0.15); color: var(--red);">🆕 Nouveau compte (${dateTexte})</span>`;
+        }
+
+        // ---------- AVIS / RÉPUTATION ----------
+        window.ouvrirAvis = function(cibleId, cibleUsername) {
+            if (!currentUser || !currentUserId) {
+                showPopup({
+                    title: "Connexion requise",
+                    message: "Connecte-toi avec Discord pour laisser un avis.",
+                    icon: "🔒",
+                    onConfirm: () => window.location.href = DISCORD_AUTH_URL
+                });
+                return;
+            }
+            if (cibleId === currentUserId) {
+                showPopup({ title: "Impossible", message: "Tu ne peux pas te laisser un avis à toi-même.", icon: "🚫" });
+                return;
+            }
+            avisEnCours = { cibleId, cibleUsername };
+            document.getElementById('review-note').value = '5';
+            document.getElementById('review-comment').value = '';
+            document.getElementById('review-modal').classList.add('open');
+        };
+
+        let avisEnCours = null;
+
+        document.getElementById('review-cancel-btn').addEventListener('click', () => {
+            document.getElementById('review-modal').classList.remove('open');
+        });
+
+        document.getElementById('review-submit-btn').addEventListener('click', async () => {
+            if (!avisEnCours) return;
+            const note = parseInt(document.getElementById('review-note').value, 10);
+            const commentaire = document.getElementById('review-comment').value.trim();
+            const avisId = `${currentUserId}_${avisEnCours.cibleId}`;
+            try {
+                await setDoc(doc(db, 'avis', avisId), {
+                    cibleId: avisEnCours.cibleId,
+                    cibleUsername: avisEnCours.cibleUsername,
+                    auteurId: currentUserId,
+                    auteurUsername: currentUser,
+                    note, commentaire,
+                    date: serverTimestamp()
+                });
+                document.getElementById('review-modal').classList.remove('open');
+                showPopup({ title: "Merci !", message: "Ton avis a bien été enregistré.", icon: "⭐" });
+            } catch (err) {
+                showPopup({ title: "Erreur", message: err.message, icon: "❌" });
+            }
+        });
+
+        function etoilesHTML(moyenne) {
+            const pleines = Math.round(moyenne);
+            return '⭐'.repeat(pleines) + '☆'.repeat(5 - pleines);
+        }
+
+        // ---------- MA BOUTIQUE / PROFIL PUBLIC ----------
+        window.voirBoutique = async function(userId, username) {
+            document.getElementById('boutique-avatar').textContent = (username || '?').charAt(0).toUpperCase();
+            document.getElementById('boutique-nom').textContent = username || 'Utilisateur';
+            document.getElementById('boutique-review-btn').onclick = () => ouvrirAvis(userId, username);
+            document.getElementById('boutique-review-btn').style.display = (userId === currentUserId) ? 'none' : 'inline-flex';
+
+            let badgesHTML = badgeAncienneteCompte(userId);
+            if (trustedCreatorsSet.has(userId)) badgesHTML += ` <span class="trust-badge">🏆 Créateur de confiance</span>`;
+            document.getElementById('boutique-badges').innerHTML = badgesHTML;
+
+            const mesAnnonces = annonces.filter(a => a.proprietaireId === userId && (a.statut === 'valide' || a.statut === 'transfere'));
+            document.getElementById('boutique-annonces-grid').innerHTML = mesAnnonces.length === 0
+                ? `<p style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:2rem;">Aucune annonce active pour le moment.</p>`
+                : mesAnnonces.map(a => renderCardHTML(a)).join('');
+
+            try {
+                const q = query(avisRef, where('cibleId', '==', userId));
+                const snap = await getDocs(q);
+                const avisListe = snap.docs.map(d => d.data());
+                const count = avisListe.length;
+                const moyenne = count > 0 ? avisListe.reduce((s, a) => s + a.note, 0) / count : 0;
+
+                document.getElementById('boutique-reputation').innerHTML = count > 0
+                    ? `${etoilesHTML(moyenne)} ${moyenne.toFixed(1)}/5 — ${count} avis`
+                    : `Aucun avis pour le moment`;
+                document.getElementById('boutique-avis-count').textContent = count;
+
+                document.getElementById('boutique-avis-list').innerHTML = count === 0
+                    ? `<p style="color:var(--text-muted);">Aucun avis reçu pour l'instant.</p>`
+                    : avisListe
+                        .sort((a, b) => (b.date?.seconds || 0) - (a.date?.seconds || 0))
+                        .map(a => `
+                            <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:1rem; margin-bottom:0.8rem;">
+                                <div style="display:flex; justify-content:space-between;">
+                                    <strong>${a.auteurUsername}</strong>
+                                    <span>${etoilesHTML(a.note)}</span>
+                                </div>
+                                ${a.commentaire ? `<p style="color:var(--text-muted); margin-top:0.4rem;">${a.commentaire}</p>` : ''}
+                            </div>
+                        `).join('');
+            } catch (err) {
+                console.error('Erreur chargement avis:', err);
+            }
+
+            switchPage('boutique');
+        };
+
+        function ecouterTrustedCreators() {
+            onSnapshot(trustedCreatorsRef, (snap) => {
+                trustedCreatorsSet = new Set(snap.docs.map(d => d.id));
+                afficherAnnonces(annonces);
+            });
+        }
+
+        window.marquerTransfertReussi = async function(annonceId, proprietaireId) {
+            if (!proprietaireId) {
+                showPopup({ title: "Impossible", message: "Cette annonce n'a pas d'ID propriétaire enregistré (trop ancienne).", icon: "⚠️" });
+                return;
+            }
+            await updateDoc(doc(db, 'annonces', annonceId), { statut: 'transfere' });
+            await setDoc(doc(db, 'trustedCreators', proprietaireId), { count: increment(1), dernierTransfert: serverTimestamp() }, { merge: true });
+            ajouterLog("🏆 Transfert marqué réussi", annonceId);
+            showPopup({ title: "Badge attribué !", message: "Le propriétaire a maintenant le badge Créateur de Confiance.", icon: "🏆" });
+        };
+
+        function verifierLienDeSuivi() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('ref') === 'share' && params.get('id')) {
+                const id = params.get('id');
+                updateDoc(doc(db, 'annonces', id), { clicsPartage: increment(1) }).catch(() => {});
+                const essayerOuvrir = () => {
+                    if (annonces.find(a => a.id === id)) {
+                        voirDetail(id);
+                    } else {
+                        setTimeout(essayerOuvrir, 400);
+                    }
+                };
+                essayerOuvrir();
             }
         }
 
@@ -1399,6 +2061,7 @@
 
             onSnapshot(configParamRef, (snap) => {
                 const data = snap.exists() ? snap.data() : {};
+                if (data.horaires) horaires = data.horaires;
                 webhookLogs = data.webhookLogs || "";
                 webhookPublish = data.webhookPublish || "";
                 botClientId = data.botClientId || "";
@@ -1406,6 +2069,7 @@
                 ticketCategoryName = data.ticketCategoryName || "ticket site";
                 ticketWelcomeMessage = data.ticketWelcomeMessage || "";
 
+                initScheduleUI();
                 const logsInput = document.getElementById('webhook-logs');
                 const pubInput = document.getElementById('webhook-publish');
                 const clientInput = document.getElementById('bot-client-id');
@@ -1469,14 +2133,33 @@
             });
         }
 
+        // ---------- MODE CLAIR / SOMBRE ----------
+        function initTheme() {
+            const saved = localStorage.getItem('xparia_theme');
+            const btn = document.getElementById('theme-toggle-btn');
+            if (saved === 'light') {
+                document.body.classList.add('light-mode');
+                if (btn) btn.textContent = '☀️';
+            }
+        }
+        document.getElementById('theme-toggle-btn').addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('xparia_theme', isLight ? 'light' : 'dark');
+            document.getElementById('theme-toggle-btn').textContent = isLight ? '☀️' : '🌙';
+        });
+
         checkDiscordCallback().then(() => {
+            initTheme();
             ecouterConfig();
             ecouterTextes();
             ecouterLogs();
             ecouterAnnonces();
             ecouterTickets();
             ecouterPartenaires();
+            ecouterTrustedCreators();
             updateNavbar();
+            setTimeout(verifierLienDeSuivi, 800);
         });
     </script>
 </body>
