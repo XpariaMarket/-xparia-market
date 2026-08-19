@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xyro Market — Donnez une seconde vie à votre serveur Discord.</title>
+    <title>Xparia Market — Donnez une seconde vie à votre serveur Discord.</title>
 
     <!-- Méta-balises SEO & Open Graph -->
-    <meta name="description" content="Xyro Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
+    <meta name="description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://xparia-market.xparia-discord.workers.dev/">
-    <meta property="og:title" content="Xyro Market — Donnez une seconde vie à votre serveur Discord">
-    <meta property="og:description" content="Xyro Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
+    <meta property="og:title" content="Xparia Market — Donnez une seconde vie à votre serveur Discord">
+    <meta property="og:description" content="Xparia Market est la plateforme de référence pour céder, échanger ou reprendre des serveurs Discord. Trouvez votre prochaine communauté facilement.">
     <meta property="og:image" content="https://xparia-market.xparia-discord.workers.dev/logo.png">
     <meta property="theme-color" content="#FF8A00">
 
@@ -514,8 +514,8 @@
                 </div>
             </div>
 
-            <div class="search-container" id="search-container">
-                <input type="text" id="search-bar" placeholder="Rechercher par mot-clé...">
+            <div class="search-container" id="search-container" style="flex-wrap: wrap;">
+                <input type="text" id="search-bar" placeholder="🔎 Recherche avancée (nom, description, propriétaire...)" style="flex: 2; min-width: 200px;">
                 <select id="filter-category">
                     <option value="">Toutes les catégories</option>
                     <option value="gaming">Gaming</option>
@@ -529,7 +529,17 @@
                     <option value="Échange">Échange</option>
                     <option value="Reprise Bénévole">Reprise Bénévole</option>
                 </select>
+                <select id="filter-sort">
+                    <option value="recent">📅 Plus récents</option>
+                    <option value="tendances">🔥 Tendances</option>
+                    <option value="vues">👁️ Plus vues</option>
+                    <option value="membres">👥 Plus de membres</option>
+                    <option value="favoris">❤️ Plus favoris</option>
+                </select>
+                <input type="number" id="filter-min-membres" placeholder="Min membres" min="0" style="max-width: 120px;">
+                <input type="number" id="filter-max-membres" placeholder="Max membres" min="0" style="max-width: 120px;">
             </div>
+            <div id="dynamic-filters" style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.5rem;"></div>
 
             <h2 class="section-heading" id="text-listings-heading">🔥 Serveurs récemment publiés</h2>
             <div class="grid" id="annonces-grid"></div>
@@ -540,7 +550,7 @@
             <div style="max-width: 1000px; margin: 0 auto;">
                 <button class="btn-secondary" onclick="switchPage('accueil')" style="margin-bottom: 1.5rem;">← Retour à l'accueil</button>
                 <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--blurple);">🤝 Nos Partenaires</h1>
-                <p style="color: var(--text-muted); margin-bottom: 2rem;">Découvrez la liste de tous les serveurs partenaires de la communauté Xyro Market.</p>
+                <p style="color: var(--text-muted); margin-bottom: 2rem;">Découvrez la liste de tous les serveurs partenaires de la communauté Xparia Market.</p>
                 
                 <div class="grid" id="public-partners-grid">
                     <!-- Injection dynamique des partenariats -->
@@ -621,7 +631,9 @@
                     <button class="admin-nav-item" onclick="switchAdminTab('permissions', this)">🛡️ Permissions (Whitelist)</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('restrictions', this)">🔒 Restrictions</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('bannissements', this)">⛔ Bannissements</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('signalements', this)">🚩 Signalements</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('partenaires', this)">🤝 Partenaires</button>
+                    <button class="admin-nav-item" onclick="switchAdminTab('stats', this)">📊 Statistiques</button>
                     <button class="admin-nav-item" onclick="switchAdminTab('logs', this)">📜 Logs</button>
                     <button class="btn-secondary" style="margin-top:auto;" onclick="switchPage('accueil')">Retour au site</button>
                 </div>
@@ -650,7 +662,7 @@
 
                         <div class="form-group">
                             <label>Titre principal (page d'accueil)</label>
-                            <input type="text" id="txt-hero-title" placeholder="🛒 Xyro Market">
+                            <input type="text" id="txt-hero-title" placeholder="🛒 Xparia Market">
                         </div>
                         <div class="form-group">
                             <label>Sous-titre (sous le titre)</label>
@@ -666,7 +678,7 @@
                         </div>
                         <div class="form-group">
                             <label>Texte du pied de page (footer)</label>
-                            <input type="text" id="txt-footer" placeholder="© 2026 Xyro Market...">
+                            <input type="text" id="txt-footer" placeholder="© 2026 Xparia Market...">
                         </div>
                         <button onclick="sauvegarderTextes()">💾 Sauvegarder les textes</button>
                     </div>
@@ -819,6 +831,34 @@
                         </table>
                     </div>
 
+                    <div id="admin-tab-signalements" class="admin-section">
+                        <h2 class="section-heading">🚩 Signalements & Modération</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Liste des annonces signalées par les utilisateurs. Traitez-les rapidement.</p>
+                        <table class="admin-table">
+                            <thead><tr><th>Annonce</th><th>Raison</th><th>Signalé par</th><th>Date</th><th>Action</th></tr></thead>
+                            <tbody id="signalements-table-body"><tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Aucun signalement.</td></tr></tbody>
+                        </table>
+                    </div>
+
+                    <div id="admin-tab-stats" class="admin-section">
+                        <h2 class="section-heading">📊 Statistiques globales</h2>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Aperçu des performances (approximatif basé sur les données actuelles).</p>
+                        <div class="stats-bar" style="margin-bottom:2rem;">
+                            <div><div class="stat-value" id="admin-stat-annonces">0</div><div class="stat-label">Annonces validées</div></div>
+                            <div><div class="stat-value" id="admin-stat-vues">0</div><div class="stat-label">Vues totales</div></div>
+                            <div><div class="stat-value" id="admin-stat-favoris">0</div><div class="stat-label">Favoris totaux</div></div>
+                            <div><div class="stat-value" id="admin-stat-clics">0</div><div class="stat-label">Clics partage</div></div>
+                        </div>
+                        <canvas id="stats-chart" width="600" height="300" style="max-width:100%; background:var(--bg-sidebar); border-radius:8px; padding:1rem;"></canvas>
+                        <p style="color:var(--text-muted); font-size:0.85rem; margin-top:1rem;">Graphique simplifié des annonces par statut / tendances.</p>
+
+                        <h3 style="font-size:1.1rem; color:var(--blurple); margin: 2rem 0 0.5rem;">🎁 Demandes de cadeaux (10 coupons)</h3>
+                        <table class="admin-table">
+                            <thead><tr><th>Utilisateur</th><th>Date</th><th>Statut</th><th>Action</th></tr></thead>
+                            <tbody id="cadeaux-table-body"><tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune demande.</td></tr></tbody>
+                        </table>
+                    </div>
+
                     <div id="admin-tab-logs" class="admin-section">
                         <h2 class="section-heading">Logs d'administration</h2>
                         <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Historique de toutes les actions effectuées depuis le panel admin.</p>
@@ -931,7 +971,7 @@
     </div>
 
     <footer>
-        <p id="text-footer">&copy; 2026 Xyro Market. Non affilié à Discord Inc.</p>
+        <p id="text-footer">&copy; 2026 Xparia Market. Non affilié à Discord Inc.</p>
     </footer>
 
     <div class="modal" id="custom-popup">
@@ -950,7 +990,7 @@
         import {
             getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot,
             query, orderBy, serverTimestamp, updateDoc, setDoc,
-            arrayUnion, arrayRemove, limit, increment, where, getDocs
+            arrayUnion, arrayRemove, limit, increment, where, getDocs, getDoc
         } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -972,12 +1012,14 @@
         const trustedCreatorsRef = collection(db, 'trustedCreators');
         const signalementsRef = collection(db, 'signalements');
         const avisRef = collection(db, 'avis');
+        const cadeauxRef = collection(db, 'cadeaux'); // demandes d'échange de coupons
         const configModRef = doc(db, 'config', 'moderation');
         const configParamRef = doc(db, 'config', 'parametres');
         const configTextesRef = doc(db, 'config', 'textes');
 
         const MASTER_ADMIN_ID = "1464750597663100980";
         const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize?client_id=1535232825656082503&response_type=token&redirect_uri=https%3A%2F%2Fxparia-market.xparia-discord.workers.dev%2F&scope=identify+connections+guilds";
+        const COUPONS_POUR_CADEAU = 10; // tous les 10 coupons → 1 cadeau
 
         let currentUser = localStorage.getItem('currentUser') || null;
         let currentUserId = localStorage.getItem('currentUserId') || null;
@@ -986,6 +1028,7 @@
         let partenaires = [];
         let trustedCreatorsSet = new Set();
         let signalements = [];
+        let userCoupons = 0; // solde actuel de l'utilisateur connecté
 
         let whitelistAdmins = [MASTER_ADMIN_ID];
         let restrictedUsers = [];
@@ -1113,17 +1156,22 @@
             const userIsAdmin = isAdmin(currentUserId);
 
             if (currentUser) {
+                const canRedeem = userCoupons >= COUPONS_POUR_CADEAU;
                 nav.innerHTML = `
                     <button class="btn-secondary" onclick="switchPage('favoris')">❤️ Favoris</button>
                     <button class="btn-secondary" onclick="switchPage('partenariats')">🤝 Partenariats</button>
                     <button class="btn-secondary" onclick="voirBoutique('${currentUserId}', '${currentUser}')">🧑‍💼 Ma Boutique</button>
+                    <button class="btn-secondary" id="coupons-btn" title="Tes coupons — tous les 10 = 1 cadeau">🎟️ ${userCoupons}</button>
                     <div class="user-menu" id="user-menu">
                         <button class="user-trigger" id="user-trigger-btn">
                             <span class="user-avatar">${currentUser.charAt(0).toUpperCase()}</span>
                             <span>${currentUser}</span>
                         </button>
                         <div class="user-dropdown" id="user-dropdown">
-                            <div class="user-dropdown-header">Connecté en tant qu'<strong>${currentUser}</strong></div>
+                            <div class="user-dropdown-header">Connecté en tant qu'<strong>${currentUser}</strong>
+                                <div style="margin-top:0.4rem; color:var(--blurple);">🎟️ ${userCoupons} coupon${userCoupons > 1 ? 's' : ''}</div>
+                            </div>
+                            ${canRedeem ? `<button type="button" class="dropdown-item" id="redeem-coupons-btn" style="color:var(--blurple); font-weight:bold;">🎁 Échanger 10 coupons → cadeau</button>` : `<div style="padding:0.6rem 1rem; font-size:0.85rem; color:var(--text-muted);">Encore ${COUPONS_POUR_CADEAU - userCoupons} coupon(s) pour un cadeau</div>`}
                             ${userIsAdmin ? `<a href="#" id="goto-admin-link" style="color:var(--blurple); font-weight:bold;">⚙️ Panel Admin</a>` : ''}
                             <button type="button" class="dropdown-item danger" id="logout-btn-nav">🚪 Déconnexion</button>
                         </div>
@@ -1136,6 +1184,20 @@
                 });
                 document.getElementById('logout-btn-nav').addEventListener('click', window.logoutDiscord);
                 document.getElementById('depot-nav-btn').addEventListener('click', window.allerAuDepot);
+                document.getElementById('coupons-btn').addEventListener('click', () => {
+                    showPopup({
+                        title: "🎟️ Système de coupons",
+                        message: `Tu as <strong>${userCoupons}</strong> coupon(s).<br><br>
+                        Gagne des coupons en :<br>
+                        • Déposant une annonce validée (+2)<br>
+                        • Laissant un avis (+1)<br>
+                        • Ouvrant un ticket de contact (+1)<br><br>
+                        <strong>Tous les 10 coupons</strong> → tu peux réclamer un cadeau !`,
+                        icon: "🎟️"
+                    });
+                });
+                const redeemBtn = document.getElementById('redeem-coupons-btn');
+                if (redeemBtn) redeemBtn.addEventListener('click', window.echangeCouponsContreCadeau);
                 const gotoAdmin = document.getElementById('goto-admin-link');
                 if (gotoAdmin) gotoAdmin.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -1158,6 +1220,71 @@
             const menu = document.getElementById('user-menu');
             if (menu) menu.classList.remove('open');
         });
+
+        // ---------- SYSTÈME DE COUPONS (gratuit, collection → cadeau tous les 10) ----------
+        async function gagnerCoupon(quantite = 1, raison = '', silent = false) {
+            if (!currentUserId) return;
+            const userStatRef = doc(db, 'userStats', currentUserId);
+            try {
+                await setDoc(userStatRef, {
+                    coupons: increment(quantite),
+                    totalEarned: increment(quantite),
+                    username: currentUser,
+                    lastGain: serverTimestamp(),
+                    lastRaison: raison
+                }, { merge: true });
+                // le onSnapshot mettra à jour userCoupons + navbar
+                if (!silent) {
+                    showPopup({
+                        title: "🎟️ Coupon" + (quantite > 1 ? "s" : "") + " gagné" + (quantite > 1 ? "s" : "") + " !",
+                        message: `+${quantite} coupon${quantite > 1 ? 's' : ''} (${raison}).<br>Solde mis à jour automatiquement.`,
+                        icon: "🎟️"
+                    });
+                }
+            } catch (err) {
+                console.error('Erreur gain coupon:', err);
+            }
+        }
+
+        window.echangeCouponsContreCadeau = async function() {
+            if (!currentUserId) return;
+            if (userCoupons < COUPONS_POUR_CADEAU) {
+                showPopup({ title: "Pas assez de coupons", message: `Il te faut ${COUPONS_POUR_CADEAU} coupons. Tu en as ${userCoupons}.`, icon: "🎟️" });
+                return;
+            }
+            showPopup({
+                title: "🎁 Échanger 10 coupons ?",
+                message: `Tu vas dépenser <strong>10 coupons</strong> pour réclamer un cadeau.<br><br>Un administrateur sera notifié et te contactera sur Discord pour te remettre le cadeau.`,
+                icon: "🎁",
+                onConfirm: async () => {
+                    try {
+                        const userStatRef = doc(db, 'userStats', currentUserId);
+                        await setDoc(userStatRef, { coupons: increment(-COUPONS_POUR_CADEAU) }, { merge: true });
+                        await addDoc(cadeauxRef, {
+                            userId: currentUserId,
+                            username: currentUser,
+                            couponsDepenses: COUPONS_POUR_CADEAU,
+                            date: serverTimestamp(),
+                            statut: 'en_attente'
+                        });
+                        envoyerWebhook(webhookLogs, "🎁 Demande de cadeau", `**${currentUser}** a échangé 10 coupons contre un cadeau.\nID : ${currentUserId}`, 16744192);
+                        ajouterLog("🎁 Cadeau réclamé", `${currentUser} (${currentUserId})`);
+                        showPopup({ title: "Demande envoyée !", message: "Un admin a été notifié. Il te contactera bientôt sur Discord pour te donner ton cadeau 🎁", icon: "✅" });
+                    } catch (err) {
+                        showPopup({ title: "Erreur", message: err.message, icon: "❌" });
+                    }
+                }
+            });
+        };
+
+        function ecouterUserStats() {
+            if (!currentUserId) return;
+            const userStatRef = doc(db, 'userStats', currentUserId);
+            onSnapshot(userStatRef, (snap) => {
+                userCoupons = snap.exists() ? (snap.data().coupons || 0) : 0;
+                updateNavbar();
+            });
+        }
 
         function initScheduleUI() {
             const container = document.getElementById('schedule-config-container');
@@ -1446,16 +1573,23 @@
                 ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune annonce sur le site.</td></tr>`
                 : annonces.map(a => `
                     <tr>
-                        <td><strong>${a.nom}</strong> ${a.statut === 'transfere' ? '🏆' : ''}</td>
+                        <td><strong>${a.nom}</strong> ${a.statut === 'transfere' ? '🏆' : ''} ${a.sponsored ? '🚀' : ''}</td>
                         <td><code>${a.serverId || 'N/A'}</code></td>
                         <td>${a.proprietaire}</td>
                         <td>
                             ${a.statut === 'valide' ? `<button class="btn-link" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="marquerTransfertReussi('${a.id}', '${a.proprietaireId || ''}')">🏆 Marquer réussi</button>` : ''}
+                            <button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="toggleSponsored('${a.id}', ${!!a.sponsored})">${a.sponsored ? '🚀 Retirer sponsor' : '🚀 Sponsoriser (gratuit)'}</button>
                             <button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="supprimerAnnonceAdmin('${a.id}')">🗑️ Supprimer</button>
                         </td>
                     </tr>
                 `).join('');
         }
+
+        window.toggleSponsored = async function(id, currentlySponsored) {
+            await updateDoc(doc(db, 'annonces', id), { sponsored: !currentlySponsored });
+            ajouterLog(currentlySponsored ? "🚀 Sponsor retiré" : "🚀 Annonce sponsorisée (gratuit)", id);
+            showPopup({ title: currentlySponsored ? "Sponsor retiré" : "Annonce sponsorisée", message: currentlySponsored ? "L'annonce n'est plus mise en avant." : "L'annonce apparaît en priorité (gratuit).", icon: "🚀" });
+        };
 
         window.validerAnnonce = async function(id) {
             const annonce = annonces.find(a => a.id === id);
@@ -1482,6 +1616,7 @@
                 annonces = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
                 afficherAnnonces(annonces);
                 mettreAJourStats();
+                mettreAJourAdminStats();
                 chargerPanelAdmin();
             });
         }
@@ -1536,18 +1671,33 @@
             }
         };
 
+        function calculScoreTendance(a) {
+            const vues = a.vues || 0;
+            const favs = a.favorisCount || 0;
+            const clics = a.clicsPartage || 0;
+            const ageJours = a.dateCreation?.toDate ? Math.max(0, (Date.now() - a.dateCreation.toDate().getTime()) / 86400000) : 30;
+            const recency = Math.max(0, 30 - ageJours) * 2; // bonus récence
+            return vues * 1 + favs * 4 + clics * 3 + recency;
+        }
+
         function renderCardHTML(a) {
             const estFavori = getFavoris().includes(a.id);
             const badgeConfiance = (a.proprietaireId && trustedCreatorsSet.has(a.proprietaireId))
                 ? `<span class="trust-badge">🏆 Confiance</span>` : '';
+            const isSponsored = a.sponsored ? `<span class="badge" style="background:#5865F2; margin-left:0.3rem;">🚀 Sponsorisé</span>` : '';
             return `
                 <div class="card" onclick="voirDetail('${a.id}')">
                     <button class="fav-heart ${estFavori ? 'active' : ''}" onclick="toggleFavori('${a.id}', event)" title="Ajouter aux favoris">❤️</button>
                     <div class="card-header">
-                        <div class="card-title">${a.nom}${badgeConfiance}</div>
+                        <div class="card-title">${a.nom}${badgeConfiance}${isSponsored}</div>
                         <span class="badge ${a.statut === 'en_attente' ? 'badge-pending' : ''}">${a.statut === 'en_attente' ? 'En attente' : a.type}</span>
                     </div>
-                    <div class="card-stats"><span>👥 ${a.membres} membres</span><span>👁️ ${a.vues || 0} vues</span></div>
+                    <div class="card-stats">
+                        <span>👥 ${a.membres} membres</span>
+                        <span>👁️ ${a.vues || 0} vues</span>
+                        <span>❤️ ${a.favorisCount || 0}</span>
+                        <span>🔗 ${a.clicsPartage || 0}</span>
+                    </div>
                     <p class="card-body">${a.description}</p>
                 </div>
             `;
@@ -1555,8 +1705,9 @@
 
         function afficherAnnonces(liste) {
             const grid = document.getElementById('annonces-grid');
-            const visibles = liste.filter(a => a.statut === 'valide' || a.statut === 'transfere' || isAdmin(currentUserId));
-
+            let visibles = liste.filter(a => a.statut === 'valide' || a.statut === 'transfere' || isAdmin(currentUserId));
+            // Les sponsorisés (gratuits, gérés par admin) remontent en premier
+            visibles = [...visibles].sort((a, b) => (b.sponsored ? 1 : 0) - (a.sponsored ? 1 : 0));
             grid.innerHTML = visibles.length === 0
                 ? `<p style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:3rem;">Aucune annonce disponible.</p>`
                 : visibles.map(a => renderCardHTML(a)).join('');
@@ -1568,11 +1719,16 @@
             catch (e) { return []; }
         }
 
-        window.toggleFavori = function(id, event) {
+        window.toggleFavori = async function(id, event) {
             if (event) event.stopPropagation();
             let favs = getFavoris();
-            favs = favs.includes(id) ? favs.filter(f => f !== id) : [...favs, id];
+            const wasFav = favs.includes(id);
+            favs = wasFav ? favs.filter(f => f !== id) : [...favs, id];
             localStorage.setItem('xparia_favoris', JSON.stringify(favs));
+            // Mise à jour compteur global si possible
+            try {
+                await updateDoc(doc(db, 'annonces', id), { favorisCount: increment(wasFav ? -1 : 1) });
+            } catch (e) { /* silent if no permission or offline */ }
             afficherAnnonces(annonces);
             afficherFavoris();
         };
@@ -1597,7 +1753,13 @@
             const lienVendeur = art.proprietaireId
                 ? `<span style="cursor:pointer; text-decoration:underline;" onclick="voirBoutique('${art.proprietaireId}', '${(art.proprietaire || '').replace(/'/g, "\\'")}')">🧑‍💼 ${art.proprietaire}</span>`
                 : `<span>🧑‍💼 ${art.proprietaire || 'Inconnu'}</span>`;
-            document.getElementById('detail-stats').innerHTML = `<span>👥 ${art.membres} membres</span><span>👁️ ${art.vues || 0} vues</span>${lienVendeur}`;
+            document.getElementById('detail-stats').innerHTML = `
+                <span>👥 ${art.membres} membres</span>
+                <span>👁️ ${art.vues || 0} vues</span>
+                <span>❤️ ${art.favorisCount || 0} favoris</span>
+                <span>🔗 ${art.clicsPartage || 0} clics partage</span>
+                ${lienVendeur}
+            `;
             document.getElementById('detail-description').innerText = art.description;
             document.getElementById('detail-contact-btn').onclick = () => ouvrirTicket(art);
 
@@ -1672,9 +1834,10 @@
                         channelId: result.channelId,
                         dateCreation: serverTimestamp()
                     });
+                    await gagnerCoupon(1, "ouverture de ticket", true);
                     showPopup({
                         title: "Ticket ouvert !",
-                        message: "🎫 Un salon a été créé sur Discord pour discuter avec le propriétaire.",
+                        message: "🎫 Un salon a été créé sur Discord pour discuter avec le propriétaire.<br><br>🎟️ +1 coupon gagné !",
                         icon: "💬",
                         onConfirm: () => window.open(result.channelUrl, '_blank')
                     });
@@ -1742,7 +1905,7 @@
 
             ctx.fillStyle = '#ff7a1a';
             ctx.font = 'bold 34px Segoe UI, sans-serif';
-            ctx.fillText('🛒 XYRO MARKET', 60, 80);
+            ctx.fillText('🛒 XPARIA MARKET', 60, 80);
 
             ctx.fillStyle = '#f4f4f5';
             ctx.font = 'bold 54px Segoe UI, sans-serif';
@@ -1862,7 +2025,8 @@
                     date: serverTimestamp()
                 });
                 document.getElementById('review-modal').classList.remove('open');
-                showPopup({ title: "Merci !", message: "Ton avis a bien été enregistré.", icon: "⭐" });
+                await gagnerCoupon(1, "avis laissé", true);
+                showPopup({ title: "Merci !", message: "Ton avis a bien été enregistré.<br><br>🎟️ +1 coupon gagné !", icon: "⭐" });
             } catch (err) {
                 showPopup({ title: "Erreur", message: err.message, icon: "❌" });
             }
@@ -1885,6 +2049,17 @@
             document.getElementById('boutique-badges').innerHTML = badgesHTML;
 
             const mesAnnonces = annonces.filter(a => a.proprietaireId === userId && (a.statut === 'valide' || a.statut === 'transfere'));
+            const totalVues = mesAnnonces.reduce((s, a) => s + (a.vues || 0), 0);
+            const totalFav = mesAnnonces.reduce((s, a) => s + (a.favorisCount || 0), 0);
+            const totalClics = mesAnnonces.reduce((s, a) => s + (a.clicsPartage || 0), 0);
+            document.getElementById('boutique-reputation').innerHTML = `
+                <div style="display:flex; gap:1.5rem; flex-wrap:wrap; margin-top:0.5rem;">
+                    <span>📦 ${mesAnnonces.length} annonces</span>
+                    <span>👁️ ${totalVues} vues</span>
+                    <span>❤️ ${totalFav} favoris</span>
+                    <span>🔗 ${totalClics} clics</span>
+                </div>
+            `;
             document.getElementById('boutique-annonces-grid').innerHTML = mesAnnonces.length === 0
                 ? `<p style="grid-column:1/-1; text-align:center; color:var(--text-muted); padding:2rem;">Aucune annonce active pour le moment.</p>`
                 : mesAnnonces.map(a => renderCardHTML(a)).join('');
@@ -1896,9 +2071,9 @@
                 const count = avisListe.length;
                 const moyenne = count > 0 ? avisListe.reduce((s, a) => s + a.note, 0) / count : 0;
 
-                document.getElementById('boutique-reputation').innerHTML = count > 0
-                    ? `${etoilesHTML(moyenne)} ${moyenne.toFixed(1)}/5 — ${count} avis`
-                    : `Aucun avis pour le moment`;
+                document.getElementById('boutique-reputation').innerHTML += count > 0
+                    ? `<div style="margin-top:0.6rem;">${etoilesHTML(moyenne)} ${moyenne.toFixed(1)}/5 — ${count} avis</div>`
+                    : `<div style="margin-top:0.6rem;">Aucun avis pour le moment</div>`;
                 document.getElementById('boutique-avis-count').textContent = count;
 
                 document.getElementById('boutique-avis-list').innerHTML = count === 0
@@ -1925,6 +2100,100 @@
             onSnapshot(trustedCreatorsRef, (snap) => {
                 trustedCreatorsSet = new Set(snap.docs.map(d => d.id));
                 afficherAnnonces(annonces);
+            });
+        }
+
+        function ecouterSignalements() {
+            onSnapshot(query(signalementsRef, orderBy('date', 'desc'), limit(50)), (snap) => {
+                signalements = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                const tbody = document.getElementById('signalements-table-body');
+                if (!tbody) return;
+                tbody.innerHTML = signalements.length === 0
+                    ? `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Aucun signalement.</td></tr>`
+                    : signalements.map(s => `
+                        <tr>
+                            <td><strong>${s.annonceNom || '—'}</strong></td>
+                            <td style="max-width:250px; overflow:hidden; text-overflow:ellipsis;">${s.raison || '—'}</td>
+                            <td>${s.signaleurUsername || '—'}</td>
+                            <td>${s.date?.toDate ? s.date.toDate().toLocaleString('fr-FR') : '—'}</td>
+                            <td>
+                                ${!s.traite ? `<button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="marquerSignalementTraite('${s.id}')">✅ Traité</button>` : '<span style="color:var(--green);">Traité</span>'}
+                                ${s.annonceId ? `<button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="supprimerAnnonceAdmin('${s.annonceId}')">🗑️ Suppr. annonce</button>` : ''}
+                            </td>
+                        </tr>
+                    `).join('');
+            });
+        }
+
+        function ecouterCadeaux() {
+            onSnapshot(query(cadeauxRef, orderBy('date', 'desc'), limit(50)), (snap) => {
+                const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                const tbody = document.getElementById('cadeaux-table-body');
+                if (!tbody) return;
+                tbody.innerHTML = list.length === 0
+                    ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Aucune demande.</td></tr>`
+                    : list.map(c => `
+                        <tr>
+                            <td><strong>${c.username || '—'}</strong><br><code style="font-size:0.75rem;">${c.userId || ''}</code></td>
+                            <td>${c.date?.toDate ? c.date.toDate().toLocaleString('fr-FR') : '—'}</td>
+                            <td>${c.statut === 'en_attente' ? '⏳ En attente' : '✅ Remis'}</td>
+                            <td>
+                                ${c.statut === 'en_attente' ? `<button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="marquerCadeauRemis('${c.id}')">✅ Cadeau remis</button>` : ''}
+                            </td>
+                        </tr>
+                    `).join('');
+            });
+        }
+
+        window.marquerCadeauRemis = async function(id) {
+            await updateDoc(doc(db, 'cadeaux', id), { statut: 'remis' });
+            ajouterLog("🎁 Cadeau remis", id);
+            showPopup({ title: "Cadeau marqué comme remis", message: "La demande a été clôturée.", icon: "✅" });
+        };
+
+        window.marquerSignalementTraite = async function(id) {
+            await updateDoc(doc(db, 'signalements', id), { traite: true });
+            ajouterLog("🚩 Signalement traité", id);
+        };
+
+        function mettreAJourAdminStats() {
+            const valides = annonces.filter(a => a.statut === 'valide' || a.statut === 'transfere');
+            const totalVues = valides.reduce((s, a) => s + (a.vues || 0), 0);
+            const totalFav = valides.reduce((s, a) => s + (a.favorisCount || 0), 0);
+            const totalClics = valides.reduce((s, a) => s + (a.clicsPartage || 0), 0);
+            const elA = document.getElementById('admin-stat-annonces');
+            const elV = document.getElementById('admin-stat-vues');
+            const elF = document.getElementById('admin-stat-favoris');
+            const elC = document.getElementById('admin-stat-clics');
+            if (elA) elA.textContent = valides.length;
+            if (elV) elV.textContent = totalVues.toLocaleString('fr-FR');
+            if (elF) elF.textContent = totalFav.toLocaleString('fr-FR');
+            if (elC) elC.textContent = totalClics.toLocaleString('fr-FR');
+
+            // Simple chart (canvas bars for statuses)
+            const canvas = document.getElementById('stats-chart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const statuses = {
+                'valide': valides.filter(a => a.statut === 'valide').length,
+                'en_attente': annonces.filter(a => a.statut === 'en_attente').length,
+                'transfere': annonces.filter(a => a.statut === 'transfere').length
+            };
+            const max = Math.max(...Object.values(statuses), 1);
+            const barW = 80;
+            const colors = { valide: '#248046', en_attente: '#f59e0b', transfere: '#ff7a1a' };
+            let x = 60;
+            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text-muted') || '#a1a1aa';
+            ctx.font = '14px sans-serif';
+            Object.entries(statuses).forEach(([label, val]) => {
+                const h = (val / max) * 200;
+                ctx.fillStyle = colors[label] || '#5865F2';
+                ctx.fillRect(x, 250 - h, barW, h);
+                ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text-main') || '#f4f4f5';
+                ctx.fillText(label, x, 270);
+                ctx.fillText(val, x + 25, 245 - h);
+                x += 140;
             });
         }
 
@@ -1972,22 +2241,63 @@
                 showPopup({ title: "Erreur", message: "Profil restreint.", icon: "⛔" });
                 return;
             }
-            const nomServeur = document.getElementById('server-name').value;
+            const serverId = document.getElementById('server-id').value.trim();
+            const nomServeur = document.getElementById('server-name').value.trim();
+            const description = document.getElementById('server-reason').value.trim();
+            const membres = parseInt(document.getElementById('server-members').value);
+
+            // 🔍 Détection de doublons (même serverId ou nom très similaire)
+            const doublon = annonces.find(a => 
+                (a.serverId && a.serverId === serverId) || 
+                (a.nom && a.nom.toLowerCase() === nomServeur.toLowerCase() && a.proprietaireId === currentUserId)
+            );
+            if (doublon) {
+                showPopup({ title: "Doublon détecté", message: "Une annonce similaire (même serveur ou même nom) existe déjà. Contactez un admin si besoin.", icon: "🔍" });
+                return;
+            }
+
+            // 🔗 Détection de liens suspects (hors discord.gg / discord.com)
+            const lienSuspect = /(https?:\/\/(?!discord\.(gg|com|app))[^\s]+)/i.test(description);
+            if (lienSuspect) {
+                showPopup({ title: "Lien suspect", message: "Les liens externes (hors Discord) sont interdits dans les descriptions pour éviter les arnaques. Retirez-les.", icon: "🔗" });
+                return;
+            }
+
+            // ⚠️ Détection spam basique (mots-clés répétés / trop de majuscules)
+            const spamKeywords = ['gratuit', 'free', 'nitro', 'giveaway', 'promo', 'offre limitée', 'urgent', 'arnaque'];
+            const lowerDesc = description.toLowerCase();
+            const spamScore = spamKeywords.filter(k => lowerDesc.includes(k)).length;
+            const majusculesRatio = (description.replace(/[^A-ZÀ-Ý]/g, '').length) / Math.max(1, description.length);
+            if (spamScore >= 3 || majusculesRatio > 0.4) {
+                showPopup({ title: "Contenu suspect", message: "Votre description semble trop promotionnelle ou en majuscules excessives. Reformulez pour validation manuelle.", icon: "⚠️" });
+                // On laisse passer mais le statut reste en_attente + log
+            }
+
+            // 💰 Prix anormaux non applicable ici (pas de prix monétaire), mais membres aberrants
+            if (membres > 500000 || membres < 1) {
+                showPopup({ title: "Valeur anormale", message: "Le nombre de membres semble incorrect. Vérifiez.", icon: "💰" });
+                return;
+            }
+
             await addDoc(annoncesRef, {
-                serverId: document.getElementById('server-id').value,
+                serverId,
                 nom: nomServeur,
-                membres: parseInt(document.getElementById('server-members').value),
+                membres,
                 categorie: document.getElementById('server-category').value,
                 type: document.getElementById('server-type').value,
-                description: document.getElementById('server-reason').value,
+                description,
                 proprietaire: currentUser,
                 proprietaireId: currentUserId,
                 statut: 'en_attente',
-                dateCreation: serverTimestamp()
+                dateCreation: serverTimestamp(),
+                favorisCount: 0,
+                vues: 0,
+                clicsPartage: 0
             });
             document.getElementById('annonce-form').reset();
             envoyerWebhook(webhookLogs, "📢 Nouvelle annonce en attente", `${nomServeur} — par ${currentUser}`, 16776960);
-            showPopup({ title: "Succès", message: "Annonce soumise pour validation !", icon: "⏳", onConfirm: () => switchPage('accueil') });
+            await gagnerCoupon(2, "dépôt d'annonce", true);
+            showPopup({ title: "Succès", message: "Annonce soumise pour validation ! Le bot vérifiera la propriété.<br><br>🎟️ +2 coupons gagnés !", icon: "⏳", onConfirm: () => switchPage('accueil') });
         });
 
         document.getElementById('hero-search-btn').addEventListener('click', () => {
@@ -2000,16 +2310,56 @@
         document.getElementById('search-bar').addEventListener('input', filtrer);
         document.getElementById('filter-category').addEventListener('change', filtrer);
         document.getElementById('filter-type').addEventListener('change', filtrer);
+        document.getElementById('filter-sort').addEventListener('change', filtrer);
+        document.getElementById('filter-min-membres').addEventListener('input', filtrer);
+        document.getElementById('filter-max-membres').addEventListener('input', filtrer);
         function filtrer() {
-            const kw = document.getElementById('search-bar').value.toLowerCase();
+            const kw = document.getElementById('search-bar').value.toLowerCase().trim();
             const cat = document.getElementById('filter-category').value;
             const type = document.getElementById('filter-type').value;
-            const filtered = annonces.filter(a =>
-                (!kw || a.nom.toLowerCase().includes(kw) || a.description.toLowerCase().includes(kw)) &&
-                (!cat || a.categorie === cat) &&
-                (!type || a.type === type)
-            );
+            const sort = document.getElementById('filter-sort').value;
+            const minM = parseInt(document.getElementById('filter-min-membres').value) || 0;
+            const maxM = parseInt(document.getElementById('filter-max-membres').value) || Infinity;
+            let filtered = annonces.filter(a => {
+                const matchKw = !kw || 
+                    (a.nom || '').toLowerCase().includes(kw) || 
+                    (a.description || '').toLowerCase().includes(kw) ||
+                    (a.proprietaire || '').toLowerCase().includes(kw);
+                const matchCat = !cat || a.categorie === cat;
+                const matchType = !type || a.type === type;
+                const membres = parseInt(a.membres) || 0;
+                const matchMembres = membres >= minM && membres <= maxM;
+                return matchKw && matchCat && matchType && matchMembres;
+            });
+            // Tri dynamique
+            if (sort === 'tendances') {
+                filtered.sort((a, b) => calculScoreTendance(b) - calculScoreTendance(a));
+            } else if (sort === 'vues') {
+                filtered.sort((a, b) => (b.vues || 0) - (a.vues || 0));
+            } else if (sort === 'membres') {
+                filtered.sort((a, b) => (parseInt(b.membres) || 0) - (parseInt(a.membres) || 0));
+            } else if (sort === 'favoris') {
+                filtered.sort((a, b) => (b.favorisCount || 0) - (a.favorisCount || 0));
+            } else {
+                // recent (default order from query)
+                filtered.sort((a, b) => {
+                    const da = a.dateCreation?.toDate ? a.dateCreation.toDate().getTime() : 0;
+                    const db = b.dateCreation?.toDate ? b.dateCreation.toDate().getTime() : 0;
+                    return db - da;
+                });
+            }
             afficherAnnonces(filtered);
+            updateDynamicFilters(filtered);
+        }
+
+        function updateDynamicFilters(liste) {
+            const container = document.getElementById('dynamic-filters');
+            if (!container) return;
+            const cats = {};
+            liste.forEach(a => { if (a.categorie) cats[a.categorie] = (cats[a.categorie] || 0) + 1; });
+            container.innerHTML = Object.entries(cats).map(([c, n]) => 
+                `<button class="btn-secondary" style="padding:0.3rem 0.7rem; font-size:0.8rem;" onclick="document.getElementById('filter-category').value='${c}'; filtrer();">${c} (${n})</button>`
+            ).join('');
         }
 
         async function checkDiscordCallback() {
@@ -2030,6 +2380,7 @@
                     currentUserId = data.id;
                     localStorage.setItem('currentUser', currentUser);
                     localStorage.setItem('currentUserId', currentUserId);
+                    ecouterUserStats();
                     updateNavbar();
                 }
             } catch (err) {
@@ -2158,6 +2509,9 @@
             ecouterTickets();
             ecouterPartenaires();
             ecouterTrustedCreators();
+            ecouterSignalements();
+            ecouterCadeaux();
+            if (currentUserId) ecouterUserStats();
             updateNavbar();
             setTimeout(verifierLienDeSuivi, 800);
         });
